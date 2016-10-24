@@ -1,8 +1,9 @@
-class CreateJoinTableBookGenre < ActiveRecord::Migration[5.0]
+class CreateBooksGenres < ActiveRecord::Migration[5.0]
   def change
-    create_join_table :books, :genres do |t|
-      # t.index [:book_id, :genre_id]
-      # t.index [:genre_id, :book_id]
+    create_table :books_genres do |t|
+      t.integer :book_id
+      t.integer :genre_id
+      t.timestamps
     end
   end
 end
