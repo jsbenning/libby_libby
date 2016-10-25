@@ -1,25 +1,25 @@
 <%= form_for @book do |f|  %>
-  <%= f.label "Title" %>
+  <%= f.label :title  %><br />
   <%= f.text_field :title %>
 
-  <%= f.label "Author last name" %>
+  <%= f.label :author_last_name %><br />
   <%= f.text_field :author_last_name %>
 
-  <%= f.label "Author first name" %>
+  <%= f.label :author_first_name %><br />
   <%= f.text_field :author_first_name %>
 
-  <%= f.label "ISBN" %>
+  <%= f.label :isbn %><br />
   <%= f.text_field :isbn %>
 
-  <%= f.label "Condition" %>
+  <%= f.label "Condition" %><br />
   <%= f.radio_button :book_condition, "Like new" %>
   <%= f.radio_button :book_condition, "Good" %>
   <%= f.radio_button :book_condition, "Fair" %>
 
-  <%= f.label "Description" %>
+  <%= f.label :description%><br />
   <%= f.text_area :description %>
 
-  <%= f.fields_for :genres, book.genres.build do |genres_fields| %>
+  <%= f.fields_for :genres, book.genres.build do |genres_fields| %><br />
     <%= genres_fields.text_field :name : %>
   <% end %>
 
