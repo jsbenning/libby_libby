@@ -4,8 +4,9 @@ class CreateBooks < ActiveRecord::Migration[5.0]
       t.string :title
       t.string :author_last_name
       t.string :author_first_name
-      t.string :ISBN
+      t.string :isbn
       t.string :condition
+      t.text :description
       t.string :status, default: "at_home" # also "sent", "received"
 
       t.timestamps
