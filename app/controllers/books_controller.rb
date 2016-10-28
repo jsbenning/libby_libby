@@ -1,11 +1,18 @@
 class BooksController < ApplicationController
+
+  def index
+  end
+
   def new
   end
 
   def show
   end
 
-  def index
+  def edit
+  end
+  
+  def update
   end
 
   private

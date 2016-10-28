@@ -11,13 +11,17 @@ class TradesController < ApplicationController
     @trade = Trade.new(trade_params)
   end
 
-  def edit
-    @trade = Trade.find(params[:id])
-  end
+  # def edit
+  #   @trade = Trade.find(params[:id])
+  # end
 
   def update
     @trade = Trade.find(params[:id])
     if @trade.update(trade_params)
+      if @trade.completed?
+        @trade.status = 'complete'
+        @trade.save
+      end
       redirect_to "/trades"
     else
       render 'edit'
@@ -32,23 +36,3 @@ class TradesController < ApplicationController
 end
 
 
-    create_table :trades do |t|
-      t.integer :owner_id
-      t.integer :requester_id
-      t.integer :initial_book_id
-      t.integer :matched_book_id
-      t.string :status, default: "pending" #or 'complete'
-
-
-        def edit
-    @attraction = Attraction.find(params[:id])
-  end
-
-  def update
-    @attraction = Attraction.find(params[:id])
-    if @attraction.update_attributes(attraction_params)
-      redirect_to "/attractions/#{@attraction.id}"
-    else
-      render 'edit'
-    end
-  end
