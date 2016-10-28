@@ -1,16 +1,15 @@
 Rails.application.routes.draw do
-  get 'trades/show'
 
-  get 'messages/new'
 
-  get 'messages/show'
+  resources :trades, only: [:index]
 
-  get 'books/new'
+  resources :messages, only: [:index, :new, :create]
 
-  get 'books/show'
+  devise_for :users, :path => 'accounts'
 
-  get 'books/index'
-
-  devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :users do
+    resources :books, only: [:index, :new, :create]
+  end
+  resources :books, only: [:show, :edit, :update, :destroy]
+  
 end
