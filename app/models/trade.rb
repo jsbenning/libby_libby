@@ -24,4 +24,8 @@ class Trade < ApplicationRecord
     coll
   end
 
+  def completed?
+    if self.owner_id && self.requester_id && self.initial_book_id && self.matched_book_id
+  end
+
 end
