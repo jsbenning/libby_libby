@@ -1,4 +1,5 @@
 class TradesController < ApplicationController
+
   def index
     @trades_requested = Trade.trades_requested(current_user)
     @trades_received = Trade.trades_received(current_user)
@@ -30,7 +31,7 @@ class TradesController < ApplicationController
 
   private
   def trade_params
-    params.require(:trade).premit(:owner_id, :requester_id, :initial_book_id, :matched_book_id, :status)
+    params.require(:trade).permit(:owner_id, :requester_id, :initial_book_id, :matched_book_id, :status)
   end
 
 end
