@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  root "home#index"
 
   resources :trades, only: [:index, :new, :create, :edit, :update]
 
