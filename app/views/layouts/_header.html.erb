@@ -1,9 +1,10 @@
-<nav class="">
-    <ul>
-        <li> <%= link_to "Browse All Books", books_path %> </li>
-        <li> <%= link_to "See My Books", user_books_path %> </li>
-        <li> <%= link_to "See My Trades", user_books_path %> </li>
-        <li> <%= link_to "See My Messages", user_books__path %> </li>
-
-    </ul>
-</nav>
+<% if current_user %>
+  <nav class="logged_in_nav">
+        <ul>
+          <li> <%= link_to "Browse All Books", books_path %> </li>
+          <li> <%= link_to "See My Books", user_books_path %> </li>
+          <li> <%= link_to "See My Trades", user_books_path %> </li>
+          <li> <%= link_to "See My Messages", user_books__path %> </li>
+      </ul>
+  </nav>
+<% end %>
