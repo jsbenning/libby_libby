@@ -7,7 +7,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
       t.string :state
       t.string :zipcode
 
-      t.integer :rating, default: 4
+      t.integer :user_rating, default: 4
       t.boolean :visible, default: true
       t.boolean :admin, default: false
       ## Database authenticatable
