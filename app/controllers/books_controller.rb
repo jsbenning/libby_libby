@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_filter :authenticate_user! :except => [:index, :show]
+  before_filter :authenticate_user!, :except => [:index_all, :show]
 
   def index_all
     @books = Book.all
@@ -8,6 +8,7 @@ class BooksController < ApplicationController
 
   def index_users
     @books = Book.find_by_user_id(params[:user_id])
+    @list_owner = current_user
     render :index
   end
 
