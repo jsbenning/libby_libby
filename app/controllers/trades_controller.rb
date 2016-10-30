@@ -10,11 +10,12 @@ class TradesController < ApplicationController
   end
 
   def create
+    binding.pry
     @trade = Trade.new(trade_params)
     if @trade.save
       redirect_to :index
     else
-      notice: 'There was a problem creating a trade!'
+      flash[:notice] = 'There was a problem creating a trade!'
       render :root
     end
   end
@@ -32,7 +33,7 @@ class TradesController < ApplicationController
       end
       redirect_to :index
     else
-      notice: 'Trade not updated!'
+      flash[:notice] = 'Trade not updated!'
       render :root
     end
   end
@@ -45,7 +46,4 @@ class TradesController < ApplicationController
 end
 
 
-      t.integer :owner_id
-      t.integer :requester_id
-      t.integer :initial_book_id
-      t.integer :matched_book_id
+ 

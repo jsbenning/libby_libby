@@ -1,15 +1,17 @@
 class Trade < ApplicationRecord
+
   belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id'
   belongs_to :requester, :class_name => 'User', :foreign_key => 'requester_id'
   has_one :initial_book, :class_name => 'Book', :foreign_key => 'initial_book_id'
   has_one :matched_book, :class_name => 'Book', :foreign_key => 'matched_book_id'
 
   def self.requested_trades
-    Trade.where(requester_id) == current_user.id
+    Trade.where(requester_id: current_user.id)
   end
 
   def self.accepted_trades
-    Trade.where(owner_id) == current_user.id
+    @user = current_user
+    Trade.where(owner_id: @user.id)
   end
 
   def self.pending_trades
@@ -40,13 +42,9 @@ class Trade < ApplicationRecord
   end
 
   def completed?
-    if self.owner_id && self.requester_id && self.initial_book_id && self.matched_book_id
+    return true if self.owner_id && self.requester_id && self.initial_book_id && self.matched_book_id
   end
-
 end
 
 
-      t.integer :requester_id
-      t.integer :initial_book_id
-      t.integer :owner_id
-      t.integer :matched_book_id
+  
