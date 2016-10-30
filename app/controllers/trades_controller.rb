@@ -1,8 +1,7 @@
 class TradesController < ApplicationController
 
   def index
-    @trades_requested = Trade.trades_requested(current_user)
-    @trades_received = Trade.trades_received(current_user)
+    @trades = current_user.trades
   end
   
   def new
@@ -10,6 +9,12 @@ class TradesController < ApplicationController
 
   def create
     @trade = Trade.new(trade_params)
+    if @trade.save
+      redirect_to :index
+    else
+      notice: 'There was a problem creating a trade!'
+      render :root
+    end
   end
 
   # def edit
@@ -23,9 +28,10 @@ class TradesController < ApplicationController
         @trade.status = 'complete'
         @trade.save
       end
-      redirect_to "/trades"
+      redirect_to :index
     else
-      render 'edit'
+      notice: 'Trade not updated!'
+      render :root
     end
   end
 

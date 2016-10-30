@@ -2,15 +2,12 @@ class User < ApplicationRecord
   has_many :books, inverse_of: :user
   # has_many :bookgenres, through: :books (not sure about this)
   accepts_nested_attributes_for :books
-  
+
   has_many :trades
-  has_many :messages
   
   has_many :owners, :class_name => 'User', :through => :trades
   has_many :requesters, :class_name => 'User', :through => :trades
 
-  has_many :senders, :class_name => 'User', :through => :messages
-  has_many :recipients, :class_name => 'User', :through => :messages
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
