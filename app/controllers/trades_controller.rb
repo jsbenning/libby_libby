@@ -1,7 +1,9 @@
 class TradesController < ApplicationController
 
   def index
-    @trades = current_user.trades
+    @requested_trades = Trade.requested_trades
+    @accepted_trades = Trade.accepted_trades
+    @pending_trades = Trade.pending_trades
   end
   
   def new
@@ -43,3 +45,7 @@ class TradesController < ApplicationController
 end
 
 
+      t.integer :owner_id
+      t.integer :requester_id
+      t.integer :initial_book_id
+      t.integer :matched_book_id
