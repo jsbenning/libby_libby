@@ -4,25 +4,25 @@ class Trade < ApplicationRecord
   has_one :initial_book, :class_name => 'Book', :foreign_key => 'initial_book_id'
   has_one :matched_book, :class_name => 'Book', :foreign_key => 'matched_book_id'
 
-  def self.trades_requested(user)
-    coll = Array.new
-    Trade.each do |trade|
-      if trade.owner_id == user.id
-        coll << trade
-      end
-    end
-    coll
-  end
+  # def self.trades_requested(user)
+  #   coll = Array.new
+  #   Trade.each do |trade|
+  #     if trade.owner_id == user.id
+  #       coll << trade
+  #     end
+  #   end
+  #   coll
+  # end
 
-  def self.trades_received(user)
-    coll = Array.new
-    Trade.each do |trade|
-      if trade.requester_id == user.id
-        coll << trade
-      end
-    end
-    coll
-  end
+  # def self.trades_received(user)
+  #   coll = Array.new
+  #   Trade.each do |trade|
+  #     if trade.requester_id == user.id
+  #       coll << trade
+  #     end
+  #   end
+  #   coll
+  # end
 
   def completed?
     if self.owner_id && self.requester_id && self.initial_book_id && self.matched_book_id
