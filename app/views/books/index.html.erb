@@ -2,9 +2,7 @@
 <% @books.each do |book| %>
 <h3><%= book.title %></h3>
 <p>Author: <%= book.author_last_name %>, <%= book.author_first_name %></p>
-<p>ISBN: <%= book.isbn %></p>
-<p>Condition: <%= book.condition %></p>
-<p>Description: <%= book.description %></p>
+<%= link_to "Learn More", user_book_path(book, book.user) %>
 <% end %>
 
 
