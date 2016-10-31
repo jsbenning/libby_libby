@@ -1,8 +1,29 @@
 <h2>Title: <%= @book.title %></h2>
 <h3>Author: <%= @book.author_last_name %>, <%= @book.author_first_name %></h3>
+
+<h3>Genre(s):</h3>
+<% @book.genres.each do |genre| %>
+  <h3><%= genre.name %></h3>
+<% end %>
+
 <h3>ISBN: <%= @book.isbn %></h3>
 <h3>Condition: <%= @book.condition %></h3>
 <h3>Description:</h3>
 <p><%= @book.description%></p>
+<hr>
+
+<% if @book.user == @current_user %>
+  <h2>Your Current Rating: <%= @book.user.user_rating %></h2>
+  <%= link_to 'Edit Book', edit_book_path(@book) %>
+  <%= link_to 'Delete Book', delete_book_path(@book) %>
+
+<% else %>
+
+  <h2>Book Owner Email: <%= @book.user.email %></h2>
+  <h2>Book Owner Rating: <%= @book.user.user_rating %></h2>
+  <%= link_to "Request a Trade", new_trade_path %>
+<% end %>
+
+
 
 
