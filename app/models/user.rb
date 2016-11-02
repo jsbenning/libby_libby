@@ -16,12 +16,9 @@ class User < ApplicationRecord
 
 
   def present_user_rating
-    x = Array.new
-    self.reviews.each do |review|
-      x << review.rating
-    end
-    if x.count > 0
-      present_user_rating = x.inject(0){|sum, x| sum + x} / x.count
+    user_review_array = self.reviews.map{ |review| review.rating }
+    if user_review_array.count > 0
+      present_user_rating = user_review_array.inject(0){|sum, x| sum + x}.to_f / x.count
     end
   end
 

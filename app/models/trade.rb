@@ -26,22 +26,6 @@ end
 
 
 
-  def owner
-    User.find(self.owner_id)
-  end
-
-  def requester
-    User.find(self.requester_id)
-  end
-
-  def initial_book
-    Book.find(self.initial_book_id)
-  end
-
-  def matched_book
-    Book.find(self.matched_book_id)
-  end
-
 
 
 
