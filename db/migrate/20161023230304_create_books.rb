@@ -8,7 +8,7 @@ class CreateBooks < ActiveRecord::Migration[5.0]
       t.string :isbn
       t.string :condition
       t.text :description
-      t.string :status, default: "at_home" # also "sent", "received"
+      t.string :status, default: "at_home" # also "in_trade", "sent", "received"
 
       t.timestamps
     end

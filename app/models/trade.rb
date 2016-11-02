@@ -5,24 +5,27 @@ class Trade < ApplicationRecord
   has_one :initial_book, :class_name => 'Book', :foreign_key => 'initial_book_id'
   has_one :matched_book, :class_name => 'Book', :foreign_key => 'matched_book_id'
 
-  def self.requested_trades
-    Trade.where(requester_id: current_user.id)
+  def self.requested_trades(user)
+    Trade.where(:requester_id => user.id, :matched_book_id => nil).to_a
   end
 
-  def self.accepted_trades
-    @user = current_user
-    Trade.where(owner_id: @user.id)
+  def self.accepted_trades(user)
+    Trade.where(:owner_id => user.id, :matched_book_id => nil).to_a 
   end
 
-  def self.pending_trades
-    pending = Array.new
-    Trade.each do |trade|
-      if trade.initial_book.user == current_user && matched_book_id == nil
-        pending << trade
-      end
-    end
-    pending
+  def self.my_completed_requested_trades(user)
+    Trade.where(:requester_id => user.id).where.not(matched_book_id: nil).to_a
   end
+
+  def self.my_completed_accepted_trades(user)
+    Trade.where(:owner_id => user.id).where.not(matched_book_id: nil).to_a
+  end
+
+  def complete?
+    return true if self.requester_id && self.owner_id && self.matched_book_id && self.initial_book_id 
+  end
+end
+
 
 
   def owner
@@ -41,10 +44,8 @@ class Trade < ApplicationRecord
     Book.find(self.matched_book_id)
   end
 
-  def completed?
-    return true if self.owner_id && self.requester_id && self.initial_book_id && self.matched_book_id
-  end
-end
+
+
 
 
   

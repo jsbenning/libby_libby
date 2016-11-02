@@ -1,80 +1,46 @@
 <h1>Your Trades</h1>
 
-<h2>Your Pending Trades:</h2>
+<h2>Trades Awaiting Your Response:</h2>
 
-<% if !(@pending_trades).empty? %>
-  <% @pending_trades.each do |trade| %>
-    <p><%= trade.requester %> requested <%= trade.initial_book.title %> from you, and he/she is still waiting for a your response/trade</p>
-    <%= link_to "See User's Books", user_books_path(<% trade.requester %>)
+<% if !(@accepted_trades).empty? %>
+
+  <% @accepted_trades.each do |trade| %>
+    <p><%= trade.requester %> requested <%= trade.initial_book.title %> from you, and he/she is still waiting for your response/trade</p>
+    <%= link_to "See User's Books", user_books_path %>
   <% end %>
+
   <% else %>
   <p>You don't currently have any pending trades</p>
 <% end %>
 
-<h2>Trades You Requested:</h2>
+
+<h2>Trades You Requested Which Aren't Complete:</h2>
 
 <% if !(@requested_trades).empty? %>
+
   <% @requested_trades.each do |trade| %>
     <p>You requested <%= trade.initial_book.title %> from <%= trade.owner %> and you're still waiting for a response</p>
   <% end %>
+
   <% else %>
   <p>You don't currently have any requested trades</p>
 <% end %>
 
+
 <h2>Completed Trades:</h2>
 
-<% if !(@accepted_trades).empty? %>
-  <% @accepted_trades.each do |trade| %>
+
+<% if !(@my_completed_accepted_trades).empty? || !(@my_completed_requested_trades).empty? %>
+
+  <% @my_completed_accepted_trades.each do |trade| %>
     <p><%= trade.requester %> requested <%= trade.initial_book.title %> from you, and you traded <%= trade.matched_book.title %> for it</p>
   <% end %>
+
+  <% @my_completed_requested_trades.each do |trade| %>
+    <p>You requested <%= trade.initial_book.title %> from <% tradeowner %>, and he/she traded <%= trade.matched_book.title %> for it</p>
+  <% end %>
+
   <% else %>
   <p>You don't currently have any completed trades</p>
 <% end %>
 
-
-
-
-
-
-
-
-      t.integer :owner_id
-      t.integer :requester_id
-      t.integer :initial_book_id
-      t.integer :matched_book_id
-      t.string :status, default: "pending" #or 'complete'
-
-
-  def index
-    @requested_trades = Trade.requested_trades
-    @accepted_trades = Trade.accepted_trades
-  end
-
-
-  def self.requested_trades
-    Trade.where(requester_id) == current_user.id
-  end
-
-  def self.accepted_trades
-    Trade.where(owner_id) == current_user.id
-  end
-
-  def owner
-    User.find(owner_id)
-  end
-
-  def requester
-    User.find(requester_id)
-  end
-
-  def initial_book
-    Book.find(initial_book_id)
-  end
-
-  def matched_book
-    Book.find(matched_book_id)
-  end
-
-  def completed?
-    if self.owner_id && self.requester_id && self.initial_book_id && self.matched_book_id
-  end
