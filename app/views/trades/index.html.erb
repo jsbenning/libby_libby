@@ -16,9 +16,9 @@
 
 <h2>Trades You Requested Which Aren't Complete:</h2>
 
-<% if !(@requested_trades).empty? %>
+<% if !(@user_needs_response_trades).empty? %>
 
-  <% @requested_trades.each do |trade| %>
+  <% @user_needs_response_trades.each do |trade| %>
     <p>You requested <%= trade.initial_book.title %> from <%= trade.owner %> and you're still waiting for a response</p>
   <% end %>
 
@@ -30,13 +30,13 @@
 <h2>Completed Trades:</h2>
 
 
-<% if !(@my_completed_accepted_trades).empty? || !(@my_completed_requested_trades).empty? %>
+<% if !(@user_completed_trades).empty? || !(@completed_by_other_trades).empty? %>
 
-  <% @my_completed_accepted_trades.each do |trade| %>
+  <% @user_completed_trades.each do |trade| %>
     <p><%= trade.requester %> requested <%= trade.initial_book.title %> from you, and you traded <%= trade.matched_book.title %> for it</p>
   <% end %>
 
-  <% @my_completed_requested_trades.each do |trade| %>
+  <% @completed_by_other_trades.each do |trade| %>
     <p>You requested <%= trade.initial_book.title %> from <% tradeowner %>, and he/she traded <%= trade.matched_book.title %> for it</p>
   <% end %>
 
@@ -45,10 +45,4 @@
 <% end %>
 
 
-  def index
-    @user = current_user
-    @user_needs_response_trades = Trade.user_needs_response(@user)
-    @user_must_complete_trades = Trade.user_must_complete(@user)
-    @user_completed_trades = Trade.user_completed(@user)
-    @completed_by_other_trades = Trade.completed_by_other(@user)
-  end
+
