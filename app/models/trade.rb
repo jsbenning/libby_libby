@@ -5,25 +5,23 @@ class Trade < ApplicationRecord
   has_one :initial_book, :class_name => 'Book', :foreign_key => 'initial_book_id'
   has_one :matched_book, :class_name => 'Book', :foreign_key => 'matched_book_id'
 
-  def self.requested_trades(user)
-    Trade.where(:requester_id => user.id, :matched_book_id => nil).to_a
+  def self.user_needs_response(user)
+    Trade.where(:requester_id => user.id).to_a
   end
 
-  def self.accepted_trades(user)
-    Trade.where(:owner_id => user.id, :matched_book_id => nil).to_a 
+  def self.user_must_complete(user)
+    Trade.where(:owner_id => user.id).to_a 
   end
 
-  def self.my_completed_requested_trades(user)
-    Trade.where(:requester_id => user.id).where.not(matched_book_id: nil).to_a
+  def self.user_completed(user)
+    Trade.where(:owner_id => user.id, :status => "complete").to_a
   end
 
-  def self.my_completed_accepted_trades(user)
-    Trade.where(:owner_id => user.id).where.not(matched_book_id: nil).to_a
+  def self.completed_by_other(user)
+    Trade.where(:requester_id => user.id, :status => "complete").to_a
   end
 
-  def complete?
-    return true if self.requester_id && self.owner_id && self.matched_book_id && self.initial_book_id 
-  end
+
 end
 
 
