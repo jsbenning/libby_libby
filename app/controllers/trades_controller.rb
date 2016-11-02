@@ -17,9 +17,9 @@ class TradesController < ApplicationController
     binding.pry
     @trade = Trade.new(trade_params)
     if @trade.save
-        @initial_book = Book.find(@trade.initial_book_id)
-        @initial_book.status = "in_trade"
-        @initial_book.save
+        initial_book = Book.find(@trade.initial_book_id)
+        initial_book.status = "traded"
+        initial_book.save
         flash[:notice] = "You've initiated a new trade. Please wait for a response soon."
       redirect_to :index
     else
@@ -36,8 +36,8 @@ class TradesController < ApplicationController
     binding.pry
     @trade = Trade.find(params[:id])
     if @trade.update(trade_params)
-        @matched_book = Book.find(@trade.matched_book_id)
-        @matched_book.status = "in_trade"
+        matched_book = Book.find(@trade.matched_book_id)
+        matched_book.status = "traded"
         @trade.status = 'complete'
         @trade.save
       end
@@ -51,9 +51,9 @@ class TradesController < ApplicationController
   def destroy
     @trade = Trade.find(params[:id])
         initial_book = Book.find(@trade.initial_book_id)
-        initial_book.status = "in_trade"
+        initial_book.status = "at_home"
         matched_book = Book.find(@trade.matched_book_id)
-        matched_book.status = "in_trade"
+        matched_book.status = "at_home"
         initial_book.save
         matched_book.save
         @trade = nil
@@ -68,6 +68,23 @@ class TradesController < ApplicationController
   end
 
 end
+  def self.user_needs_response(user)
+    Trade.where(:requester_id => user.id).to_a
+  end
 
+  def self.user_must_complete(user)
+    Trade.where(:owner_id => user.id).to_a 
+  end
+
+  def self.user_completed(user)
+    Trade.where(:owner_id => user.id, :status => "complete").to_a
+  end
+
+  def self.completed_by_other(user)
+    Trade.where(:requester_id => user.id, :status => "complete").to_a
+  end
+
+
+end
 
  
