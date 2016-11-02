@@ -3,10 +3,10 @@ class TradesController < ApplicationController
 
   def index
     @user = current_user
-    @requested_trades = Trade.requested_trades(@user)
-    @accepted_trades = Trade.accepted_trades(@user)
-    @my_completed_requested_trades = Trade.my_completed_requested_trades(@user)
-    @my_completed_accepted_trades = Trade.my_completed_accepted_trades(@user)
+    @user_needs_response_trades = Trade.user_needs_response(@user)
+    @user_must_complete_trades = Trade.user_must_complete(@user)
+    @user_completed_trades = Trade.user_completed(@user)
+    @completed_by_other_trades = Trade.completed_by_other(@user)
   end
   
   def new
@@ -68,23 +68,6 @@ class TradesController < ApplicationController
   end
 
 end
-  def self.user_needs_response(user)
-    Trade.where(:requester_id => user.id).to_a
-  end
 
-  def self.user_must_complete(user)
-    Trade.where(:owner_id => user.id).to_a 
-  end
-
-  def self.user_completed(user)
-    Trade.where(:owner_id => user.id, :status => "complete").to_a
-  end
-
-  def self.completed_by_other(user)
-    Trade.where(:requester_id => user.id, :status => "complete").to_a
-  end
-
-
-end
 
  

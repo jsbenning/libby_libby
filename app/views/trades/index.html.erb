@@ -2,9 +2,9 @@
 
 <h2>Trades Awaiting Your Response:</h2>
 
-<% if !(@accepted_trades).empty? %>
+<% if !(@user_must_complete_trades).empty? %>
 
-  <% @accepted_trades.each do |trade| %>
+  <% @user_must_complete_trades.each do |trade| %>
     <p><%= trade.requester %> requested <%= trade.initial_book.title %> from you, and he/she is still waiting for your response/trade</p>
     <%= link_to "See User's Books", user_books_path %>
   <% end %>
@@ -44,3 +44,11 @@
   <p>You don't currently have any completed trades</p>
 <% end %>
 
+
+  def index
+    @user = current_user
+    @user_needs_response_trades = Trade.user_needs_response(@user)
+    @user_must_complete_trades = Trade.user_must_complete(@user)
+    @user_completed_trades = Trade.user_completed(@user)
+    @completed_by_other_trades = Trade.completed_by_other(@user)
+  end
