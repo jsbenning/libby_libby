@@ -1,8 +1,13 @@
 <h1>Books#index</h1>
+
 <% @books.each do |book| %>
-<h3><%= book.title %></h3>
-<p>Author: <%= book.author_last_name %>, <%= book.author_first_name %></p>
-<%= link_to "Learn More", user_book_path(book, book.user) %>
+<% if book.status != "traded" %>
+<h3><img src="http://covers.openlibrary.org/b/isbn/0385472579-M.jpg"  alt="Book Cover"  style="width:43px;height:60px;"> 
+  <%= book.title %></h3>
+  <p>Author: <%= book.author_last_name %>, <%= book.author_first_name %></p>
+  <%= link_to "Learn More", user_book_path(book.user, book) %><br>
+  <hr>
+  <% end %>
 <% end %>
 
 

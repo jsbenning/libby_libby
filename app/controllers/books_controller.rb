@@ -18,7 +18,17 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
-    @current_user = current_user
+    trade =  Trade.user_needs_response(@book.user)
+    if !trade.empty?
+      @trade = trade.first
+    else
+      @trade = Trade.new  
+    end 
+    #binding.pry 
+    #@current_user = current_user
+    if @book.status == "traded"
+      redirect_to  :root, notice: "This book is currently not available for trade.  Sorry!"
+    end
   end
 
   def edit

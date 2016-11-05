@@ -29,7 +29,7 @@ genres = Genre.create!([ {name: 'Literature'}, {name: 'History'}, {name: 'Religi
 
 100.times do |index|
   # genre = Genre.first(offset: rand(Genre.count))
-  # genre.inspect
+
   Book.create!(user_id: @user1.id, title: Faker::Book.title,
     author_last_name: Faker::Name.last_name,
     author_first_name: Faker::Name.first_name,

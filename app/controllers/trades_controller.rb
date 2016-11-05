@@ -19,13 +19,14 @@ class TradesController < ApplicationController
   # end
 
   def create
+    binding.pry
     @trade = Trade.new(trade_params)
     if @trade.save
         initial_book = Book.find(@trade.initial_book_id)
         initial_book.status = "traded"
         initial_book.save
         flash[:notice] = "You've initiated a new trade. Please wait for a response soon."
-      redirect_to '/trades/index'
+      redirect_to action: "index"
     else
       flash[:notice] = 'There was a problem creating a trade!'
       render :root

@@ -19,7 +19,7 @@
 <% if !(@user_needs_response_trades).empty? %>
 
   <% @user_needs_response_trades.each do |trade| %>
-    <p>You requested <%= trade.initial_book.title %> from <%= trade.owner %> and you're still waiting for a response</p>
+    <p>You requested <%= trade.initial_book.title %> from <%= trade.owner.email %> and you're still waiting for a response</p>
   <% end %>
 
   <% else %>

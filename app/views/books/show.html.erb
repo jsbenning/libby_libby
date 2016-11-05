@@ -1,3 +1,5 @@
+<img src="http://covers.openlibrary.org/b/isbn/0385472579-M.jpg"  alt="Book Cover"  style="width:178px;height:255px;"> 
+
 <h2>Title: <%= @book.title %></h2>
 <h3>Author: <%= @book.author_last_name %>, <%= @book.author_first_name %></h3>
 
@@ -19,11 +21,29 @@
 
 <% else %>
 
-  <h2>Book Owner Email: <%= @book.user.email %></h2>
-  <h2>Book Owner Rating: <%= @book.user.user_rating %></h2>
-  <%= link_to "Request a Trade", new_trade_path %>
-<% end %>
+  <h3>Book Owner Email: <%= @book.user.email %></h3>
+  <h3>Book Owner Rating: <%= @book.user.user_rating %></h3>
+
+<% end %> 
+
+<% if @trade.new_record? %>
+
+  <%= form_for(@trade) do |f| %>
+    <%= f.hidden_field :initial_book_id, :value => @book.id %>
+    <%= f.hidden_field :owner_id, :value => @book.user.id %>
+    <%= f.hidden_field :requester_id, :value => current_user.id %>
+    <%= f.submit "Request a Trade" %>
+  <% end %>
+ 
+
+<% else %>
+
+  <%= form_for(@trade) do |f| %>
+    <%= f.hidden_field :matched_book_id, :value => @book.id %>
+    <%= f.hidden_field :requester_id, :value => current_user.id %>
+    <%= f.submit "Complete a Trade" %>
+  <% end %>
 
 
-
+<% end %> 
 

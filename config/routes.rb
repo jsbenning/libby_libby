@@ -16,6 +16,6 @@ Rails.application.routes.draw do
 
   resources :books, only: [:index_all], :except => [:index] do
     get :index, :on => :collection, :action => 'index_all'
-  end
+    end
   
 end

@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20161031045031) do
     t.string   "condition"
     t.text     "description"
     t.string   "status",            default: "at_home"
+    t.string   "tracking_number"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
   end
