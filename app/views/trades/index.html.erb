@@ -37,7 +37,9 @@
   <% end %>
 
   <% @completed_by_other_trades.each do |trade| %>
-    <p>You requested <%= trade.initial_book.title %> from <% tradeowner %>, and he/she traded <%= trade.matched_book.title %> for it</p>
+    <p>You requested <%= trade.initial_book.title %> from <% trade.owner %>, and he/she traded <%= trade.matched_book.title %> for it</p>
+
+    <!-- add option for user review here (review create path, post with params from checklist )-->
   <% end %>
 
   <% else %>
