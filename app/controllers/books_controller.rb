@@ -13,7 +13,18 @@ class BooksController < ApplicationController
   end
 
   def new
+    @user = User.find(params[:user_id])
     @book = Book.new
+  end
+
+   def create
+    @book = Book.new(book_params)
+    if @book.save
+      flash[:notice] = "Successfully created book!"
+      redirect_to user_books_url
+    else
+      render :root
+    end     
   end
 
   def show
@@ -24,17 +35,25 @@ class BooksController < ApplicationController
     else
       @trade = Trade.new  
     end 
-    #binding.pry 
-    #@current_user = current_user
     if @book.status == "traded"
       redirect_to  :root, notice: "This book is currently not available for trade.  Sorry!"
     end
   end
 
   def edit
+    @user = User.find(params[:user_id])
+    @book = Book.find(params[:id])
+
   end
   
   def update
+    @user = User.find(params[:user_id])
+    @book = Book.find(params[:id])
+    if @book.update(book_params)
+      redirect_to :index_users, notice: "Book updated!"
+    else
+    render :root, notice: "Book not updated!" 
+    end
   end
 
   def destroy
@@ -50,6 +69,6 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :author_last_name, :author_first_name, :isbn, :condition, :status)
+    params.require(:book).permit(:title, :author_last_name, :author_first_name, :isbn, :condition, :status, genre_ids:[], genres_attributes: [:name])
   end
 end
