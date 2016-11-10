@@ -1,29 +1,31 @@
-<%= form_for @book do |f|  %>
-  <%= f.label :title  %><br />
-  <%= f.text_field :title %>
+<%= form_for ([@user, @book ]) do |f|  %>
 
-  <%= f.label :author_last_name %><br />
-  <%= f.text_field :author_last_name %>
+  <%= f.label :title  %>
+  <%= f.text_field :title %><br />
 
-  <%= f.label :author_first_name %><br />
-  <%= f.text_field :author_first_name %>
+  <%= f.label :author_last_name %>
+  <%= f.text_field :author_last_name %><br />
 
-  <%= f.label :isbn %><br />
-  <%= f.text_field :isbn %>
+  <%= f.label :author_first_name %>
+  <%= f.text_field :author_first_name %><br />
+
+  <%= f.label :isbn %>
+  <%= f.text_field :isbn %><br />
+
 
   <%= f.label "Condition" %><br />
-  <%= f.radio_button :book_condition, "Like new" %>
-  <%= f.radio_button :book_condition, "Good" %>
-  <%= f.radio_button :book_condition, "Fair" %>
+  Like New <%= f.radio_button :condition, "Like New" %><br />
+  Good <%= f.radio_button :condition, "Good" %><br />
+  Fair <%= f.radio_button :condition, "Fair" %><br />
 
   <%= f.label :description%><br />
-  <%= f.text_area :description %>
+  <%= f.text_area :description %><br />
 
-  <%= f.fields_for :genres, book.genres.build do |genres_fields| %><br />
-    <%= genres_fields.text_field :name : %>
-  <% end %>
-
-  <%= f.submit >
+  Genre(s): <%= f.collection_check_boxes :genre_ids, Genre.all, :id, :name %>
+  <%= f.fields_for :genres, @book.genres.build do |genres_fields| %><br />
+    Add a Genre: <%= genres_fields.text_field :name %><br />
+  <% end %><br />
+  <%= f.submit %>
   
 <% end %>
 

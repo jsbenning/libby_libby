@@ -1,1 +1,19 @@
-<h1>User show page!!!!</h1>
+<h1>Your Profile Page</h1>
+<% if @user.admin? %>
+<h2>ADMIN</h2>
+<% end %>
+
+<p><i>Remember, if any of the fields below are blank, you must update them to add or trade books</i><p>
+<p>Your Real Name: <%= @user.real_name %></p>
+<p>Your Street Address: <%= @user.street %></p>
+<p>Your City: <%= @user.city %></p>
+<p>Your Zipcode: <%= @user.zipcode %></p>
+<p>Your email: <%= @user.email %></p>
+<p>Your Current Rating: <strong><%= @user.user_rating %></strong></p>
+
+
+<hr>
+
+<p><%= button_to "Edit My Profile", edit_user_registration_path(@user), :method => 'get' %></p>
+
+<%= button_to "Add a New Book", new_user_book_path(@user), :method => 'get' %>
