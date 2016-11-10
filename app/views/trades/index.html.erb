@@ -4,9 +4,15 @@
 
 <% if !(@user_must_complete_trades).empty? %>
 
+<a href="mailto:<%= trade.requester %>?subject=LibbyLibby Trade">
+Send Email</a>   <p><a href="mailto:<%= trade.requester.email %>?subject=LibbyLibby Trade">
+    <%= trade.requester.email %></a> requested <%= trade.initial_book.title %> from you at <%= trade.created_at.strftime("%b %d %Y") %>, and he/she is still waiting for your response/trade</p>
+
   <% @user_must_complete_trades.each do |trade| %>
-    <p><%= trade.requester %> requested <%= trade.initial_book.title %> from you, and he/she is still waiting for your response/trade</p>
-    <%= link_to "See User's Books", user_books_path %>
+  
+    <p><%= button_to "See User's Books", user_books_path %></p>
+    <p><%= button_to "Delete/Refuse Trade", trade_path(trade), data: {confirm: "Are you sure?" }, method: :delete %></p>
+
   <% end %>
 
   <% else %>
@@ -19,7 +25,8 @@
 <% if !(@user_needs_response_trades).empty? %>
 
   <% @user_needs_response_trades.each do |trade| %>
-    <p>You requested <%= trade.initial_book.title %> from <%= trade.owner.email %> and you're still waiting for a response</p>
+    <p>You requested <%= trade.initial_book.title %> from <a href="mailto:<%= trade.owner.email %>?subject=LibbyLibby Trade"><%= trade.owner.email %></a> on <%= trade.created_at.strftime("%b %d %Y") %> and you're still waiting for a response </p>
+  <p><%= button_to "Delete/Cancel Trade", trade_path(trade), data: {confirm: "Are you sure?" }, method: :delete %></p>
   <% end %>
 
   <% else %>
@@ -33,11 +40,25 @@
 <% if !(@user_completed_trades).empty? || !(@completed_by_other_trades).empty? %>
 
   <% @user_completed_trades.each do |trade| %>
-    <p><%= trade.requester %> requested <%= trade.initial_book.title %> from you, and you traded <%= trade.matched_book.title %> for it</p>
+    <p><%= trade.requester %> requested <%= trade.initial_book.title %> from you, and you traded <%= trade.matched_book.title %> for it on <%= trade.updated_at.strftime("%b %d %Y") %></p>
+
+    <p>Be sure to mail <%= trade.initial_book.title %> to:</p>
+    <p><%= trade.initial_book.user.real_name %></p>
+    <p><%= trade.initial_book.user.address %></p>
+    <p><%= trade.initial_book.user.city %></p>
+    <p><%= trade.initial_book.user.state %></p>
+    <p><%= trade.initial_book.user.zipcode %></p>
   <% end %>
 
   <% @completed_by_other_trades.each do |trade| %>
-    <p>You requested <%= trade.initial_book.title %> from <% trade.owner %>, and he/she traded <%= trade.matched_book.title %> for it</p>
+    <p>You requested <%= trade.initial_book.title %> from <% trade.owner %>, and he/she traded <%= trade.matched_book.title %> for it on <%= trade.updated_at.strftime("%b %d %Y") %></p>
+
+    <p>Be sure to mail <%= trade.matched_book.title %> to:</p>
+    <p><%= trade.matched_book.user.real_name %></p>
+    <p><%= trade.matched_book.user.address %></p>
+    <p><%= trade.matched_book.user.city %></p>
+    <p><%= trade.matched_book.user.state %></p>
+    <p><%= trade.matched_book.user.zipcode %></p>
 
     <!-- add option for user review here (review create path, post with params from checklist )-->
   <% end %>

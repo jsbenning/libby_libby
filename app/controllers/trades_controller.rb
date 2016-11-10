@@ -40,20 +40,26 @@ class TradesController < ApplicationController
 
   def destroy
     @trade = Trade.find(params[:id])
-    initial_book = Book.find(@trade.initial_book_id)
-    initial_book.status = "at_home"
-    if @trade.matched_book_id
-      matched_book = Book.find(@trade.matched_book_id)
-      matched_book.status = "at_home"
-      matched_book.save
+    if @trade.owner_id == current_user.id || @trade.requester_id == current_user.id
+      initial_book = Book.find(@trade.initial_book_id)
+      initial_book.status = "at_home"
+      if @trade.matched_book_id
+        matched_book = Book.find(@trade.matched_book_id)
+        matched_book.status = "at_home"
+        matched_book.save
+      end
+      initial_book.save
+      @trade = nil
+      flash[:notice] = 'Trade deleted!'
+      redirect_to root_path
+    else
+      flash[:notice] = "You don't have permission to delete this trade"
+      render :root
     end
-    initial_book.save
-    @trade = nil
-    flash[:notice] = 'Trade deleted!'
-    redirect_to root_path
   end
 
   private
+
   def trade_params
     params.require(:trade).permit(:owner_id, :requester_id, :initial_book_id, :matched_book_id, :status)
   end
