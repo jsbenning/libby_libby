@@ -3,7 +3,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :books
 
   has_many :trades
-  has_many :reviews, :through => :trades
+
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
