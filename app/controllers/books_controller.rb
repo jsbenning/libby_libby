@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index_all, :show]
+  before_filter :authenticate_user!, :except => [:index_all, :index_users, :show]
+
 
   def index_all
     @books = Book.where(:status => 'at_home').where.not(:user_id => current_user.id)
@@ -8,7 +9,7 @@ class BooksController < ApplicationController
 
   def index_users
     @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
-    @list_owner = current_user
+    @user = User.find(params[:user_id])
     render :index
   end
 
@@ -17,58 +18,57 @@ class BooksController < ApplicationController
     @book = Book.new
   end
 
-   def create
+   def create 
     @book = Book.new(book_params)
+    @user = User.find(params[:user_id])
+    @book.user = @user
     if @book.save
-      flash[:notice] = "Successfully created book!"
+      flash[:notice] = "You successfully added a book!"
       redirect_to user_books_url
     else
+      flash[:notice] = "The book wasn't added, sorry!"
       render :root
     end     
   end
 
   def show
+    @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    trade =  Trade.user_needs_response(@book.user)
-    if !trade.empty?
-      @trade = trade.first
-    else
-      @trade = Trade.new  
-    end 
-    if @book.status == "traded"
-      redirect_to  :root, notice: "This book is currently not available for trade.  Sorry!"
-    end
+    @trade = Trade.new
   end
 
   def edit
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-
   end
   
   def update
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    if @book.update(book_params)
-      redirect_to :index_users, notice: "Book updated!"
+    if @book.update_attributes(book_params)
+      flash[:notice] = "The book was updated!"
+      redirect_to user_books_url
     else
-    render :root, notice: "Book not updated!" 
+      flash[:notice] = "The book wasn't updated, sorry!" 
+    render :root
     end
   end
 
   def destroy
     @book = Book.find(params[:id])
-    if @book.user == current_user
-      @book = nil
-      redirect_to root_url, notice: 'Book deleted!'
+    if @book.user == current_user 
+      @book.destroy
+      flash[:notice] = "The book was deleted!"
+      redirect_to user_books_url
     else
-      render :root, notice: "You don't have permission to delete this title!"
+      flash[:notice] = "You don't have permission to delete this title, sorry!"
+      render :root
     end   
   end
 
   private
 
   def book_params
-    params.require(:book).permit(:title, :author_last_name, :author_first_name, :isbn, :condition, :status, genre_ids:[], genres_attributes: [:name])
+    params.require(:book).permit(:user_id, :title, :author_last_name, :author_first_name, :isbn, :condition, :description, :status, genre_ids:[], genres_attributes: [:name])
   end
 end
