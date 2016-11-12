@@ -3,10 +3,9 @@ class TradesController < ApplicationController
 
   def index
     @user = current_user
-    @user_needs_response_trades = Trade.user_needs_response(@user)
-    @user_must_complete_trades = Trade.user_must_complete(@user)
-    @user_completed_trades = Trade.user_completed(@user)
-    @completed_by_other_trades = Trade.completed_by_other(@user)
+    a = Trade.user_requested(@user)
+    b = Trade.user_received(@user)
+    @user_trades = a.push(*b)
   end
   
   def create
@@ -49,7 +48,7 @@ class TradesController < ApplicationController
         matched_book.save
       end
       initial_book.save
-      @trade = nil
+      @trade.destroy
       flash[:notice] = 'Trade deleted!'
       redirect_to root_path
     else
