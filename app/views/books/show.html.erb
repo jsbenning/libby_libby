@@ -11,39 +11,26 @@
 <h3>ISBN: <%= @book.isbn %></h3>
 <h3>Condition: <%= @book.condition %></h3>
 <h3>Description:</h3>
-<p><%= @book.description%></p>
+<h3><%= @book.description%></h3>
 <hr>
 
-<% if @book.user == @current_user %>
+<% if @book.user == current_user %>
   <h2>Your Current Rating: <%= @book.user.user_rating %></h2>
-  <%= link_to 'Edit Book', edit_book_path(@book) %>
-  <%= link_to 'Delete Book', delete_book_path(@book) %>
+  <%= link_to 'Edit Book', edit_user_book_path(@user, @book), class: "btn btn-primary" %><br />
+  <%= button_to 'Delete Book', user_book_path(@user, @book), 
+  data: {:confirm => 'Are you sure?'}, :method => :delete, class: "btn btn-primary" %>
 
 <% else %>
 
   <h3>Book Owner Email: <%= @book.user.email %></h3>
   <h3>Book Owner Rating: <%= @book.user.user_rating %></h3>
 
+  <%= form_for @trade do |f| %>
+    <%= f.hidden_field :initial_book_id, value: @book.id %>
+    <%= f.hidden_field :owner_id, value: @book.user.id %>
+    <%= f.hidden_field :requester_id, value: current_user.id %>
+    <%= f.submit 'Request a Trade' %>
+  <% end %> 
 <% end %> 
 
-<% if @trade.new_record? %>
-
-  <%= form_for(@trade) do |f| %>
-    <%= f.hidden_field :initial_book_id, :value => @book.id %>
-    <%= f.hidden_field :owner_id, :value => @book.user.id %>
-    <%= f.hidden_field :requester_id, :value => current_user.id %>
-    <%= f.submit "Request a Trade" %>
-  <% end %>
- 
-
-<% else %>
-
-  <%= form_for(@trade) do |f| %>
-    <%= f.hidden_field :matched_book_id, :value => @book.id %>
-    <%= f.hidden_field :requester_id, :value => current_user.id %>
-    <%= f.submit "Complete a Trade" %>
-  <% end %>
-
-
-<% end %> 
 

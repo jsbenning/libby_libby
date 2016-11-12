@@ -1,0 +1,39 @@
+<h1>Edit Shipping Info</h1>
+<% if @user.admin? %>
+<h2>ADMIN</h2>
+<% end %>
+
+<p><i>Remember, if any of the fields below are blank, you must update them to add or trade books</i><p>
+
+<%= form_for @user do |f| %>
+  <div class="field" >
+    <%= f.label :real_name %><br />
+    <%= f.text_field :real_name %>
+  </div> 
+
+  <div class="field" > 
+    <%= f.label :street %><br /> 
+    <%= f.text_field :street %>
+  </div> 
+
+  <div class="field" >
+    <%= f.label :city %><br />
+    <%= f.text_field :city %>
+  </div> 
+
+  <div class="field" >
+    <%= f.label :state %><br />
+    <%= f.text_field :state %>
+  </div> 
+
+  <div class="field" >
+    <%= f.label :zipcode %><br />
+    <%= f.text_field :zipcode %>
+  </div> 
+
+
+  <div class="actions"><br />
+    <%= f.submit "Update Address" %>
+  </div>
+
+<% end %>

@@ -1,4 +1,10 @@
-<h1>Books#index</h1>
+<% if @user %>
+  <h2><%= @user.first_name %>'s Books</h2>
+  <p><%= button_to "Add a New Book", new_user_book_path(@user), :method => 'get' %><p>
+<% else %>
+  <h2>All The Books</h2>
+<% end %>
+
 
 <% @books.each do |book| %>
 <% if book.status != "traded" %>

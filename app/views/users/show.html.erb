@@ -7,6 +7,7 @@
 <p>Your Real Name: <%= @user.real_name %></p>
 <p>Your Street Address: <%= @user.street %></p>
 <p>Your City: <%= @user.city %></p>
+<p>Your State: <%= @user.state %></p>
 <p>Your Zipcode: <%= @user.zipcode %></p>
 <p>Your email: <%= @user.email %></p>
 <p>Your Current Rating: <strong><%= @user.user_rating %></strong></p>
@@ -14,6 +15,8 @@
 
 <hr>
 
-<p><%= button_to "Edit My Profile", edit_user_registration_path(@user), :method => 'get' %></p>
+<p><%= button_to "Change My Password", edit_user_registration_path(@user), :method => 'get' %></p>
 
-<%= button_to "Add a New Book", new_user_book_path(@user), :method => 'get' %>
+<p><%= button_to "Edit My Shipping Details", edit_user_path(@user), :method => 'get' %></p>
+
+

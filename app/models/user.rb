@@ -22,5 +22,9 @@ class User < ApplicationRecord
       user.password = Devise.friendly_token[0,20]
     end
   end
+
+  def first_name
+    self.real_name.split(" ")[0].capitalize ||= self.email
+  end
            
 end
