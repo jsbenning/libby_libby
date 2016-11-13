@@ -3,6 +3,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :books
 
   has_many :trades
+  has_many :reviews
 
 
   devise :database_authenticatable, :registerable,
@@ -24,7 +25,11 @@ class User < ApplicationRecord
   end
 
   def first_name
-    self.real_name.split(" ")[0].capitalize ||= self.email
+    if self.real_name
+      x = self.real_name.split(" ")[0].capitalize
+    end
+    first_name =  x ||= self.email
+    first_name
   end
            
 end
