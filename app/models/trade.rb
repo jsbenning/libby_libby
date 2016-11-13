@@ -6,34 +6,24 @@ class Trade < ApplicationRecord
   has_one :matched_book, :class_name => 'Book', :foreign_key => 'matched_book_id'
 
   def self.user_requested(user)
-    Trade.where(:requester_id => user.id).to_a
+    Trade.where(:requester_id => user.id, :status => "pending").to_a
   end
 
   def self.user_received(user)
-    Trade.where(:owner_id => user.id).to_a 
+    Trade.where(:owner_id => user.id, :status => "pending").to_a 
   end
 
+  def self.user_completed(user)
+    Trade.where(:owner_id => user.id, :status => "complete").to_a
+  end
 
+  def self.completed_by_other(user)
+    Trade.where(:requester_id => user.id, :status => "complete").to_a
+  end
 
-
-
-  
-
-  # def self.user_needs_response(user)
-  #   Trade.where(:requester_id => user.id).to_a
-  # end
-
-  # def self.user_must_complete(user)
-  #   Trade.where(:owner_id => user.id).to_a 
-  # end
-
-  # def self.user_completed(user)
-  #   Trade.where(:owner_id => user.id, :status => "complete").to_a
-  # end
-
-  # def self.completed_by_other(user)
-  #   Trade.where(:requester_id => user.id, :status => "complete").to_a
-  # end
+  def self.shared_trade(user1, user2)
+    Trade.where(:owner_id => user1.id).where(:requester_id => user2.id, :status => "pending").first
+  end
 
   def owner
     User.find(self.owner_id)
