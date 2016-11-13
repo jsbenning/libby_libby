@@ -25,12 +25,34 @@
   <h3>Book Owner Email: <%= @book.user.email %></h3>
   <h3>Book Owner Rating: <%= @book.user.user_rating %></h3>
 
-  <%= form_for @trade do |f| %>
+<% end %>  
+
+<% if @new_trade %>
+
+  <%= form_for @new_trade do |f| %>
     <%= f.hidden_field :initial_book_id, value: @book.id %>
     <%= f.hidden_field :owner_id, value: @book.user.id %>
     <%= f.hidden_field :requester_id, value: current_user.id %>
     <%= f.submit 'Request a Trade' %>
   <% end %> 
-<% end %> 
+
+<% elsif @shared_trade %>
+
+  <%= form_for @shared_trade do |f| %>
+    <%= f.hidden_field :matched_book_id, value: @book.id %>
+    <%= f.submit 'Complete a Trade' %>
+  <% end %> 
+
+<% end %>   
+
+
+
+
+
+
+
+
+
+
 
 

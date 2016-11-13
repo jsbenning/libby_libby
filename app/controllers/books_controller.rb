@@ -8,8 +8,12 @@ class BooksController < ApplicationController
   end
 
   def index_users
-    @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
     @user = User.find(params[:user_id])
+    if @user == current_user
+      @books = Book.where(:user_id => (params[:user_id]))
+    else
+      @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
+    end
     render :index
   end
 
@@ -34,7 +38,12 @@ class BooksController < ApplicationController
   def show
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    @trade = Trade.new
+    @current_user = current_user
+    if @user != current_user && Trade.shared_trade(@current_user, @user)
+      @shared_trade = Trade.shared_trade(@current_user, @user)
+    else
+      @new_trade = Trade.new
+    end
   end
 
   def edit
