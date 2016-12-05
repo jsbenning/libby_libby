@@ -9,7 +9,6 @@ class CreateBooks < ActiveRecord::Migration[5.0]
       t.string :condition
       t.text :description
       t.string :status, default: "at_home" # also "traded"
-      t.string :tracking_number
 
       t.timestamps
     end

@@ -6,6 +6,8 @@ class CreateTrades < ActiveRecord::Migration[5.0]
       t.integer :owner_id
       t.integer :matched_book_id
       t.string :status, default: "pending" #or 'complete'
+      t.integer :initial_book_owner_rating
+      t.integer :matched_book_owner_rating
 
       t.timestamps
     end

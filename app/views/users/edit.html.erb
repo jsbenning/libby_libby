@@ -1,7 +1,8 @@
 <h1>Edit Shipping Info</h1>
-<% if @user.admin? %>
+<% if @user.role == "admin" %>
 <h2>ADMIN</h2>
 <% end %>
+
 
 <p><i>Remember, if any of the fields below are blank, you must update them to add or trade books</i><p>
 
@@ -28,12 +29,16 @@
 
   <div class="field" >
     <%= f.label :zipcode %><br />
-    <%= f.text_field :zipcode %>
+    <%= f.text_field :zipcode %><br />
   </div> 
 
+  <div class="dropdown" >
+    <%= f.label :role %><br />
+  <%= f.collection_select(:role, User::ROLES, :to_s, lambda{|i| i.to_s.humanize}) %>
+  </div>
 
   <div class="actions"><br />
-    <%= f.submit "Update Address" %>
+    <%= f.submit "Update Info" %>
   </div>
 
 <% end %>

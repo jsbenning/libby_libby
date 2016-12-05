@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   root "home#index"
 
+  resources :reviews, only: [:new, :show]
+
   resources :trades
 
   devise_for :users, :path => 'accounts', controllers: {

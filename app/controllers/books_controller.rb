@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index_all, :index_users, :show]
+  before_action :authenticate_user!, :except => [:index_all, :index_users, :show]
 
 
   def index_all

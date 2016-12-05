@@ -10,7 +10,7 @@ class TradesController < ApplicationController
   end
   
   def create
-    @trade = Trade.new(trade_params)
+    @trade = Trade.create(trade_params)
     if @trade.save
         initial_book = Book.find(@trade.initial_book_id)
         initial_book.status = "traded"
@@ -62,7 +62,7 @@ class TradesController < ApplicationController
   private
 
   def trade_params
-    params.require(:trade).permit(:owner_id, :requester_id, :initial_book_id, :matched_book_id, :status)
+    params.require(:trade).permit(:owner_id, :requester_id, :initial_book_id, :matched_book_id, :status, :initial_book_owner_rating, :matched_book_owner_rating)
   end
 
 end
