@@ -2,5 +2,5 @@
 <% @users.each do |user| %>
   <%= user.email %><br />
   <%= link_to "See More", user_path(user) %><br />
-  <p><%= button_to "Delete This account", registration_path(:user, as: :accounts), data: { confirm: "Are you sure?" }, method: :delete %></p>
+  <hr>
 <% end %>

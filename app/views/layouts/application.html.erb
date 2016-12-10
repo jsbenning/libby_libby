@@ -6,6 +6,13 @@
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
   <%= analytics_init if Rails.env.production? %>
+  <div id="banner">
+    <div id="wrapper">
+        <div id="container">
+                <img class="banner-img-large" <%= image_tag "banner1.png" %> 
+        </div>
+    </div>
+  </div>
   <p class="navbar-text pull-right">
 
   <% if user_signed_in? %>

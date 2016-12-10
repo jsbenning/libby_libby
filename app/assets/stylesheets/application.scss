@@ -36,4 +36,18 @@ body {
   margin: 5px 0;
 }
 
+.wrapper {
+    width: 100%;
+    overflow: hidden;
+}
+.container {
+    width: 100%;
+    margin: 0 auto;
+}
+.banner-img-large {
+    max-width: 100%;
+    margin: 10px 0 20px 0;
+    border-radius: 3px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.9);
+}
 

@@ -1,6 +1,11 @@
 <% if @book.status == "at_home" %>
 
-  <img src="http://covers.openlibrary.org/b/isbn/0385472579-M.jpg"  alt="Book Cover"  style="width:178px;height:255px;"> 
+  <img src="http://covers.openlibrary.org/b/isbn/0385472579-M.jpg?default=false"  alt="Book Cover"  style="width:178px;height:255px;"> 
+
+
+
+
+
 
   <h2>Title: <%= @book.title %></h2>
   <h3>Author: <%= @book.author_last_name %>, <%= @book.author_first_name %></h3>
@@ -17,7 +22,7 @@
   <hr>
 
   <% if @book.user == current_user %>
-    <h2>Your Current Rating: <%= @book.user.user_rating(@book.user) %>  </h2>
+    <h2>Your Current Rating: <%= (@book.user).user_rating %>  </h2>
     <%= link_to 'Edit Book', edit_user_book_path(@user, @book), class: "btn btn-primary" %><br /><br />
     
     <%= button_to 'Delete Book', user_book_path(@user, @book), 
@@ -27,7 +32,7 @@
 
     <h2>Book Owner Email: <%= @book.user.email %></h2>
 
-    <h2>Owner's Current Rating: <%= @book.user.user_rating(@book.user) %> </h2>
+    <h2>Owner's Current Rating: <%= @book.user.user_rating %> </h2>
 
   <% end %>  
 

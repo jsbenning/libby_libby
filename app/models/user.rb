@@ -25,18 +25,18 @@ class User < ApplicationRecord
   end
 
   def user_rating
-    my_owner_ratings = Trade.where(:owner_id => self.id).where.not(:initial_book_owner_rating => nil)
-    my_trader_ratings = Trade.where(:requester_id => self.id).where.not(:matched_book_owner_rating => nil)
+    this_owner_ratings = Trade.where(:owner_id => self.id).where.not(:initial_book_owner_rating => nil)
+    this_trader_ratings = Trade.where(:requester_id => self.id).where.not(:matched_book_owner_rating => nil)
 
-    my_ratings = my_owner_ratings + my_trader_ratings
+    this_ratings = this_owner_ratings + this_trader_ratings
 
-    if my_ratings.empty? 
-      @rating = "You don't have enough ratings to evaluate"
+    if this_ratings.empty? 
+      @rating = "User doesn't have enough ratings to evaluate"
 
       ###### Continue tomorrow
     else
-      array1 = my_ratings.map{ |el| el.initial_book_owner_rating.to_i }
-      array2 = my_ratings.map{ |el| el.matched_book_owner_rating.to_i }
+      array1 = this_ratings.map{ |el| el.initial_book_owner_rating.to_i }
+      array2 = this_ratings.map{ |el| el.matched_book_owner_rating.to_i }
 
       num1 = array1.inject(0.0){ |sum, el| sum + el }.to_f / array1.size
       num2 = array2.inject(0.0){ |sum, el| sum + el }.to_f / array2.size
