@@ -16,3 +16,17 @@
 //= require_tree .
 //= require jquery
 //= require bootstrap-sprockets
+
+// $(document).ready(function()
+// {
+//     $(".backup_picture_small").on("error", function(){
+//         $(this).attr('src', './images/no-image-s.png');
+//     });
+// });
+
+// $(document).ready(function()
+// {
+//     $(".backup_picture_large").on("error", function(){
+//         $(this).attr('src', './images/no-image-l.png');
+//     });
+// });

@@ -3,7 +3,8 @@ class BooksController < ApplicationController
 
 
   def index_all
-    @books = Book.where(:status => 'at_home').where.not(:user_id => current_user.id)
+    search = params[:search]
+    @books = Book.search(search, current_user)
     render :index
   end
 

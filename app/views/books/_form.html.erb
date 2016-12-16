@@ -41,14 +41,14 @@
   Genre(s): <%= f.collection_check_boxes :genre_ids, Genre.all, :id, :name %>
   </div>
 
-  <div class="field">
-    <%= f.fields_for :genres, @book.genres.build do |genres_fields| %><br />
+  <div class="text_area">
+    <%= f.fields_for :genres, @book.genres.build do |genres_fields| %>Add a Genre:
+    <%= genres_fields.text_field :name %>
+    <% end %>
   </div>
+  <br />
 
-  <div class="field">
-    Add a Genre: <%= genres_fields.text_field :name %><br />
-  <% end %><br />
-  </div>
+
 
   <div class="submit">
     <%= f.submit %><br />

@@ -1,21 +1,33 @@
+
 <% if @user && @user == current_user %>
-  <p><%= button_to "Add a New Book", new_user_book_path(@user), :method => 'get' %><p><br />
+  <p><%= button_to "Add a New Book", new_user_book_path(@user), :method => 'get', :class => 'btn btn-primary' %><p><br />
 <% elsif @user %>  
   <h2><%= @user.first_name %>'s Books</h2>
 <% else %>
-  <h2>All The Books</h2>
+  <%= form_tag books_path, :method => 'get' do %>
+  <p>
+    <%= text_field_tag :search, params[:search], size: 50, placeholder: "Enter keyword (title, author, ISBN) here to search" %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+  <h2>Books Matching Your Search: <%= @user %></h2>
+  <% end %>
 <% end %>
 
 
 <% @books.each do |book| %>
-<% unless book.status == "traded" %> 
-<img src="http://covers.openlibrary.org/b/isbn/0385472579-M.jpg"  alt="Book Cover"  style="width:43px;height:60px;">
-  <h3><%= book.title %></h3>
-  <p>Author: <%= book.author_last_name %>, <%= book.author_first_name %></p>
-  <%= link_to "Learn More", user_book_path(book.user, book) %><br>
-  <hr>
+  <% unless book.status == "traded" %>
+    <%= div_for book, :class => "boxframe" do %>
+
+      <img src="./app/assets/images/no-image-s.png"  alt=""  style="width:43px;height:60px;">
+      <h3><%= book.title %></h3>
+      <p>Author: <%= book.author_last_name %>, <%= book.author_first_name %></p>
+      <%= link_to "Learn More", user_book_path(book.user, book) %><br>
+
+    <% end %>
   <% end %>
 <% end %>
 
 
 
+
+<!--"http://covers.openlibrary.org/b/isbn/385472579-M.jpg?default=false", oneerror="this.src='./images/no-image-s.png'" ->
