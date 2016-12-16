@@ -2,26 +2,26 @@
 <h1>Your Trades</h1>
 
 <div class="list-group">
-<h4 class="list-group-item-heading">Trades Awaiting Your Response:</h4>
+  <h4 class="list-group-item-heading">Trades Awaiting Your Response:</h4>
 
-<% if @trades_user_received.empty? %>
-<p class="list-group-item-text">You currently have no pending trades to respond to</p> 
-<% else %>
-  <% @trades_user_received.each do |trade| %>
-    <p class="list-group-item-text"><a href="mailto:<%= trade.requester.email %>?subject=LibbyLibby Trade">
-    <%= trade.requester.email %></a> requested <%= trade.initial_book.title %> from you on <%= trade.created_at.strftime("%b %d %Y") %>, and he/she is still waiting for your response/trade</p>
+  <% if @trades_user_received.empty? %>
+    <p class="list-group-item-text">You currently have no pending trades to respond to</p> 
+  <% else %>
+    <% @trades_user_received.each do |trade| %>
+      <p class="list-group-item-text"><a href="mailto:<%= trade.requester.email %>?subject=LibbyLibby Trade">
+      <%= trade.requester.email %></a> requested <%= trade.initial_book.title %> from you on <%= trade.created_at.strftime("%b %d %Y") %>, and he/she is still waiting for your response/trade</p>
 
-    <p><%= link_to "See User's Books", user_books_path(trade.requester.id), class: "btn btn-primary" %></p>
-    <p><%= button_to "Delete/Refuse Trade", trade_path(trade), data: {confirm: "Are you sure?" }, method: :delete, class: "btn btn-primary" %></p>
+      <p><%= link_to "See User's Books", user_books_path(trade.requester.id), class: "btn btn-primary" %></p>
+      <p><%= button_to "Delete/Refuse Trade", trade_path(trade), data: {confirm: "Are you sure?" }, method: :delete, class: "btn btn-primary" %></p>
+    <% end %>
   <% end %>
-<% end %>
 </div>
 
 <div class="list-group">
 <h4 class="list-group-item-heading">Trades You Requested Which Aren't Complete:</h4>
 
 <% if @trades_user_requested.empty? %>
-<p class="list-group-item-text">You currently have no pending requested trades</p> 
+  <p class="list-group-item-text">You currently have no pending requested trades</p> 
 <% else %>
   <% @trades_user_requested.each do |trade| %>
       <p class="list-group-item-text">You requested <%= trade.initial_book.title %> from <a href="mailto:<%= trade.owner.email %>?subject=LibbyLibby Trade"><%= trade.owner.email %></a> on <%= trade.created_at.strftime("%b %d %Y") %> and you're still waiting for a response </p>

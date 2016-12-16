@@ -3,7 +3,7 @@ class Book < ApplicationRecord
   
   belongs_to :user, inverse_of: :books
   validates_presence_of :user
-  has_and_belongs_to_many :genres
+  has_and_belongs_to_many :genres #needs :through books_genres as per assignment specs
   accepts_nested_attributes_for :genres
 
 
@@ -13,5 +13,15 @@ class Book < ApplicationRecord
       self.genres << genre
     end
   end
+
+  def self.search(search, user)
+    wildcard_search = "%#{search}%"
+    if wildcard_search
+      Book.where(:status => 'at_home').where.not(:user_id => user.id).where("title LIKE ? OR isbn LIKE ? OR author_last_name LIKE ?", wildcard_search, wildcard_search, wildcard_search)
+    else
+      Book.where(:status => 'at_home').where.not(:user_id => user.id)
+    end
+  end
   
 end
+

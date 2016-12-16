@@ -1,4 +1,4 @@
-<% if current_user.admin? && current_user != @user %>
+<% if (current_user.admin? || current_user.mod?) && current_user != @user %>
 
 <h1> User's Profile </h1>
 
@@ -10,7 +10,9 @@
   <p>User's email: <%= @user.email %></p>
   <p>User's Current Rating: <strong><%= @rating %></strong></p>
 
+  <% if current_user.admin? %>
   <p><%= button_to "Delete This account", registration_path(:user, as: :accounts), data: { confirm: "Are you sure?" }, method: :delete %></p>
+  <% end %>
 
 <% elsif current_user == @user %>
 
@@ -34,6 +36,9 @@
 <p><%= button_to "Edit My Shipping Details", edit_user_path(@user), :method => 'get' %></p>
 
 <p><%= button_to "Delete My account", registration_path(:user, as: :accounts), data: { confirm: "Are you sure?" }, method: :delete %></p>
+
+<% else %>
+<h1>You don't have permission to access this page</h1>
 
 <% end %>
 

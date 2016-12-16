@@ -1,6 +1,8 @@
 class TradesController < ApplicationController
   before_action :authenticate_user!
 
+  #refactor trades to have 3 attribues (requester, requested_book, matched_book)
+
   def index
     @user = current_user
     @trades_user_received = Trade.user_received(@user)
@@ -44,12 +46,12 @@ class TradesController < ApplicationController
     if @trade.owner_id == current_user.id || @trade.requester_id == current_user.id
       initial_book = Book.find(@trade.initial_book_id)
       initial_book.status = "at_home"
+      initial_book.save
       if @trade.matched_book_id
         matched_book = Book.find(@trade.matched_book_id)
         matched_book.status = "at_home"
         matched_book.save
-      end
-      initial_book.save
+      end 
       @trade.destroy
       flash[:notice] = 'Trade deleted!'
       redirect_to root_path

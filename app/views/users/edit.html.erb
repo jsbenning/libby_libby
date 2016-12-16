@@ -34,7 +34,8 @@
 
   <div class="dropdown" >
     <%= f.label :role %><br />
-  <%= f.collection_select(:role, User::ROLES, :to_s, lambda{|i| i.to_s.humanize}) %>
+
+  <%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}) %>
   </div>
 
   <div class="actions"><br />

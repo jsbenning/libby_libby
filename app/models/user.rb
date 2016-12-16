@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  ROLES = %i[admin reader]
+  enum role: [ :reader, :mod, :admin ]# admins can delete allusers, mods can view all users
   has_many :books, inverse_of: :user
   accepts_nested_attributes_for :books
 
@@ -16,7 +16,7 @@ class User < ApplicationRecord
     end
   end
 
-  def first_name
+  def first_name #refactor
     if self.real_name
       x = self.real_name.split(" ")[0].capitalize
     end
@@ -33,7 +33,6 @@ class User < ApplicationRecord
     if this_ratings.empty? 
       @rating = "User doesn't have enough ratings to evaluate"
 
-      ###### Continue tomorrow
     else
       array1 = this_ratings.map{ |el| el.initial_book_owner_rating.to_i }
       array2 = this_ratings.map{ |el| el.matched_book_owner_rating.to_i }
@@ -46,8 +45,5 @@ class User < ApplicationRecord
     @rating
   end
 
-  def admin?
-    self.role == "admin"
-  end
            
 end

@@ -9,7 +9,7 @@
     <%= text_field_tag :search, params[:search], size: 50, placeholder: "Enter keyword (title, author, ISBN) here to search" %>
     <%= submit_tag "Search", :name => nil %>
   </p>
-  <h2>Books Matching Your Search: <%= @user %></h2>
+  <h2>Available Books: <%= @user %></h2>
   <% end %>
 <% end %>
 
@@ -21,7 +21,7 @@
       <img src="./app/assets/images/no-image-s.png"  alt=""  style="width:43px;height:60px;">
       <h3><%= book.title %></h3>
       <p>Author: <%= book.author_last_name %>, <%= book.author_first_name %></p>
-      <%= link_to "Learn More", user_book_path(book.user, book) %><br>
+      <%= link_to "See More", user_book_path(book.user, book) %><br>
 
     <% end %>
   <% end %>
