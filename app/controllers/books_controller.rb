@@ -32,7 +32,7 @@ class BooksController < ApplicationController
       redirect_to user_books_url
     else
       flash[:notice] = "The book wasn't added, sorry!"
-      render :root
+      render 'home/index'
     end     
   end
 
@@ -66,7 +66,7 @@ class BooksController < ApplicationController
 
   def destroy
     @book = Book.find(params[:id])
-    if @book.user == current_user 
+    if @book.user == current_user || current_user.admin?
       @book.destroy
       flash[:notice] = "The book was deleted!"
       redirect_to user_books_url

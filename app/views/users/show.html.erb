@@ -19,6 +19,10 @@
 
 <h1>Your Profile </h1>
 
+<p><strong>Your Favorite Genres:</strong></p>
+  <% @user.genres.each do |genre| %>
+    <%= genre.name %></p>
+  <% end %>
 
   <p><i>Remember, if any of the fields below are blank, you must update them to add or trade books</i><p>
   <p><strong>Your Real Name: </strong><%= @user.real_name %></p>
@@ -33,12 +37,12 @@
 
 <p><%= button_to "Change My Password", edit_user_registration_path(@user), :method => 'get' %></p>
 
-<p><%= button_to "Edit My Shipping Details", edit_user_path(@user), :method => 'get' %></p>
+<p><%= button_to "Edit My Profile", edit_user_path(@user), :method => 'get' %></p>
 
 <p><%= button_to "Delete My account", registration_path(:user, as: :accounts), data: { confirm: "Are you sure?" }, method: :delete %></p>
 
 <% else %>
-<h1>You don't have permission to access this page</h1>
+<h1>You don't have permission to access this page (note: add this logic to controller)</h1>
 
 <% end %>
 

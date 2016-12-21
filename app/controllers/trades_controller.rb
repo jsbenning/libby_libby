@@ -5,10 +5,12 @@ class TradesController < ApplicationController
 
   def index
     @user = current_user
-    @trades_user_received = Trade.user_received(@user)
-    @trades_user_requested = Trade.user_requested(@user)
-    @trades_user_completed = Trade.user_completed(@user)
-    @trades_completed_by_other= Trade.completed_by_other(@user)
+    @user_trades = Trade.user_trades(@user)
+    # 
+    # @trades_user_received = Trade.user_received(@user)
+    # @trades_user_requested = Trade.user_requested(@user)
+    # @trades_user_completed = Trade.user_completed(@user)
+    # @trades_completed_by_other= Trade.completed_by_other(@user)
   end
   
   def create
@@ -27,7 +29,7 @@ class TradesController < ApplicationController
 
 
   def update
-    binding.pry
+    #binding.pry
     @trade = Trade.find(params[:id])
     if @trade.update(trade_params)
       matched_book = Book.find(@trade.matched_book_id)

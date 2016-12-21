@@ -4,7 +4,7 @@
 
   <div class="field">
     <%= f.label :title  %><br />
-    <%= f.text_field :title %>
+    <%= f.text_field :title, :size => "50" %>
   </div>  
 
   <div class="field">
@@ -34,11 +34,11 @@
 
   <div class="text_area">
     <%= f.label :description%><br />
-    <%= f.text_area :description %>
+    <%= f.text_area :description, :size => "50" %>
   </div>
 
   <div class="checkboxes">
-  Genre(s): <%= f.collection_check_boxes :genre_ids, Genre.all, :id, :name %>
+  Genre(s): <%= f.collection_check_boxes :genre_ids, Genre.all, :id, :name, :item_wrapper_class => "inline" %>
   </div>
 
   <div class="text_area">

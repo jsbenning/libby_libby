@@ -18,7 +18,7 @@
   <% unless book.status == "traded" %>
     <%= div_for book, :class => "boxframe" do %>
 
-      <img src="./app/assets/images/no-image-s.png"  alt=""  style="width:43px;height:60px;">
+      <img src="http://covers.openlibrary.org/b/isbn/<%= book.isbn %>-M.jpg?default=false"  alt="" onerror="this.src='/assets/no-image-s.png'" style="width:43px;height:60px;">
       <h3><%= book.title %></h3>
       <p>Author: <%= book.author_last_name %>, <%= book.author_first_name %></p>
       <%= link_to "See More", user_book_path(book.user, book) %><br>
@@ -30,4 +30,4 @@
 
 
 
-<!--"http://covers.openlibrary.org/b/isbn/385472579-M.jpg?default=false", oneerror="this.src='./images/no-image-s.png'" ->
+<!--"http://covers.openlibrary.org/b/isbn/0385472579-M.jpg?default=false", oneerror="this.src='/assets/no-image-s.png'" ->

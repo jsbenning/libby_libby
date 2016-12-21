@@ -5,6 +5,15 @@ class Trade < ApplicationRecord
   has_one :initial_book, :class_name => 'Book', :foreign_key => 'initial_book_id'
   has_one :matched_book, :class_name => 'Book', :foreign_key => 'matched_book_id'
 
+
+#   def self.user_trades(user)
+#     Trade.where(:owner_id => user.id OR :requester_id => user.id)
+#   end
+
+# end
+
+
+
   def self.user_requested(user)
     Trade.where(:requester_id => user.id, :status => "pending").to_a
   end

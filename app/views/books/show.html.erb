@@ -1,55 +1,59 @@
-178<% if @book.status == "at_home" %>
+<% if @book.status == "at_home" %>
+<div class="boxframe">
 
-  <img class="backup_picture_large" src="http://covers.openlibrary.org/b/isbn/0385472579-M.jpg?default=false"  alt="Book Cover"  style="width:178px;height:255px;"> 
+    <img src="http://covers.openlibrary.org/b/isbn/<%= @book.isbn %>-M.jpg?default=false"  alt="" onerror="this.src='/assets/no-image-l.png'" style="width:178px;height:255px;"> 
 
+    <h3 class="boxframe-title">Title: <%= @book.title %></h3>
+    <p class="boxframe-subj">Author: </p>
+    <p class="boxframe-desc"><%= @book.author_last_name %>, <%= @book.author_first_name %></p>
 
-  <h2>Title: <%= @book.title %></h2>
-  <h3>Author: <%= @book.author_last_name %>, <%= @book.author_first_name %></h3>
+    <p class="boxframe-subj">Genre(s):</p>
+    <% @book.genres.each do |genre| %>
+      <p class="boxframe-desc"><%= genre.name %></p>
+    <% end %>
 
-  <h3>Genre(s):</h3>
-  <% @book.genres.each do |genre| %>
-    <h3><%= genre.name %></h3>
-  <% end %>
+    <p class="boxframe-subj"> ISBN: </p>
+    <p class="boxframe-desc"> <%= @book.isbn %></p>
+    <p class="boxframe-subj">Condition:</p>
+    <p class="boxframe-desc"> <%= @book.condition %></p>
+    <p class="boxframe-subj">Description:</p>
+    <p class="boxframe-desc"><%= @book.description%></p>
+    <hr>
 
-  <h3>ISBN: <%= @book.isbn %></h3>
-  <h3>Condition: <%= @book.condition %></h3>
-  <h3>Description:</h3>
-  <h3><%= @book.description%></h3>
-  <hr>
-
-  <% if @book.user == current_user %>
-  
-    <%= link_to 'Edit Book', edit_user_book_path(@user, @book), class: "btn btn-primary" %><br /><br />
+    <% if @book.user == current_user %>
     
-    <%= button_to 'Delete Book', user_book_path(@user, @book), 
-    data: {:confirm => 'Are you sure?'}, :method => :delete, class: "btn btn-primary" %>
+      <%= link_to 'Edit Book', edit_user_book_path(@user, @book), class: "btn btn-primary" %><br /><br />
+      
+      <%= button_to 'Delete Book', user_book_path(@user, @book), 
+      data: {:confirm => 'Are you sure?'}, :method => :delete, class: "btn btn-primary" %>
 
-  <% else %>
+    <% else %>
 
-    <h2>Book Owner Email: <%= @book.user.email %></h2>
+      <p>Book Owner Email: <%= @book.user.email %></p>
 
-    <h2>Owner's Current Rating: <%= @book.user.user_rating %> </h2>
+      <p>Owner's Current Rating: <%= @book.user.user_rating %> </p>
 
-  <% end %>  
+    <% end %>  
 
-  <% if @new_trade && @book.user != current_user %>
+    <% if @new_trade && @book.user != current_user %>
 
-    <%= form_for @new_trade do |f| %>
-      <%= f.hidden_field :initial_book_id, value: @book.id %>
-      <%= f.hidden_field :owner_id, value: @book.user.id %>
-      <%= f.hidden_field :requester_id, value: current_user.id %>
-      <%= f.submit 'Request a Trade' %>
+      <%= form_for @new_trade do |f| %>
+        <%= f.hidden_field :initial_book_id, value: @book.id %>
+        <%= f.hidden_field :owner_id, value: @book.user.id %>
+        <%= f.hidden_field :requester_id, value: current_user.id %>
+        <%= f.submit 'Request a Trade' %>
+      <% end %> 
+
+    <% elsif @shared_trade && @book.user != current_user %>
+
+      <%= form_for @shared_trade do |f| %>
+        <%= f.hidden_field :matched_book_id, value: @book.id %>
+        <%= f.submit 'Complete a Trade' %>
+      <% end %> 
+
     <% end %> 
-
-  <% elsif @shared_trade && @book.user != current_user %>
-
-    <%= form_for @shared_trade do |f| %>
-      <%= f.hidden_field :matched_book_id, value: @book.id %>
-      <%= f.submit 'Complete a Trade' %>
-    <% end %> 
-
   <% end %> 
-<% end %> 
+</div>
 
 
 

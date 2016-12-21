@@ -1,7 +1,8 @@
 class User < ApplicationRecord
-  enum role: [ :reader, :mod, :admin ]# admins can delete allusers, mods can view all users
+  enum role: [ :reader, :mod, :admin ]# admins can delete all users, mods can view all users
   has_many :books, inverse_of: :user
   accepts_nested_attributes_for :books
+  has_many :genres, through: :books
 
   has_many :trades
 
@@ -23,6 +24,11 @@ class User < ApplicationRecord
     first_name =  x ||= self.email
     first_name
   end
+
+  def self.mid_clearance(user)
+    user.admin? || user.mod?
+  end
+  
 
   def user_rating
     this_owner_ratings = Trade.where(:owner_id => self.id).where.not(:initial_book_owner_rating => nil)
