@@ -7,7 +7,7 @@ class Trade < ApplicationRecord
 
 
 #   def self.user_trades(user)
-#     Trade.where(:owner_id => user.id OR :requester_id => user.id)
+#     Trade.where(:owner_id => user.id OR :requester_id => user.id).to_a
 #   end
 
 # end

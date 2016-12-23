@@ -28,13 +28,18 @@ class User < ApplicationRecord
   def self.mid_clearance(user)
     user.admin? || user.mod?
   end
+
+
   
 
-  def user_rating
+  def user_rating #I'm sure there's a cleaner way to do this!
+
     this_owner_ratings = Trade.where(:owner_id => self.id).where.not(:initial_book_owner_rating => nil)
     this_trader_ratings = Trade.where(:requester_id => self.id).where.not(:matched_book_owner_rating => nil)
 
     this_ratings = this_owner_ratings + this_trader_ratings
+
+    #this_ratings
 
     if this_ratings.empty? 
       @rating = "User doesn't have enough ratings to evaluate"

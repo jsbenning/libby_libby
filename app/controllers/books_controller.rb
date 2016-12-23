@@ -11,7 +11,7 @@ class BooksController < ApplicationController
   def index_users
     @user = User.find(params[:user_id])
     if @user == current_user
-      @books = Book.where(:user_id => (params[:user_id]))
+      @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
     else
       @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
     end
