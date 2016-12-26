@@ -1,5 +1,7 @@
 class Book < ApplicationRecord
   validates :title, presence: true
+
+  scope :visible, -> { where(status: 'at_home')}
   
   belongs_to :user, inverse_of: :books
   validates_presence_of :user
