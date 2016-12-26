@@ -9,6 +9,8 @@ class Trade < ApplicationRecord
 #   def self.user_trades(user)
 #     Trade.where(:owner_id => user.id OR :requester_id => user.id).to_a
 #   end
+#   with abbreviated models could also be 
+#     Trade.where(initial_book.user.id => user.id OR :requester_id => user.id).to_a
 
 # end
 

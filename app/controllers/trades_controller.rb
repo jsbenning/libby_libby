@@ -1,7 +1,7 @@
 class TradesController < ApplicationController
   before_action :authenticate_user!
 
-  #refactor trades to have 3 attribues (requester, requested_book, matched_book)
+  #refactor trades to have 3 attribues (requester, requested_book, matched_book)?
 
   def index
     @user = current_user
@@ -57,7 +57,7 @@ class TradesController < ApplicationController
       flash[:notice] = 'Trade deleted!'
       redirect_to root_path
     else
-      flash[:notice] = "You don't have permission to delete this trade"
+      flash[:notice] = "You don't have permission to delete this trade!"
       render :root
     end
   end
