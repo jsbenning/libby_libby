@@ -32,7 +32,7 @@
     <div class="dropdown" >
       <%= f.label :role %><br />
 
-    <%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}) %>
+    <%= f.select(:role, User.roles.keys.map { |role| [role.titleize, role] }) %>
     </div><br />
 
     <div class="actions">

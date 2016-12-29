@@ -8,6 +8,7 @@ class Book < ApplicationRecord
   validates_presence_of :user
   has_and_belongs_to_many :genres 
   accepts_nested_attributes_for :genres
+  
 
   def self.latest_titles
     self.by_date.visible.first(5)
