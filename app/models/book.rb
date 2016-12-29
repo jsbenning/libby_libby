@@ -2,11 +2,16 @@ class Book < ApplicationRecord
   validates :title, presence: true
 
   scope :visible, -> { where(status: 'at_home')}
+  scope :by_date, -> { order('created_at DESC, id DESC') }
   
   belongs_to :user, inverse_of: :books
   validates_presence_of :user
   has_and_belongs_to_many :genres 
   accepts_nested_attributes_for :genres
+
+  def self.latest_titles
+    self.by_date.visible.first(5)
+  end
 
 
   def genres_attributes=(genre_attributes)

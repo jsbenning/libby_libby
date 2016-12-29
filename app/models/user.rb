@@ -17,7 +17,7 @@ class User < ApplicationRecord
     end
   end
 
-  def first_name #refactor
+  def first_name #refactor?
     if self.real_name
       x = self.real_name.split(" ")[0].capitalize
     end
@@ -25,12 +25,13 @@ class User < ApplicationRecord
     first_name
   end
 
-  def self.mid_clearance(user)
-    user.admin? || user.mod?
+  def mid_clearance
+    self.admin? || self.mod?
   end
 
-
-  
+  def shipworthy?
+    self.real_name && self.street && self.city && self.state && self.zipcode
+  end
 
   def user_rating #I'm sure there's a cleaner way to do this!
 

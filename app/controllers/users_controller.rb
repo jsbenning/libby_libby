@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
+
   def index
-    if User.mid_clearance(current_user)
+    if current_user.mid_clearance
       @users = User.all
     else
       flash[:notice] = "You don't have permission to access that page!"
@@ -28,6 +29,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    #binding.pry
     @user = User.find(params[:id])
     if @user.update_attributes(user_params) 
       redirect_to :root, notice: 'User Info Updated!'
