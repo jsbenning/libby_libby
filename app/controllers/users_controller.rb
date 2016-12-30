@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
 
   def index
-    if current_user.mid_clearance
+    if current_user.mid_clearance?
       @users = User.all
     else
       flash[:notice] = "You don't have permission to access that page!"
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @rating = @user.user_rating
-    unless current_user.admin? || current_user == @user
+    unless current_user.mid_clearance? || current_user == @user
       flash[:notice] = "You don't have permission to access that page!"
       render '/home/index'
     end
@@ -34,6 +34,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params) 
       redirect_to :root, notice: 'User Info Updated!'
     else
+      flash[:notice] = "User Info Not Updated!"
       render '/home/index'
     end
   end

@@ -17,20 +17,27 @@ class User < ApplicationRecord
     end
   end
 
-  def first_name #refactor?
-    if self.real_name
-      x = self.real_name.split(" ")[0].capitalize
+  def first_name
+    #binding.pry
+    if !(self.real_name.nil?) || !(self.real_name == "")
+      first_name = self.real_name.split(" ")[0].capitalize
+    else 
+      first_name = self.email
     end
-    first_name =  x ||= self.email
-    first_name
+    first_name 
   end
 
-  def mid_clearance
+  def mid_clearance?
     self.admin? || self.mod?
   end
 
+
   def shipworthy?
-    self.real_name && self.street && self.city && self.state && self.zipcode
+    if ((self.real_name != "" || nil) && (self.street != "" || nil) && (self.city != "" || nil)  && (self.state != "" || nil) && (self.zipcode != "" || nil) )
+      true
+    else
+      false
+    end
   end
 
   def user_rating #I'm sure there's a cleaner way to do this!
@@ -39,8 +46,6 @@ class User < ApplicationRecord
     this_trader_ratings = Trade.where(:requester_id => self.id).where.not(:matched_book_owner_rating => nil)
 
     this_ratings = this_owner_ratings + this_trader_ratings
-
-    #this_ratings
 
     if this_ratings.empty? 
       @rating = "User doesn't have enough ratings to evaluate"
@@ -56,6 +61,8 @@ class User < ApplicationRecord
     end
     @rating
   end
+
+  
 
            
 end
