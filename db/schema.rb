@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 20161214200641) do
     t.string   "state"
     t.string   "zipcode"
     t.boolean  "visible",                default: true
-    t.string   "role",                   default: "0"
+    t.integer  "role",                   default: 0
     t.string   "email",                  default: "",   null: false
     t.string   "encrypted_password",     default: "",   null: false
     t.string   "reset_password_token"
