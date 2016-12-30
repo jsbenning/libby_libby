@@ -1,4 +1,4 @@
-<% if (current_user.admin? || current_user.mod?) && current_user != @user %>
+<% if current_user.mid_clearance? && current_user != @user %>
 
 <h1> User's Profile </h1>
 

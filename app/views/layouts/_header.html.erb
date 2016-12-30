@@ -1,10 +1,16 @@
 <% if current_user && current_user.admin? %>
 <nav class="admin_nav">
-  <h2>ADMIN</h2>
+  <h2>***ADMIN***</h2>
   <ul>
     <li><%= link_to "View/Delete Users", users_path %> </li>
   </ul>
-  <hr>
+
+<% elsif current_user && current_user.mod? %>
+<nav class="mod_nav">
+  <h2>***MOD***</h2>
+  <ul>
+    <li><%= link_to "View Users", users_path %> </li>
+  </ul>
 <% end %>
 
 <% if current_user %>
