@@ -23,16 +23,16 @@ class BooksController < ApplicationController
     @book = Book.new
   end
 
-   def create 
+   def create
     @book = Book.new(book_params)
     @user = User.find(params[:user_id])
     @book.user = @user
-    if @book.save
+    if @user.shipworthy? && @book.save
       flash[:notice] = "You successfully added a book!"
       redirect_to user_books_url
     else
-      flash[:notice] = "The book wasn't added, sorry!"
-      render 'home/index'
+      flash[:notice] = "The book wasn't added --- Make sure your shipping info is completed!"
+      render 'users/edit'
     end     
   end
 

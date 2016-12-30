@@ -24,8 +24,7 @@
     
       <%= link_to 'Edit Book', edit_user_book_path(@user, @book), class: "btn btn-primary" %><br /><br />
       
-      <%= button_to 'Delete Book', user_book_path(@user, @book), 
-      data: {:confirm => 'Are you sure?'}, :method => :delete, class: "btn btn-primary" %>
+      <%= button_to 'Delete Book', user_book_path(@user, @book), :method => :delete, class: "btn btn-primary" %>
 
     <% else %>
 
