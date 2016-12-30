@@ -6,14 +6,9 @@ class Trade < ApplicationRecord
   has_one :matched_book, :class_name => 'Book', :foreign_key => 'matched_book_id'
 
 
-#   def self.user_trades(user)
-#     Trade.where(:owner_id => user.id OR :requester_id => user.id).to_a
-#   end
-#   with abbreviated models could also be 
-#     Trade.where(initial_book.user.id => user.id OR :requester_id => user.id).to_a
-
-# end
-
+  # def self.user_trades(user) # asimplified method to call db only once
+  #   Trade.where("owner_id = ? OR 'requester_id = ?", "user.id", "user.id")
+  # end
 
 
   def self.user_requested(user)
