@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
-
   def index
     if current_user.mid_clearance?
       @users = User.all
@@ -29,7 +28,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    #binding.pry
     @user = User.find(params[:id])
     if @user.update_attributes(user_params) 
       redirect_to :root, notice: 'User Info Updated!'
@@ -39,6 +37,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    if current_user.admin?
+      @user = User.find(params[:id])
+      @user.destroy
+      redirect_to 'home/index'
+    else
+      flash[:notice] = "User Not Deleted!"
+      render '/home/index'
+    end
+  end
 
   private
 

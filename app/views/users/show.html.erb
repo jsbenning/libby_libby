@@ -10,8 +10,8 @@
   <p>User's email: <%= @user.email %></p>
   <p>User's Current Rating: <strong><%= @rating %></strong></p>
 
-  <% if current_user.admin? %>
-  <p><%= button_to "Delete This account", registration_path(:user, as: :accounts), data: { confirm: "Are you sure?" }, method: :delete %></p>
+  <% if current_user.admin? %> 
+  <p><%= button_to "Delete This account", user_path(@user), data: { confirm: "Are you sure?" }, method: :delete %></p>
   <% end %>
 
 <% elsif current_user == @user %>
@@ -41,9 +41,6 @@
 <p><%= button_to "Edit My Profile", edit_user_path(@user), :method => 'get', :class => 'btn btn-primary' %></p>
 
 <p><%= button_to "Delete My account", registration_path(:user, as: :accounts), :class => 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<% else %>
-<h1>You don't have permission to access this page (note: add this logic to controller)</h1>
 
 <% end %>
 
