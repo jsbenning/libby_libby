@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   enum role: [ :reader, :mod, :admin ]# admins can delete all users, mods can view all users
-  has_many :books, inverse_of: :user
+  has_many :books
   accepts_nested_attributes_for :books
   has_many :genres, through: :books
 
@@ -18,26 +18,31 @@ class User < ApplicationRecord
   end
 
   def first_name
-    #binding.pry
-    if !(self.real_name.nil?) || !(self.real_name == "")
-      first_name = self.real_name.split(" ")[0].capitalize
-    else 
-      first_name = self.email
+    if self.real_name.nil? || self.real_name == ""
+      first_name = self.email  
+    else
+      first_name = self.real_name.split(" ")[0].capitalize 
     end
     first_name 
   end
 
-  def mid_clearance?
-    self.admin? || self.mod?
+  def shipping_nil_check
+    self.attributes.first(5).each do |attr|
+      if attr[1].nil? || attr[1] == ""
+        false
+        break
+      else
+        true
+      end
+    end
   end
 
-
   def shipworthy?
-    if ((self.real_name != "" || nil) && (self.street != "" || nil) && (self.city != "" || nil)  && (self.state != "" || nil) && (self.zipcode != "" || nil) )
-      true
-    else
-      false
-    end
+    !(shipping_nil_check.nil?)
+  end
+
+  def mid_clearance?
+    self.admin? || self.mod?
   end
 
   def user_rating #I'm sure there's a cleaner way to do this!
