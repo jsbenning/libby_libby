@@ -1,17 +1,13 @@
 <!-- @user_trades.sort { |a,b| a.requester_id <=> b.requester.id } -->
  
-<h1>Your Trades</h1>
+
+<h1>Your Trades (if any):</h1>
 
 <div class="list-group">
   <h4 class="list-group-item-heading">Trades Awaiting Your Response:</h4>
-
-  <% if @trades_user_received.empty? %>
-    <p class="list-group-item-text">You currently have no pending trades to respond to</p> 
-  <% else %>
-    <% @trades_user_received.each do |trade| %>
-      <p class="list-group-item-text"><a href="mailto:<%= trade.requester.email %>?subject=LibbyLibby Trade">
-      <%= trade.requester.email %></a> requested <%= trade.initial_book.title %> from you on <%= trade.created_at.strftime("%b %d %Y") %>, and he/she is still waiting for your response/trade</p>
-
+  <% @user_trades.each do |trade| %>
+    <% if trade.owner == @user && trade.status == "pending" %>
+      <p class="list-group-item-text"><a href="mailto:<%= trade.requester.email %>?subject=LibbyLibby Trade"><%= trade.requester.email %></a> requested <%= trade.initial_book.title %> from you on <%= trade.created_at.strftime("%b %d %Y") %>, and he/she is still waiting for your response/trade</p>
       <p><%= link_to "See User's Books", user_books_path(trade.requester.id), class: "btn btn-primary" %></p>
       <p><%= button_to "Delete/Refuse Trade", trade_path(trade), data: {confirm: "Are you sure?" }, method: :delete, class: "btn btn-primary" %></p>
     <% end %>
@@ -20,11 +16,8 @@
 
 <div class="list-group">
 <h4 class="list-group-item-heading">Trades You Requested Which Aren't Complete:</h4>
-
-<% if @trades_user_requested.empty? %>
-  <p class="list-group-item-text">You currently have no pending requested trades</p> 
-<% else %>
-  <% @trades_user_requested.each do |trade| %>
+<% @user_trades.each do |trade| %>
+  <% if trade.requester == @user && trade.status == "pending" %>
       <p class="list-group-item-text">You requested <%= trade.initial_book.title %> from <a href="mailto:<%= trade.owner.email %>?subject=LibbyLibby Trade"><%= trade.owner.email %></a> on <%= trade.created_at.strftime("%b %d %Y") %> and you're still waiting for a response </p>
 
       <p><%= button_to "Delete/Cancel Trade", trade_path(trade), data: {confirm: "Are you sure?" }, method: :delete %></p>
@@ -35,15 +28,15 @@
 <div class="list-group">
 <h4 class="list-group-item-heading">Completed Trades:</h4>
 
-<% if !@trades_user_completed.empty? %>
-  <% @trades_user_completed.each do |trade| %>
+<% @user_trades.each do |trade| %>
+  <% if trade.owner == @user && trade.status == "completed" %>
     <p class="list-group-item-text"><%= trade.requester.email %> requested <strong><%= trade.initial_book.title %></strong> from you, and you traded <strong><%= trade.matched_book.title %></strong> for it on <%= trade.updated_at.strftime("%b %d %Y") %></p><br />
 
       <% if trade.matched_book_owner_rating.nil? %>
         <% @trade = trade %>
         <p class="list-group-item-text">When you (ideally) receive your book, feel free to rate the shipper:</p>
 
-       <%= form_for @trade, url: trade_path(@trade) do |f| %>
+       <%= form_for trade, url: trade_path(trade) do |f| %>
 
           <b>Rating</b><br />
           <%= f.radio_button :matched_book_owner_rating, '3' %> The book arrived in a reasonable amount of time and as described<br />
@@ -54,6 +47,7 @@
 
       <% end %>
     <% end %>
+
 
     <p class="list-group-item-text"><strong>Be sure to mail <%= trade.initial_book.title %> to:</strong></p>
 
@@ -66,15 +60,15 @@
   <% end %>
 <% end %>  
 
-<% if !@trades_completed_by_other.empty? %>
-  <% @trades_completed_by_other.each do |trade| %>
+<% @user_trades.each do |trade| %>
+  <% if trade.requester == @user && trade.status == "completed" %>
 
-      <p class="list-group-item-text">You requested <%= trade.initial_book.title %> from <% trade.owner %>, and he/she traded <%= trade.matched_book.title %> for it on <%= trade.updated_at.strftime("%b %d %Y") %></p>
-      <% if trade.initial_book_owner_rating.nil? %>
+    <p class="list-group-item-text">You requested <%= trade.initial_book.title %> from <% trade.owner %>, and he/she traded <%= trade.matched_book.title %> for it on <%= trade.updated_at.strftime("%b %d %Y") %></p>
+    <% if trade.initial_book_owner_rating.nil? %>
 
-        <p class="list-group-item-text">When you (ideally) receive your book, feel free to rate the shipper:</p>
+      <p class="list-group-item-text">When you (ideally) receive your book, feel free to rate the shipper:</p>
 
-        <%= form_for trade do |f| %>
+      <%= form_for trade do |f| %>
 
           <b>Rating</b><br />
           <%= f.radio_button :initial_book_owner_rating, '3' %> The book arrived in a reasonable amount of time and as described<br />
@@ -98,10 +92,6 @@
 
   <% end %>
 <% end %> 
-
-<% if @trades_completed_by_other.empty? && @trades_user_completed.empty? %>
-  <p class="list-group-item-text">You currently have no completed trades</p>    
-<% end %>
 </div>
 
 
