@@ -1,16 +1,9 @@
 class TradesController < ApplicationController
   before_action :authenticate_user!
 
-  #refactor trades to have 3 attribues (requester, requested_book, matched_book)?
-
   def index
-    #binding.pry
     @user = current_user
     @user_trades = Trade.user_trades(@user)
-    # @trades_user_received = Trade.user_received(@user)
-    # @trades_user_requested = Trade.user_requested(@user)
-    # @trades_user_completed = Trade.user_completed(@user)
-    # @trades_completed_by_other= Trade.completed_by_other(@user)
   end
   
   def create

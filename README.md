@@ -1,24 +1,11 @@
-# README
+Project Overview:
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a rails project for creating a hosted site allowing users to list and trade books for free. To use this app, simply clone, run bundle install, rake db:migrate, and the rails s command from the terminal. Point your browser to localhost 3000 and you can see the program in action. Run rake db:seed to test the program with dummy data.
 
-Things you may want to cover:
+Contributing
 
-* Ruby version
+Bug reports and pull requests are welcome on GitHub at https://github.com/jsbenning/libbylibby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the Contributor Covenant code of conduct.
 
-* System dependencies
+License
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+The project is available as open source under the terms of the MIT License.

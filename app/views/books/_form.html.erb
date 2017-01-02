@@ -1,6 +1,6 @@
 <i>All fields but 'title' are optional, but the more fields added, the better the chance of trading a book</i><br />
 
-<%= form_for ([@user, @book ]) do |f|  %>
+<%= form_for ([ @user, @book ]) do |f|  %>
 
   <div class="field">
     <%= f.label :title  %><br />
