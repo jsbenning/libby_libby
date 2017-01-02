@@ -7,7 +7,7 @@ class Trade < ApplicationRecord
 
 
   def self.user_trades(user) # a simplified method to call db only once
-    Trade.where("owner_id = ? OR 'requester_id = ?", "user.id", "user.id")
+    Trade.where("owner_id = ? OR requester_id = ?", user.id, user.id)
   end
 
 
@@ -27,9 +27,9 @@ class Trade < ApplicationRecord
   #   Trade.where(:requester_id => user.id, :status => "complete").to_a
   # end
 
-  # def self.shared_trade(user1, user2)
-  #   Trade.where(:owner_id => user1.id).where(:requester_id => user2.id, :status => "pending").first
-  # end
+  def self.shared_trade(user1, user2)
+    Trade.where(:owner_id => user1.id).where(:requester_id => user2.id, :status => "pending").first
+  end
 
   def owner
     User.find(self.owner_id)

@@ -4,6 +4,7 @@ class TradesController < ApplicationController
   #refactor trades to have 3 attribues (requester, requested_book, matched_book)?
 
   def index
+    #binding.pry
     @user = current_user
     @user_trades = Trade.user_trades(@user)
     # @trades_user_received = Trade.user_received(@user)
@@ -21,8 +22,8 @@ class TradesController < ApplicationController
         flash[:notice] = "You've just initiated a new trade! Please wait for a response soon."
       redirect_to action: "index"
     else
-      flash[:notice] = 'There was a problem creating a trade!'
-      render :root
+      flash[:notice] = 'There was a problem creating a trade (make sure your shipping info is complete)!'
+      render 'home/index'
     end
   end
 
@@ -37,7 +38,7 @@ class TradesController < ApplicationController
       redirect_to action: "index"
     else
       flash[:notice] = 'Trade not updated!'
-      render :root
+      render 'home/index'
     end
   end
 
@@ -57,7 +58,7 @@ class TradesController < ApplicationController
       redirect_to root_path
     else
       flash[:notice] = "You don't have permission to delete this trade!"
-      render :root
+      render 'home/index'
     end
   end
 
