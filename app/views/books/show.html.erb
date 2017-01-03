@@ -1,4 +1,3 @@
-<% if @book.status == "at_home" %>
 <div class="boxframe">
 
     <img src="http://covers.openlibrary.org/b/isbn/<%= @book.isbn %>-M.jpg?default=false"  alt="" onerror="this.src='/assets/no-image-l.png'" style="width:178px;height:255px;"> 
@@ -49,9 +48,8 @@
         <%= f.hidden_field :matched_book_id, value: @book.id %>
         <%= f.submit 'Complete a Trade', :class => 'btn btn-primary' %>
       <% end %> 
-
     <% end %> 
-  <% end %> 
+
 </div>
 
 
