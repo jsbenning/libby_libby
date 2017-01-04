@@ -38,7 +38,7 @@
   </div>
 
   <div class="checkboxes">
-  Genre(s): <%= f.collection_check_boxes :genre_ids, Genre.all, :id, :name, :item_wrapper_class => "inline" %>
+  Genre(s): <%= f.collection_check_boxes :genre_ids, Genre.base_genres, :id, :name, :item_wrapper_class => "inline" %>
   </div>
 
   <div class="text_area">
