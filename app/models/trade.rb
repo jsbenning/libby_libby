@@ -10,23 +10,6 @@ class Trade < ApplicationRecord
     Trade.where("owner_id = ? OR requester_id = ?", user.id, user.id)
   end
 
-
-  # def self.user_requested(user)
-  #   Trade.where(:requester_id => user.id, :status => "pending").to_a
-  # end
-
-  # def self.user_received(user)
-  #   Trade.where(:owner_id => user.id, :status => "pending").to_a 
-  # end
-
-  # def self.user_completed(user)
-  #   Trade.where(:owner_id => user.id, :status => "complete").to_a
-  # end
-
-  # def self.completed_by_other(user)
-  #   Trade.where(:requester_id => user.id, :status => "complete").to_a
-  # end
-
   def self.shared_trade(user1, user2)
     Trade.where(:owner_id => user1.id).where(:requester_id => user2.id, :status => "pending").first
   end
@@ -46,8 +29,26 @@ class Trade < ApplicationRecord
   def matched_book
     Book.find(self.matched_book_id)
   end
-end
 
+  def self.user_rating(user)
+    ratings = Array.new
+    trades = Trade.where("owner_id = ? OR requester_id = ?", user.id, user.id)
+    trades.each do |trade|
+      if trade.owner_id == user.id && !(trade.initial_book_owner_rating.nil?)
+        ratings << initial_book_owner_rating.to_f
+      elsif trade.requester_id == user.id && !(trade.matched_book_owner_rating.nil?)
+        ratings << matched_book_owner_rating.to_f
+      end
+    end
+    if ratings.empty?
+      @rating = "There are not enough ratings to evaluate this user"
+    else
+      @rating = (ratings.inject(0.0){|sum, x| sum + x})/ratings.length
+      @rating = @rating.round
+    end
+    @rating
+  end    
+end
 
 
 

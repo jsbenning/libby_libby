@@ -12,7 +12,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @rating = @user.user_rating
     unless current_user.mid_clearance? || current_user == @user
       flash[:notice] = "You don't have permission to access that page!"
       render '/home/index'

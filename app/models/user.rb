@@ -29,45 +29,21 @@ class User < ApplicationRecord
   def shipping_nil_check
     self.attributes.first(5).each do |attr|
       if attr[1].nil? || attr[1] == ""
-        false
         break
       else
-        true
       end
     end
   end
 
-  def shipworthy?
-    !(shipping_nil_check.nil?)
+  def shipworthy? # Has the user entered all shipping info? 
+    !(self.shipping_nil_check.nil?)
   end
 
   def mid_clearance?
     self.admin? || self.mod?
   end
 
-  def user_rating #I'm sure there's a cleaner way to do this!
-
-    this_owner_ratings = Trade.where(:owner_id => self.id).where.not(:initial_book_owner_rating => nil)
-    this_trader_ratings = Trade.where(:requester_id => self.id).where.not(:matched_book_owner_rating => nil)
-
-    this_ratings = this_owner_ratings + this_trader_ratings
-
-    if this_ratings.empty? 
-      @rating = "User doesn't have enough ratings to evaluate"
-
-    else
-      array1 = this_ratings.map{ |el| el.initial_book_owner_rating.to_i }
-      array2 = this_ratings.map{ |el| el.matched_book_owner_rating.to_i }
-
-      num1 = array1.inject(0.0){ |sum, el| sum + el }.to_f / array1.size
-      num2 = array2.inject(0.0){ |sum, el| sum + el }.to_f / array2.size
-
-      @rating = ((num1 + num2) / 2)
-    end
-    @rating
-  end
-
-  
-
-           
+  def rating
+    Trade.user_rating(self)
+  end          
 end
