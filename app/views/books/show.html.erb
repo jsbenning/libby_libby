@@ -1,4 +1,9 @@
 <div class="boxframe">
+  <% if @book.errors.full_messages.any? %>
+  <% @book.errors.full_messages.each do |error_message| %>
+    <%= error_message if @book.errors.full_messages.first == error_message %> <br />
+  <% end %>
+<% end %>
 
     <img src="http://covers.openlibrary.org/b/isbn/<%= @book.isbn %>-M.jpg?default=false"  alt="" onerror="this.src='/assets/no-image-l.png'" style="width:178px;height:255px;"> 
 
