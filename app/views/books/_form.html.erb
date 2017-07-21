@@ -1,50 +1,51 @@
-<i>All fields but 'title' are optional, but the more fields added, the better the chance of trading a book</i><br />
+<i>All fields but 'title' are optional, but the more fields added, the better the chance of trading a book</i><br /><br />
 
 <%= form_for ([ @user, @book ]) do |f|  %>
+  <div class="centerbox">
+    <div class="field">
+      <%= f.label :title  %><br />
+      <%= f.text_field :title, :size => "50" %>
+    </div>  
 
-  <div class="field">
-    <%= f.label :title  %><br />
-    <%= f.text_field :title, :size => "50" %>
-  </div>  
+    <div class="field">
+      <%= f.label :author_last_name %><br />
+      <%= f.text_field :author_last_name %>
+    </div>
 
-  <div class="field">
-    <%= f.label :author_last_name %><br />
-    <%= f.text_field :author_last_name %>
-  </div>
+    <div class="field">
+      <%= f.label :author_first_name %><br />
+      <%= f.text_field :author_first_name %>
+    </div>
 
-  <div class="field">
-    <%= f.label :author_first_name %><br />
-    <%= f.text_field :author_first_name %>
-  </div>
+    <div class="field">
+      <%= f.label :ISBN %><br />
+      <%= f.text_field :isbn %>
+    </div>
 
-  <div class="field">
-    <%= f.label :ISBN %><br />
-    <%= f.text_field :isbn %>
-  </div>
+    <div class="radio_field">
+      <p><strong>Condition</strong></p>
+      <%= f.label :condition, 'Like New', :value => 'Like new' %>
+      <%= f.radio_button :condition, "Like New" %><br />
+      <%= f.label :condition, 'Good', :value => 'Good' %>
+      <%= f.radio_button :condition, "Good" %><br />
+      <%= f.label :condition, 'Fair', :value => 'Fair' %>
+      <%= f.radio_button :condition, "Fair" %><br />
+    </div>
 
-  <div class="radio_field">
-    <p><strong>Condition</strong></p>
-    <%= f.label :condition, 'Like New', :value => 'Like new' %>
-    <%= f.radio_button :condition, "Like New" %><br />
-    <%= f.label :condition, 'Good', :value => 'Good' %>
-    <%= f.radio_button :condition, "Good" %><br />
-    <%= f.label :condition, 'Fair', :value => 'Fair' %>
-    <%= f.radio_button :condition, "Fair" %><br />
-  </div>
+    <div class="text_area">
+      <%= f.label :description%><br />
+      <%= f.text_area :description, :size => "50" %>
+    </div>
 
-  <div class="text_area">
-    <%= f.label :description%><br />
-    <%= f.text_area :description, :size => "50" %>
-  </div>
+    <div class="checkboxes">
+    <b>Genre(s): </b><%= f.collection_check_boxes :genre_ids, Genre.all, :id, :name, :item_wrapper_class => "inline" %>
+    </div>
 
-  <div class="checkboxes">
-  Genre(s): <%= f.collection_check_boxes :genre_ids, Genre.all, :id, :name, :item_wrapper_class => "inline" %>
-  </div>
-
-  <div class="text_area">
-    <%= f.fields_for :genres, @book.genres.build do |genres_fields| %>Add a Genre:
-    <%= genres_fields.text_field :name %>
-    <% end %>
+    <div class="text_area">
+      <%= f.fields_for :genres, @book.genres.build do |genres_fields| %>Add a Genre:
+      <%= genres_fields.text_field :name %>
+      <% end %>
+    </div>
   </div>
   <br />
 

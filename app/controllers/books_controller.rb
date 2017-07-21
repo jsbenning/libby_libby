@@ -31,7 +31,7 @@ class BooksController < ApplicationController
       flash[:notice] = "You successfully added a book!"
       redirect_to user_books_url
     else
-      flash[:notice] = "The book wasn't added --- Make sure your shipping info is completed!"
+      flash.now[:notice] = "The book wasn't added --- Make sure your shipping info is completed!"
       render 'users/edit'
     end     
   end
@@ -59,7 +59,7 @@ class BooksController < ApplicationController
       flash[:notice] = "The book was updated!"
       redirect_to user_books_url
     else
-      flash[:notice] = "The book wasn't updated, sorry!" 
+      flash.now[:notice] = "The book wasn't updated, sorry!" 
     render :root
     end
   end
@@ -71,7 +71,7 @@ class BooksController < ApplicationController
       flash[:notice] = "The book was deleted!"
       redirect_to user_books_url
     else
-      flash[:notice] = "You don't have permission to delete this title, sorry!"
+      flash.now[:notice] = "You don't have permission to delete this title, sorry!"
       render :root
     end   
   end

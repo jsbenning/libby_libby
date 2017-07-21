@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   enum role: [ :reader, :mod, :admin ]# admins can delete all users, mods can view all users
-  has_many :books
+  has_many :books, :dependent => :destroy
   accepts_nested_attributes_for :books
   has_many :genres, through: :books
 

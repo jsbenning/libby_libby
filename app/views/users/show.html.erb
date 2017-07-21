@@ -14,10 +14,10 @@
   <p>User's State: <%= @user.state %></p>
   <p>User's Zipcode: <%= @user.zipcode %></p>
   <p>User's email: <%= @user.email %></p>
-  <p>User's Current Rating: <strong><%= @rating %></strong></p>
+  <p>User's Current Rating: <strong><%= @user.rating %></strong></p>
 
   <% if current_user.admin? %> 
-  <p><%= button_to "Delete This account", user_path(@user), data: { confirm: "Are you sure?" }, method: :delete %></p>
+  <p><%= button_to "Delete This account", registration_path(@user, as: :accounts), data: { confirm: "Are you sure?" }, method: :delete %></p> <!-- changed from user_path(@user) to test -->
   <% end %>
 
 <% elsif current_user == @user %>
@@ -42,7 +42,9 @@
 
 <hr>
 
+<% if !(@user.uid) %>
 <p><%= button_to "Change My Password", edit_user_registration_path(@user), :method => 'get', :class => 'btn btn-primary' %></p>
+<% end %>
 
 <p><%= button_to "Edit My Profile", edit_user_path(@user), :method => 'get', :class => 'btn btn-primary' %></p>
 

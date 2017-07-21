@@ -15,7 +15,7 @@ class TradesController < ApplicationController
         flash[:notice] = "You've just initiated a new trade! Please wait for a response soon."
       redirect_to action: 'index'
     else
-      flash[:notice] = 'There was a problem creating a trade (make sure your shipping info is complete)!'
+      flash[:notice] = 'There was a problem creating a trade (make sure your shipping info is complete and you have a book to trade)!'
       render 'home/index'
     end
   end
@@ -30,7 +30,7 @@ class TradesController < ApplicationController
       @trade.save
       redirect_to action: 'index'
     else
-      flash[:notice] = 'Trade not updated!'
+      flash[:notice] = 'Sorry, trade not updated!'
       render 'home/index'
     end
   end

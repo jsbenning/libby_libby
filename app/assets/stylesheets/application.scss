@@ -30,6 +30,16 @@ input[type='checkbox'] {
    margin-left: 20px;
 }
 
+.field, .text_area, .radio_field, .checkboxes {
+  padding-bottom: 20px;
+}
+
+.centerbox {
+  background-color: #74cef1;
+  padding: 20px;
+
+}
+
 hr {
     display: block;
     height: 1px;
@@ -99,8 +109,6 @@ img[src=""] {
     font-weight: normal;
     margin-left: 20px; 
 }
-
-
 
 
 

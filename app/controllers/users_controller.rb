@@ -40,6 +40,7 @@ class UsersController < ApplicationController
     if current_user.admin?
       @user = User.find(params[:id])
       @user.destroy
+      flash[:notice] = "User Deleted!"
       redirect_to 'home/index'
     else
       flash[:notice] = "User Not Deleted!"
