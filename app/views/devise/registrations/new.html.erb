@@ -46,7 +46,12 @@
   <div class="field">
     <%= f.label :zipcode %><br />
     <%= f.text_field :zipcode, autofocus: true %>
-  </div><br>
+  </div>
+
+  <div class="dropdown" >
+    <%= f.label :role %><br />
+    <%= f.select(:role, User.roles.keys.map { |role| [role.titleize, role] }) %>
+    </div><br>
 
   <div class="actions" class: 'btn btn-primary'>
     <%= f.submit "Sign up" %>

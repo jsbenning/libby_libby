@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  validates :real_name, :street, :city, :state, :zipcode, presence: true
+  #validates :real_name, :street, :city, :state, :zipcode, presence: true
   enum role: [ :reader, :mod, :admin ]# admins can delete all users, mods can view all users
   has_many :books, :dependent => :destroy
   accepts_nested_attributes_for :books
