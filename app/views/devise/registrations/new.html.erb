@@ -23,38 +23,6 @@
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
 
-  <hr>
-
-  <div class="field">
-    <%= f.label :real_name %><br />
-    <%= f.text_field :real_name, autofocus: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :street %><br />
-    <%= f.text_field :street, autofocus: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :city %><br />
-    <%= f.text_field :city, autofocus: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :state %><br />
-    <%= f.text_field :state, autofocus: true %>
-  </div>    
-
-  <div class="field">
-    <%= f.label :zipcode %><br />
-    <%= f.text_field :zipcode, autofocus: true %>
-  </div>
-
-  <div class="dropdown" >
-    <%= f.label :role %><br />
-    <%= f.select(:role, User.roles.keys.map { |role| [role.titleize, role] }) %>
-    </div><br>
-
   <div class="actions" class: 'btn btn-primary'>
     <%= f.submit "Sign up" %>
   </div>

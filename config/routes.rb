@@ -4,15 +4,11 @@ Rails.application.routes.draw do
 
   resources :trades
 
-  devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations', :omniauth_callbacks => 'users/omniauth_callbacks' }
+  devise_for :users, :path => 'accounts', controllers: {
+    :omniauth_callbacks => 'users/omniauth_callbacks'
+  }
 
-
-
-  # devise_for :users, :path => 'accounts', controllers: {
-  #   :omniauth_callbacks => 'users/omniauth_callbacks'
-  # }
-
-  resources :users, only: [:show, :index, :edit, :update, :destroy] do  
+  resources :users, only: [:show, :index, :edit, :update, :destroy] do
     resources :books, :except => [:index] do
       get :index, :on => :collection, :action => 'index_users'
     end
