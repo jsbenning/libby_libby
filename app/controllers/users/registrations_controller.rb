@@ -8,9 +8,17 @@ before_action :configure_account_update_params, only: [:update]
     super
   end
 
-  #POST /resource
+  #POST /resource, redirects to root (home/index)
   def create
-    super
+    super do 
+      resource.real_name = params[:real_name]
+      resource.street = params[:street]
+      resource.city = params[:city]
+      resource.state = params[:state]
+      resource.zipcode = params[:zipcode]
+      resource.role = params[:role]
+      resource.save
+    end
   end
 
   #GET /resource/edit

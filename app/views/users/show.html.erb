@@ -3,6 +3,7 @@
     <%= error_message if @user.errors.full_messages.first == error_message %> <br />
   <% end %>
 <% end %>
+<h1><%= current_user %></h1> <!-- tester -->
 
 <% if current_user.mid_clearance? && current_user != @user %>
 
