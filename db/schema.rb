@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161214200641) do
+ActiveRecord::Schema.define(version: 20170724133417) do
 
   create_table "books", force: :cascade do |t|
     t.integer  "user_id"
@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 20161214200641) do
   create_table "trades", force: :cascade do |t|
     t.integer  "requester_id"
     t.integer  "initial_book_id"
-    t.integer  "owner_id"
     t.integer  "matched_book_id"
     t.string   "status",                    default: "pending"
     t.integer  "initial_book_owner_rating"
