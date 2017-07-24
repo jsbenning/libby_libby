@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  validates :real_name, :street, :city, :state, :zipcode, presence: true, on: :update
+  validates :real_name, :street, :city, :state, :zipcode, presence: true, on: :update # can create but not update incomplete user model
   
   enum role: [ :reader, :mod, :admin ]# admins can delete all users, mods can view all users
   has_many :books, :dependent => :destroy
@@ -37,8 +37,14 @@ class User < ApplicationRecord
     end
   end
 
-  def shipworthy? # Has the user entered all shipping info? 
-    !(self.shipping_nil_check.nil?)
+  def shipworthy? # Has the user entered all shipping info?
+    x = true
+    self.attributes.first(6).each do |attr|
+      if attr[1].nil? || attr[1] == ""
+        x = false
+      end
+    end
+    x
   end
 
   def mod_or_admin?
