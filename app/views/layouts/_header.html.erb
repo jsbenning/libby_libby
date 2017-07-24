@@ -15,11 +15,17 @@
 
 <% if current_user %>
   <nav class="logged_in_nav">
-        <ul>
-          <li> <%= link_to "See My Profile", user_path(current_user) %> </li>
-          <li> <%= link_to "Browse All Books", books_path %> </li>
-          <li> <%= link_to "See My Books", user_books_path(current_user.id) %> </li>
-          <li> <%= link_to "See My Trades", trades_path %> </li>
-      </ul>
-  </nav>
+      <ul>
+        <li> <%= link_to "See My Profile", user_path(current_user) %> </li>
+        <li> <%= link_to "Browse All Books", books_path %> </li>
+        <li> <%= link_to "See My Books", user_books_path(current_user.id) %> </li>
+        <li> <%= link_to "See My Trades", trades_path %> </li>
+    </ul>
+  </nav> 
 <% end %>
+<hr>
+
+
+<!--   <%= link_to user_path(current_user) do %>
+<%= image_tag 'no-image-l.png', alt: 'test' %>
+<% end %> -->

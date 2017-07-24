@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   resources :trades
 
-  devise_for :users, :path => 'accounts', controllers: {
+  devise_for :users, controllers: {
     :omniauth_callbacks => 'users/omniauth_callbacks'
   }
 
