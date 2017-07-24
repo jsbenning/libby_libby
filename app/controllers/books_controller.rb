@@ -1,9 +1,11 @@
 class BooksController < ApplicationController
-  before_action :authenticate_user!#, :except => [:index_all, :index_users, :show]
+  #before_action :authenticate_user!#, :except => [:index_all, :index_users, :show]
+  before_action :validate_user_shipworthiness
 
-# YIKES!  Needs work, love --- the guy who wrote it
 
-  def index_all # localhost:3000/books
+# YIKES!  Needs work, Love --- the guy who wrote it
+
+  def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
     search = params[:search]
     @books = Book.search(search, current_user)
     render :index
@@ -11,24 +13,20 @@ class BooksController < ApplicationController
 
   def index_users # localhost:3000/users/5/books
     @user = User.find(params[:user_id])
-    if @user == current_user
-      @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
-    else
-      @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
-    end
+    @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
     render :index
   end
 
   def new
     @user = User.find(params[:user_id])
-    @book = Book.new
+    @book = Book.new #hmmm?
   end
 
    def create
     @book = Book.new(book_params)
     @user = User.find(params[:user_id])
     @book.user = @user
-    if @user.shipworthy? && @book.save
+    if @book.save
       flash[:notice] = "You successfully added a book!"
       redirect_to user_books_url
     else
@@ -40,9 +38,8 @@ class BooksController < ApplicationController
   def show
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    @current_user = current_user
-    if @user != current_user && Trade.shared_trade(@current_user, @user)
-      @shared_trade = Trade.shared_trade(@current_user, @user)
+    if @user != current_user && Trade.shared_trade(current_user, @user) #what was I doing here?
+      @shared_trade = Trade.shared_trade(current_user, @user)
     else
       @new_trade = Trade.new
     end
@@ -79,9 +76,12 @@ class BooksController < ApplicationController
 
   private
 
-  def user_info_complete?
-    @user = User.find
-
+  def validate_user_shipworthiness
+    @user = User.find(params[:id])
+    unless @user.shipworthy?
+      flash[:notice] = "Make sure your profile is complete before adding books or searching titles!"
+      render "users/#{current_user.id}/edit"
+    end
   end
 
   def book_params
