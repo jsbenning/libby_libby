@@ -11,7 +11,7 @@ class Book < ApplicationRecord
   
 
   def self.latest_titles
-    self.by_date.visible.first(5)
+    self.by_date.visible.first(10)
   end
 
   def genres_attributes=(genre_attributes)

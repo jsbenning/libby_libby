@@ -1,6 +1,14 @@
 
 <% if current_user %>
   <h2><%= current_user.first_name %>'s Homepage!</h2>
+  <script type="text/javascript" charset="utf-8">
+  $(function() {
+    $("#profile").on('click', function() {
+      var personId = this.getAttribute('data-id');
+      alert(personId);
+    })
+  })
+  </script>
 <% else %>
   <div class="page-header">
 

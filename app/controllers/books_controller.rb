@@ -1,14 +1,15 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!#, :except => [:index_all, :index_users, :show]
 
+# YIKES!  Needs work, love --- the guy who wrote it
 
-  def index_all
+  def index_all # localhost:3000/books
     search = params[:search]
     @books = Book.search(search, current_user)
     render :index
   end
 
-  def index_users
+  def index_users # localhost:3000/users/5/books
     @user = User.find(params[:user_id])
     if @user == current_user
       @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
@@ -77,6 +78,11 @@ class BooksController < ApplicationController
   end
 
   private
+
+  def user_info_complete?
+    @user = User.find
+
+  end
 
   def book_params
     params.require(:book).permit(:user_id, :title, :author_last_name, :author_first_name, :isbn, :condition, :description, :status, genre_ids:[], genres_attributes: [:name])

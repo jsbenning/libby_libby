@@ -12,9 +12,11 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    unless current_user.mod_or_admin? || current_user == @user
-      flash[:notice] = "You don't have permission to access that page!"
-      render '/home/index'
+    if current_user.mod_or_admin? || current_user == @user
+      respond_to do |f|
+        f.html { render :show}
+        f.json { render json: @user}
+      end
     end
   end
 

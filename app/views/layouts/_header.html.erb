@@ -1,28 +1,35 @@
-<% if current_user && current_user.admin? %>
-<nav class="admin_nav">
-  <h2>***ADMIN***</h2>
-  <ul>
-    <li><%= link_to "View/Delete Users", users_path %> </li>
-  </ul>
-
-<% elsif current_user && current_user.mod? %>
-<nav class="mod_nav">
-  <h2>***MOD***</h2>
-  <ul>
-    <li><%= link_to "View Users", users_path %> </li>
-  </ul>
-<% end %>
-
-<% if current_user %>
-  <nav class="logged_in_nav">
-      <ul>
-        <li> <%= link_to "See My Profile", user_path(current_user) %> </li>
-        <li> <%= link_to "Browse All Books", books_path %> </li>
-        <li> <%= link_to "See My Books", user_books_path(current_user.id) %> </li>
-        <li> <%= link_to "See My Trades", trades_path %> </li>
+<header>
+  <% if current_user && current_user.admin? %>
+  <nav class="admin_nav">
+    <h2>***ADMIN***</h2>
+    <ul>
+      <li><%= link_to "View/Delete Users", users_path %> </li>
     </ul>
-  </nav> 
-<% end %>
+
+  <% elsif current_user && current_user.mod? %>
+  <nav class="mod_nav">
+    <h2>***MOD***</h2>
+    <ul>
+      <li><%= link_to "View Users", users_path %> </li>
+    </ul>
+  <% end %>
+
+  <% if current_user %>
+  <hr>
+  <input type="image" class="col-xs-12 col-md-3" id="profile" data-id="<%= current_user.id %>" <%= image_tag "profile_btn.png" %>
+  <input type="image" class="col-xs-12 col-md-3"id="mybooks" data-id="<%= current_user.id %>" <%= image_tag "books_btn.png" %>
+  <input type="image" class="col-xs-12 col-md-3"id="mytrades" data-id="<%= current_user.id %>" <%= image_tag "trades_btn.png" %>
+  <input type="image" class="col-xs-12 col-md-3"id="allbooks" <%= image_tag "allbooks_btn.png" %>
+    <nav class="logged_in_nav">
+        <ul>
+          <li> <%= link_to "See My Profile", user_path(current_user) %> </li>
+          <li> <%= link_to "Browse All Books", books_path %> </li>
+          <li> <%= link_to "See My Books", user_books_path(current_user.id) %> </li>
+          <li> <%= link_to "See My Trades", trades_path %> </li>
+      </ul>
+    </nav> 
+  <% end %>
+</header>
 <hr>
 
 
