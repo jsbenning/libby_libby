@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
+  
+  before_action :check_credentials, except: [:destroy, :index] #current_users cannot see all users OR destroy users, even themselves(?)
 
   def index
     if current_user.mod_or_admin?
@@ -11,21 +12,13 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
-    if current_user.mod_or_admin? || current_user == @user
-      respond_to do |f|
-        f.html { render :show}
-        f.json { render json: @user}
-      end
+    respond_to do |f|
+      f.html { render :show}
+      f.json { render json: @user}
     end
   end
 
   def edit
-    @user = User.find(params[:id])
-    unless current_user.admin? || current_user == @user
-      flash[:notice] = "You don't have permission to access that page!"
-      render '/home/index'
-    end
   end
 
   def update
@@ -51,6 +44,15 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def check_credentials
+    @user = User.find(params[:id])
+    unless (current_user.mod_or_admin? || current_user == @user)
+      flash[:notice] = "You don't have permission to access that page!"
+      render '/home/index'
+    end
+  end
+    
 
   def user_params
     params.require(:user).permit(:real_name, :street, :city, :state, :zipcode, :role)

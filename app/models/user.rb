@@ -28,15 +28,6 @@ class User < ApplicationRecord
     first_name 
   end
 
-  def shipping_nil_check
-    self.attributes.first(5).each do |attr|
-      if attr[1].nil? || attr[1] == ""
-        break
-      else
-      end
-    end
-  end
-
   def shipworthy? # Has the user entered all shipping info?
     x = true
     self.attributes.first(6).each do |attr|
