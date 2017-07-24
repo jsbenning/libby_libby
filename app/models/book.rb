@@ -1,5 +1,5 @@
 class Book < ApplicationRecord
-  validates :title, presence: true
+  validates :title, :condition, presence: true
 
   scope :visible, -> { where(status: 'at_home')}
   scope :by_date, -> { order('created_at DESC, id DESC') }

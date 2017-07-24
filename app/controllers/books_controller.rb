@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   #before_action :authenticate_user!#, :except => [:index_all, :index_users, :show]
-  before_action :validate_user_shipworthiness
+  before_action :validate_user_shipworthiness, except: [:index_all, :index_users]
 
 
 # YIKES!  Needs work, Love --- the guy who wrote it
@@ -19,7 +19,7 @@ class BooksController < ApplicationController
 
   def new
     @user = User.find(params[:user_id])
-    @book = Book.new #hmmm?
+    @book = Book.new 
   end
 
    def create
@@ -30,9 +30,9 @@ class BooksController < ApplicationController
       flash[:notice] = "You successfully added a book!"
       redirect_to user_books_url
     else
-      flash.now[:notice] = "The book wasn't added --- Make sure your shipping info is completed!"
-      render 'users/edit'
-    end     
+      flash[:notice] = "Some necessary field is missing!" 
+      render 'edit' 
+    end
   end
 
   def show
@@ -77,9 +77,9 @@ class BooksController < ApplicationController
   private
 
   def validate_user_shipworthiness
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id])
     unless @user.shipworthy?
-      flash[:notice] = "Make sure your profile is complete before adding books or searching titles!"
+      flash[:notice] = "Make sure your profile is complete before adding books!"
       render "users/#{current_user.id}/edit"
     end
   end
