@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       @users = User.all
     else
       flash[:notice] = "You don't have permission to access that page!"
-      render '/home/index'
+      render '/home/logged_out'
     end
   end
 
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
       redirect_to :root, notice: 'User Info Updated!'
     else
       flash[:notice] = "User Info Not Updated!"
-      render '/home/index'
+      render :root
     end
   end
 
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
       redirect_to 'home/index'
     else
       flash[:notice] = "User Not Deleted!"
-      render '/home/index'
+      render :root
     end
   end
 

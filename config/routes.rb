@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-  root "home#index"
+  root "home#logged_out"
+  
+  get 'logged_in' => 'home#logged_in'  
 
   resources :trades
 

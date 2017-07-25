@@ -1,8 +1,15 @@
 class HomeController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index]
+  skip_before_action :authenticate_user!, only: [:logged_out]
 
-  def index
-    @books = Book.latest_titles
+  def logged_out
+    if current_user
+      redirect_to '/logged_in'
+    else
+      @books = Book.latest_titles
+    end
+  end
+
+  def logged_in
   end
   
 end
