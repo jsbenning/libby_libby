@@ -20,35 +20,23 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <p class="notice"><%= notice %></p>
        <p class="alert"><%= alert %></p>
-         <script type="text/javascript" charset="utf-8">
-  $(function() {
-    $("#profile").on('click', function() {
-      var personId = this.getAttribute('data-id');
-      var url = "http://localhost:3000/users/" + personId + ".json";
-      var html = '<div class="profile"><div class="profile_heading">Profile</div>'
-      $.ajax({
-        dataType: "json",
-        url: url,
-        success: function(data) {
-          for (var key in data) {
-            var value = data[key];
-            html += '<div>' + key + ': ' + value + '</div>'
-          }
-          html += '</div>'
-          $("#myProfile").append(html);
-        }
-      });
-    });
-  });
-  </script>
+
   </head>
 
   <%= render 'layouts/header' %>
+
 
   <body>
     <%= yield %>
   </body>
   <footer>
+    <% if !(current_user.uid) %>
+<p><%= button_to "Change My Password", edit_user_registration_path(current_user), :method => 'get', :class => 'btn btn-primary' %></p>
+<% end %>
+
+<p><%= button_to "Edit My Profile", edit_user_path(current_user), :method => 'get', :class => 'btn btn-primary' %></p>
+
+<p><%= button_to "Delete My Account", registration_path(:user, as: :accounts), :class => 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :delete %></p>
     <div class='little-text'>
     </br >
     <hr>

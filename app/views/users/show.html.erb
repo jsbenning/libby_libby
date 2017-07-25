@@ -39,18 +39,11 @@
   <p><strong>Your email: </strong><%= @user.email %></p>
   <p><strong>Your Current Rating: <strong><%= @rating %></strong></p>
 </div>
+<% end %>
 
 <hr>
 
-<% if !(@user.uid) %>
-<p><%= button_to "Change My Password", edit_user_registration_path(@user), :method => 'get', :class => 'btn btn-primary' %></p>
-<% end %>
 
-<p><%= button_to "Edit My Profile", edit_user_path(@user), :method => 'get', :class => 'btn btn-primary' %></p>
-
-<p><%= button_to "Delete My Account", registration_path(:user, as: :accounts), :class => 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<% end %>
 
 
 
