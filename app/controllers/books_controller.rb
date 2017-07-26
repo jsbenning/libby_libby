@@ -43,11 +43,16 @@ class BooksController < ApplicationController
   def show #/users/1/books/5
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    if @user != current_user && Trade.shared_trade(current_user, @user) #what was I doing here?
-      @shared_trade = Trade.shared_trade(current_user, @user)
-    else
-      @new_trade = Trade.new
+    respond_to do |f|
+      f.html { render :show }
+      f.json { render json: @book}
     end
+
+    # if @user != current_user && Trade.shared_trade(current_user, @user) #what was I doing here?
+    #   @shared_trade = Trade.shared_trade(current_user, @user)
+    # else
+    #   @new_trade = Trade.new
+    # end
   end
 
   def edit
