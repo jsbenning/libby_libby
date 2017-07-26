@@ -14,11 +14,15 @@ $(document).ready(function(){
 
   $("#my-profile-btn").on('click', function(e) { 
     $("#my-profile-btn").attr('disabled', 'disabled');
-    document.getElementById("my-profile").innerHTML = "";
-    $('#my-profile').show();
-    $('#my-books').hide();
-    $('#my-trades').hide();
-    $('#all-books').hide();
+    // if ($("#display-area")) {
+    //   $("#display-area").innerHTML = "";
+    // }
+    $("#display-area").html('');
+   
+    // $('#my-profile').show();
+    // $('#my-books').hide();
+    // $('#my-trades').hide();
+    // $('#all-books').hide();
     var personId = this.getAttribute('data-id');
     var url = "http://localhost:3000/users/" + personId + ".json";
     var html = "<div class='boxframe'><h2>Your Profile: </h2>"
@@ -34,7 +38,7 @@ $(document).ready(function(){
         html += '<p><strong>Your Zipcode: ' + data['zipcode'] + '</strong></p>'
         html += '<p><strong>Your Role: ' + data['role'] + '</strong></p>'
         html += '</div>';
-        $("#my-profile").append(html);
+        $("#display-area").append(html);
       },
       error: function() {
         console.log("sumpin broke");
@@ -51,11 +55,11 @@ $(document).ready(function(){
 
   $("#all-books-btn").on('click', function(e) { 
     $("#all-books-btn").attr('disabled', 'disabled');
-    document.getElementById("all-books").innerHTML = "";
-    $('#all-books').show(); 
-    $('#my-books').hide();
-    $('#my-trades').hide();
-    $('#my-profile').hide();
+    $("#display-area").html('');
+    // $('#all-books').show(); 
+    // $('#my-books').hide();
+    // $('#my-trades').hide();
+    // $('#my-profile').hide();
 
     var searchButton = "<form accept-charset='UTF-8' action='/books' method='get'><input name='search' type='text' id='search' size='50' placeholder='Enter keyword(title, author, ISBN) here to search'/><br><br><input type='submit' class='btn btn-primary' value='Search' /></form>"
 
@@ -74,7 +78,7 @@ $(document).ready(function(){
           html += "<button type='button' class='btn btn-primary btn-xs show-book-btn' data-value1='" + data[i]["user"]["id"] + "' data-value-2='" + data[i].id +"'>Click for More</button>"
           html += "</div>"
         };
-      $("#all-books").append(html);  
+      $("#display-area").append(html);  
       },
       error: function() {
         console.log("sumpin broke");
@@ -85,20 +89,24 @@ $(document).ready(function(){
   });
 
   $('#all-books').unbind('click').on('click', 'button', function() {
-
+    $("#display-area").html('');
     var userId = $(this).attr('data-value1');
     var bookId = $(this).attr('data-value2');
-    var url = "http://localhost:3000/books.json"
-    $('#all-books').hide();
+    // var url = "http://localhost:3000/books.json"
+
    
   })
 
-
 });
 
- // <div id="my-profile"></div>
+
+
+ 
+
+ // <div id="display-area"></div>
  //  <div id="all-books"></div>
  //  <div id="my-trades"></div>
  //  <div id="my-books"></div>
+
 
 
