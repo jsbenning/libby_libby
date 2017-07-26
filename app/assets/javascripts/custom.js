@@ -12,8 +12,13 @@ $(document).ready(function(){
 
 // #Profile Functions
 
-  $("#profile").on('click', function(e) { 
-    $("#profile").attr('disabled', 'disabled'); 
+  $("#my-profile-btn").on('click', function(e) { 
+    $("#my-profile-btn").attr('disabled', 'disabled');
+    document.getElementById("my-profile").innerHTML = "";
+    $('#my-profile').show();
+    $('#my-books').hide();
+    $('#my-trades').hide();
+    $('#all-books').hide();
     var personId = this.getAttribute('data-id');
     var url = "http://localhost:3000/users/" + personId + ".json";
     var html = "<div class='boxframe'><h2>Your Profile: </h2>"
@@ -21,7 +26,7 @@ $(document).ready(function(){
       dataType: "json",
       url: url,
       success: function(data) {
-        $("#profile").removeAttr('disabled');
+        $("#my-profile-btn").removeAttr('disabled');
         html += '<p><strong>Your Real Name: ' + data['real_name'] + '</strong></p>'
         html += '<p><strong>Your Street Address: ' + data['street'] + '</strong></p>'
         html += '<p><strong>Your City: ' + data['city'] + '</strong></p>'
@@ -29,7 +34,7 @@ $(document).ready(function(){
         html += '<p><strong>Your Zipcode: ' + data['zipcode'] + '</strong></p>'
         html += '<p><strong>Your Role: ' + data['role'] + '</strong></p>'
         html += '</div>';
-        $("#myProfile").append(html);
+        $("#my-profile").append(html);
       },
       error: function() {
         console.log("sumpin broke");
@@ -44,8 +49,13 @@ $(document).ready(function(){
 
 
 
-  $("#allbooks").on('click', function(e) { 
-    $("#allbooks").attr('disabled', 'disabled'); 
+  $("#all-books-btn").on('click', function(e) { 
+    $("#all-books-btn").attr('disabled', 'disabled');
+    document.getElementById("all-books").innerHTML = "";
+    $('#all-books').show(); 
+    $('#my-books').hide();
+    $('#my-trades').hide();
+    $('#my-profile').hide();
 
     var searchButton = "<form accept-charset='UTF-8' action='/books' method='get'><input name='search' type='text' id='search' size='50' placeholder='Enter keyword(title, author, ISBN) here to search'/><br><br><input type='submit' class='btn btn-primary' value='Search' /></form>"
 
@@ -55,16 +65,16 @@ $(document).ready(function(){
       dataType: "json",
       url: url,
       success: function(data) {
-        $("#allbooks").removeAttr('disabled');
+        $("#all-books-btn").removeAttr('disabled');
         for (var i=1; i < data.length; i++) {
           html += "<div class='boxframe'>";
           html += "<img src='http://covers.openlibrary.org/b/isbn/" + data[i].isbn + "M.jpg?default=false' alt='bookcover' onerror=\"this.src='/assets/no-image-s.png'\" style='width:43px;height:60px;'>"
           html += "<h3>" + data[i].title + "</h3>";
           html += "<p>Author: " + data[i].author_first_name + " " + data[i].author_last_name + "</p><br>";
-          html += "<button type='button' class='btn btn-primary btn-xs bookButton' data-value1='" + data[i]["user"]["id"] + "' data-value-2='" + data[i].id +"'>Click for More</button>"
+          html += "<button type='button' class='btn btn-primary btn-xs show-book-btn' data-value1='" + data[i]["user"]["id"] + "' data-value-2='" + data[i].id +"'>Click for More</button>"
           html += "</div>"
         };
-      $("#allBooks").append(html);  
+      $("#all-books").append(html);  
       },
       error: function() {
         console.log("sumpin broke");
@@ -74,20 +84,21 @@ $(document).ready(function(){
     return false;
   });
 
-$('#allBooks').unbind('click').on('click', 'button', function() {
+  $('#all-books').unbind('click').on('click', 'button', function() {
 
-  //alert($(this).attr('data-value1'));
-  $('#allBooks').hide();
- 
-})
+    var userId = $(this).attr('data-value1');
+    var bookId = $(this).attr('data-value2');
+    var url = "http://localhost:3000/books.json"
+    $('#all-books').hide();
+   
+  })
 
-  // $(".bookButton").on('click', function() {
-  //   //var userId = $(this).attr('data-value1');
-  //   alert("Wow");
-  // })
 
 });
 
-
+ // <div id="my-profile"></div>
+ //  <div id="all-books"></div>
+ //  <div id="my-trades"></div>
+ //  <div id="my-books"></div>
 
 
