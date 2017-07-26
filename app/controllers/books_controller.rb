@@ -8,8 +8,13 @@ class BooksController < ApplicationController
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
     search = params[:search]
     @books = Book.search(search, current_user)
-    render :index
+    #render :index
+    respond_to do |f|
+      f.html { render :index }
+      f.json { render json: @books}
+    end
   end
+
 
   def index_users # localhost:3000/users/5/books
     @user = User.find(params[:user_id])
@@ -35,7 +40,7 @@ class BooksController < ApplicationController
     end
   end
 
-  def show
+  def show #/users/1/books/5
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
     if @user != current_user && Trade.shared_trade(current_user, @user) #what was I doing here?
