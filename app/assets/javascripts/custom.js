@@ -61,7 +61,7 @@ $(document).ready(function(){
           html += "<img src='http://covers.openlibrary.org/b/isbn/" + data[i].isbn + "M.jpg?default=false' alt='bookcover' onerror=\"this.src='/assets/no-image-s.png'\" style='width:43px;height:60px;'>"
           html += "<h3>" + data[i].title + "</h3>";
           html += "<p>Author: " + data[i].author_first_name + " " + data[i].author_last_name + "</p><br>";
-          html += "<button type='button' onclick='showABook();return false' class='btn btn-primary btn-xs bookButton' data-value1='" + data[i]["user"]["id"] + "' data-value-2='" + data[i].id +"'>Click for More</button>"
+          html += "<button type='button' class='btn btn-primary btn-xs bookButton' data-value1='" + data[i]["user"]["id"] + "' data-value-2='" + data[i].id +"'>Click for More</button>"
           html += "</div>"
         };
       $("#allBooks").append(html);  
@@ -74,16 +74,17 @@ $(document).ready(function(){
     return false;
   });
 
+$('#allBooks').unbind('click').on('click', 'button', function() {
 
+  //alert($(this).attr('data-value1'));
+  $('#allBooks').hide();
+ 
+})
 
   // $(".bookButton").on('click', function() {
   //   //var userId = $(this).attr('data-value1');
   //   alert("Wow");
   // })
-
-
-
-
 
 });
 
