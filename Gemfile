@@ -21,7 +21,6 @@ gem 'sass-rails', '>= 3.2'
 
 gem 'omniauth-facebook'
 
-gem 'will_paginate', '~> 3.0.5'
 gem 'record_tag_helper', '~> 1.0'
 
 # Use jquery as the JavaScript library

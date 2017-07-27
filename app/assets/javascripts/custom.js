@@ -14,9 +14,6 @@ $(document).ready(function(){
 
   $("#my-profile-btn").on('click', function(e) { 
     $("#my-profile-btn").attr('disabled', 'disabled');
-    // if ($("#display-area")) {
-    //   $("#display-area").innerHTML = "";
-    // }
     $("#display-area").html('');
   
     var personId = this.getAttribute('data-id');
@@ -47,27 +44,6 @@ $(document).ready(function(){
 
   //Book#index_all functions
 
-  //'Load More' button
-
-  //   $('#display-area').unbind('click').on('click', '', function(e) {
-  //     e.preventDefault();
-  //   var last_id = $('.boxframe').last().attr('data-value2');
-  //   alert(last_id);
-  // });
-
-  //   $.ajax({
-  //     type: 'GET',
-  //     url: "http://localhost:3000/books.json",
-  //     data: {
-  //       id: last_id
-  //     },
-  //     dataType: "script",
-  //     success: function () {
-  //       $('.button.load-more').show();
-  //     };    
-  //   });
-  // });
-
   // Generate all books (books#index_all)
 
   $("#all-books-btn").on('click', function(e) { 
@@ -92,7 +68,38 @@ $(document).ready(function(){
           html += "<button type='button' class='btn btn-primary btn-xs show-book-btn' data-value1='" + data[i]["user"]["id"] + "' data-value2='" + data[i].id +"'>Click for More</button>"
           html += "</div>"
         }
-        html += "<a href='a' class='load-more-link'>Load More</a>"
+        html += "<button type='button' class='btn btn-primary btn-xs load-more-books-btn'>Load More Books</button>"
+
+      $("#display-area").append(html);  
+      },
+      error: function() {
+        console.log("sumpin broke");
+      }
+    });
+    e.stopImmediatePropagation();
+    return false;
+  });
+
+    $('#display-area').unbind('click').on('click', '.load-more-books-btn', function(e) {
+
+    var lastBookId = $('.boxframe').last().attr('data-value2');
+    var url = "http://localhost:3000/books.json";
+    $.ajax({
+      dataType: "json",
+      data: { id: lastBookId };
+      url: url,
+      success: function(data) {
+         $("#all-books-btn").removeAttr('disabled');
+        for (var i=1; i < data.length; i++) {
+          html += "<div class='boxframe'>";
+          html += "<img src='http://covers.openlibrary.org/b/isbn/" + data[i].isbn + "M.jpg?default=false' alt='bookcover' onerror=\"this.src='/assets/no-image-s.png'\" style='width:43px;height:60px;'>"
+          html += "<h3>" + data[i].title + "</h3>";
+          html += "<p>Author: " + data[i].author_first_name + " " + data[i].author_last_name + "</p><br>";
+          html += "<button type='button' class='btn btn-primary btn-xs show-book-btn' data-value1='" + data[i]["user"]["id"] + "' data-value2='" + data[i].id +"'>Click for More</button>"
+          html += "</div>"
+        }
+        html += "<button type='button' class='btn btn-primary btn-xs load-more-books-btn'>Load More Books</button>"
+
       $("#display-area").append(html);  
       },
       error: function() {
@@ -105,7 +112,7 @@ $(document).ready(function(){
 
 
   // books#show
-  $('#display-area').unbind('click').on('click', 'button', function(e) {
+  $('#display-area').unbind('click').on('click', '.show-book-btn', function(e) {
     $("#display-area").html('');
     var userId = $(this).attr('data-value1');
     var bookId = $(this).attr('data-value2');
