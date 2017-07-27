@@ -1,0 +1,32 @@
+   <!DOCTYPE html>
+<html>
+  <head>
+    <title>LibbyLibby</title>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+  <%= analytics_init if Rails.env.production? %>
+  <div id="banner">
+    <div id="wrapper">
+        <div id="container">
+                <img class="banner-img-large" <%= image_tag "banner1.png" %> 
+        </div>
+    </div>
+  </div> 
+    <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
+    <%= link_to "Sign in", new_user_session_path, :class => 'navbar-link'  %> |
+    <%= link_to image_tag('fb-favicon.ico'), user_facebook_omniauth_authorize_path, :class => 'navbar-link' %>
+
+  <div class="page-header">
+
+    <h1>Welcome to libbylibby! <small> Libbylibby is a site for listing and trading books.  Simply add some books, complete your shipping info, and browse the site to find books you like.  If you like a book, suggest a trade; others can then trade for a book from your list or reject the trade.  If you both agree to trade, ship the selected title to the other person in a timely fashion via USPS media mail --- usually $3 to 5 --- and they'll do the same for you (unless they're bad neighbors!). And if things don't work out --- the book doesn't come, or it's in awful condition, for example --- you can rate the shipper!<br /><hr>Happy reading, happy trading!</small></h1>
+  </div> 
+  <div class="book-listing">
+  <% if (@books && !(@books.empty?)) %>  
+    <h3>Our Most Recent Titles:</h3>
+    <% @books.each do |book| %>
+     <img src="http://covers.openlibrary.org/b/isbn/<%= book.isbn %>-M.jpg?default=false"  alt="" onerror="this.src='/assets/no-image-s.png'" style="width:43px;height:60px;">
+     <%= book.title %>
+    <% end %>
+  <% end %>
+  </div> 
