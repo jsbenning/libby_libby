@@ -147,46 +147,11 @@ $(document).ready(function(){
     e.stopImmediatePropagation();
     return false;
   });
+
+
 })
 
-  $('#logo').on('click', function() {
-    alert("Wow!");
-  })
-     // <% data.genres.each do |genre| %>
-     //   <p class='boxframe-desc'><%= genre.name %></p>
-     // <% end %>
-    
 
-    // <h3 class="boxframe-title">Title: <%= data.title %></h3>
-    // <p class="boxframe-subj">Author: </p>
-    // <p class="boxframe-desc"><%= data.author_last_name %>, <%= data.author_first_name %></p>
-
-    // <p class="boxframe-subj">Genre(s):</p>
-    // <% data.genres.each do |genre| %>
-    //   <p class="boxframe-desc"><%= genre.name %></p>
-    // <% end %>
-
-    // <p class="boxframe-subj"> ISBN: </p>
-    // <p class="boxframe-desc"> <%= data.isbn %></p>
-    // <p class="boxframe-subj">Condition:</p>
-    // <p class="boxframe-desc"> <%= data.condition %></p>
-    // <p class="boxframe-subj">Description:</p>
-    // <p class="boxframe-desc"><%= data.description%></p>
-    // <hr>
-
-    // <% if data.user == current_user %>
-    
-    //   <%= link_to 'Edit Book', edit_user_book_path(@user, data), class: "btn btn-primary" %><br /><br />
-      
-    //   <%= button_to 'Delete Book', user_book_path(@user, data), :method => :delete, class: "btn btn-primary" %>
-
-    // <% else %>
-
-    //   <p>Book Owner Email: <%= data.user.email %></p>
-
-    //   <p>Owner's Current Rating: <%= data.user.rating %> </p>
-
-    // <% end %>  
 
 
 
