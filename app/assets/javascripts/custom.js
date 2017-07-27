@@ -18,11 +18,7 @@ $(document).ready(function(){
     //   $("#display-area").innerHTML = "";
     // }
     $("#display-area").html('');
-   
-    // $('#my-profile').show();
-    // $('#my-books').hide();
-    // $('#my-trades').hide();
-    // $('#all-books').hide();
+  
     var personId = this.getAttribute('data-id');
     var url = "http://localhost:3000/users/" + personId + ".json";
     var html = "<div class='boxframe'><h2>Your Profile: </h2>"
@@ -51,15 +47,33 @@ $(document).ready(function(){
 
   //Book#index_all functions
 
+  //'Load More' button
 
+  //   $('#display-area').unbind('click').on('click', '', function(e) {
+  //     e.preventDefault();
+  //   var last_id = $('.boxframe').last().attr('data-value2');
+  //   alert(last_id);
+  // });
+
+  //   $.ajax({
+  //     type: 'GET',
+  //     url: "http://localhost:3000/books.json",
+  //     data: {
+  //       id: last_id
+  //     },
+  //     dataType: "script",
+  //     success: function () {
+  //       $('.button.load-more').show();
+  //     };    
+  //   });
+  // });
+
+  // Generate all books (books#index_all)
 
   $("#all-books-btn").on('click', function(e) { 
     $("#all-books-btn").attr('disabled', 'disabled');
     $("#display-area").html('');
-    // $('#all-books').show(); 
-    // $('#my-books').hide();
-    // $('#my-trades').hide();
-    // $('#my-profile').hide();
+
 
     var searchButton = "<form accept-charset='UTF-8' action='/books' method='get'><input name='search' type='text' id='search' size='50' placeholder='Enter keyword(title, author, ISBN) here to search'/><br><br><input type='submit' class='btn btn-primary' value='Search' /></form>"
 
@@ -78,6 +92,7 @@ $(document).ready(function(){
           html += "<button type='button' class='btn btn-primary btn-xs show-book-btn' data-value1='" + data[i]["user"]["id"] + "' data-value2='" + data[i].id +"'>Click for More</button>"
           html += "</div>"
         }
+        html += "<a href='a' class='load-more-link'>Load More</a>"
       $("#display-area").append(html);  
       },
       error: function() {
@@ -88,7 +103,9 @@ $(document).ready(function(){
     return false;
   });
 
-  $('#display-area').unbind('click').on('click', 'button', function() {
+
+  // books#show
+  $('#display-area').unbind('click').on('click', 'button', function(e) {
     $("#display-area").html('');
     var userId = $(this).attr('data-value1');
     var bookId = $(this).attr('data-value2');

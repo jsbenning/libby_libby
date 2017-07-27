@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
   #before_action :authenticate_user!#, :except => [:index_all, :index_users, :show]
   before_action :validate_user_shipworthiness, except: [:index_all, :index_users]
+  
 
 
 # YIKES!  Needs work, Love --- the guy who wrote it
