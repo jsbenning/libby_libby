@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
   #before_action :authenticate_user!#, :except => [:index_all, :index_users, :show]
-  before_action :validate_user_shipworthiness, except: [:index_all, :index_users]
+  before_action :confirm_user_shipworthy, except: [:index_all, :index_users]
+  before_action :confirm_user_visible, except: [:index_all]
 
 
 
@@ -45,8 +46,7 @@ class BooksController < ApplicationController
   end
 
   def show #/users/1/books/5
-    @user = User.find(params[:user_id])
-    @book = Book.find(params[:id])
+    @book = Book.where(:user_id => (params[:user_id]), :id => (params[:id]), :status => 'at_home')
     respond_to do |f|
       f.html { render :show }
       f.json { render json: @book}
@@ -90,7 +90,16 @@ class BooksController < ApplicationController
 
   private
 
-  def validate_user_shipworthiness
+  def confirm_user_visible
+    @user = User.find(params[:user_id])
+    unless @user.visible
+      flash[:notice] = "Requested user is not currently active!"
+      render :root
+    end
+  end
+
+
+  def confirm_user_shipworthy
     @user = User.find(params[:user_id])
     unless @user.shipworthy?
       flash[:notice] = "Make sure your profile is complete before adding books!"
