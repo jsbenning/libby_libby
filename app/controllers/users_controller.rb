@@ -1,13 +1,12 @@
 class UsersController < ApplicationController
   
-  before_action :check_credentials, except: [:destroy, :index] #current_users cannot see all users OR destroy users, even themselves(?)
-
   def index
     if current_user.mod_or_admin?
       @users = User.all
-    else
-      flash[:notice] = "You don't have permission to access that page!"
-      render '/home/logged_out'
+      respond_to do |f|
+        f.html { render :index}
+        f.json { render json: @user}
+      end
     end
   end
 
@@ -33,8 +32,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    if current_user.admin?
-      @user = User.find(params[:id])
+    @user = User.find(params[:id])
+    if current_user.admin || current_user == @user?   
       @user.destroy
       flash[:notice] = "User Deleted!"
       redirect_to 'home/index'
@@ -46,13 +45,7 @@ class UsersController < ApplicationController
 
   private
 
-  def check_credentials
-    @user = User.find(params[:id])
-    unless (current_user.mod_or_admin? || current_user == @user)
-      flash[:notice] = "You don't have permission to access that page!"
-      render :root
-    end
-  end
+
     
 
   def user_params
