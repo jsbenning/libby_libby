@@ -43,7 +43,7 @@ class Trade < ApplicationRecord
         ratings << tr.book_trader_two_wants_owner_rating.to_f
       end 
     if ratings.empty?
-      rating = user.rating
+      rating = 4
     else
       rating = (ratings.inject(0.0){|sum, x| sum + x})/ratings.length.round
     end
