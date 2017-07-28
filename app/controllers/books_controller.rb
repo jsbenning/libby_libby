@@ -4,7 +4,6 @@ class BooksController < ApplicationController
   before_action :confirm_user_visible, except: [:index_all]
 
 
-
 # YIKES!  Needs work, Love --- the guy who wrote it
 
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
@@ -51,12 +50,6 @@ class BooksController < ApplicationController
       f.html { render :show }
       f.json { render json: @book}
     end
-
-    # if @user != current_user && Trade.shared_trade(current_user, @user) #what was I doing here?
-    #   @shared_trade = Trade.shared_trade(current_user, @user)
-    # else
-    #   @new_trade = Trade.new
-    # end
   end
 
   def edit

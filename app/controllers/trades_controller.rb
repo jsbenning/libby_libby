@@ -1,5 +1,4 @@
 class TradesController < ApplicationController
-  before_action :authenticate_user!
 
   def index
     @user = current_user
@@ -58,7 +57,7 @@ class TradesController < ApplicationController
   private
 
   def trade_params
-    params.require(:trade).permit(:owner_id, :requester_id, :initial_book_id, :matched_book_id, :status, :initial_book_owner_rating, :matched_book_owner_rating)
+    params.require(:trade).permit(:requested_book_id, :matched_book_id, :status, :initial_book_owner_rating, :matched_book_owner_rating)
   end
 
 end

@@ -50,7 +50,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     unless (current_user.mod_or_admin? || current_user == @user)
       flash[:notice] = "You don't have permission to access that page!"
-      render '/home/index'
+      render :root
     end
   end
     
