@@ -36,18 +36,6 @@ ActiveRecord::Schema.define(version: 20170724134311) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "trades", force: :cascade do |t|
-    t.integer  "requester_id"
-    t.integer  "initial_book_id"
-    t.integer  "matched_book_id"
-    t.string   "status",                    default: "pending"
-    t.integer  "initial_book_owner_rating"
-    t.integer  "matched_book_owner_rating"
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.integer  "owner_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string   "real_name"
     t.string   "street"

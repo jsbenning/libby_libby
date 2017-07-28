@@ -11,7 +11,7 @@ class BooksController < ApplicationController
     if params[:id]
       @books = Book.search(search, current_user).where('id < ?', params[:id]).limit(10)
     else
-      @books = Book.search(search, current_user).limit(5)
+      @books = Book.search(search, current_user).limit(10)
     end
     respond_to do |f|
       f.html { render :index }
