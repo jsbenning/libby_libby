@@ -2,6 +2,7 @@ class BooksController < ApplicationController
   #before_action :authenticate_user!#, :except => [:index_all, :index_users, :show]
   before_action :confirm_user_shipworthy, except: [:index_all, :index_users]
   before_action :confirm_user_visible, except: [:index_all]
+  respond_to :html, :json
 
 
 # YIKES!  Needs work, Love --- the guy who wrote it
@@ -13,10 +14,7 @@ class BooksController < ApplicationController
     else
       @books = Book.search(search, current_user).limit(10)
     end
-    respond_to do |f|
-      f.html { render :index }
-      f.json { render json: @books}
-    end
+    respond_with(@books) 
   end
 
 

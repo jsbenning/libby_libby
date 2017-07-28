@@ -11,6 +11,7 @@ class TradesController < ApplicationController
         book_trader_one_wants = Book.find(@trade.book_trader_one_wants_id)
         book_trader_one_wants.status = 'traded'
         book_trader_one_wants.save
+        @trade.status = "new"
         flash[:notice] = "You've just initiated a new trade! Please wait for a response soon."
       redirect_to action: 'index'
     else
@@ -57,7 +58,7 @@ class TradesController < ApplicationController
   private
 
   def trade_params
-    params.require(:trade).permit(:book_trader_one_wants_id, :book_trader_two_wants_id, :status, :book_trader_one_wants_book_trader_two_rating, :book_trader_two_wants_book_trader_two_rating)
+    params.require(:trade).permit(:book_trader_one_wants_id, :book_trader_two_wants_id, :status, :book_trader_one_rating, :book_trader_two_rating)
   end
 
 end
