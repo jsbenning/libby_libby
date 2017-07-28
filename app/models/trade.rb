@@ -1,33 +1,34 @@
 class Trade < ApplicationRecord
 
-  # belongs_to :requester, :class_name => 'User', :foreign_key => 'requester_id'
-  # belongs_to :responder, :class_name => 'User', :foreign_key => 'responder_id'
-  has_one :requested_book, :class_name => 'Book', :foreign_key => 'requested_book_id'
-  has_one :responded_book, :class_name => 'Book', :foreign_key => 'responded_book_id'
+
+  belongs_to :trader_one, :class_name => 'User', :foreign_key => 'trader_one_id'
+  belongs_to :trader_two, :class_name => 'User', :foreign_key => 'trader_two_id'
+  has_one :book_trader_one_wants, :class_name => 'Book', :foreign_key => 'book_trader_one_wants_id'
+  has_one :book_trader_two_wants, :class_name => 'Book', :foreign_key => 'book_trader_two_wants_id'
 
 
   # def self.user_trades(user) # a simplified method to call db only once
-  #   Trade.where("owner_id = ? OR requester_id = ?", user.id, user.id)
+  #   Trade.where("trader_two_id = ? OR trader_one_id = ?", user.id, user.id)
   # end
 
   # def self.shared_trade(user1, user2)
-  #   Trade.where(:owner_id => user1.id).where(:requester_id => user2.id, :status => "pending").first
+  #   Trade.where(:owner_id => user1.id).where(:trader_one_id => user2.id, :status => "pending").first
   # end
 
-  # def requested_book_owner
-  #   User.find(self.requested_book.user)
+  # def book_trader_one_wants_owner
+  #   User.find(self.book_trader_one_wants.user)
   # end
 
-  # def responded_book_owner
-  #   User.find(self.responded_book.user)
+  # def book_trader_two_wants_owner
+  #   User.find(self.book_trader_two_wants.user)
   # end
 
-  # def requested_book
-  #   Book.find(self.requested_book_id)
+  # def book_trader_one_wants
+  #   Book.find(self.book_trader_one_wants_id)
   # end
 
-  # def responded_book
-  #   Book.find(self.responded_book_id)
+  # def book_trader_two_wants
+  #   Book.find(self.book_trader_two_wants_id)
   # end
 
 
@@ -35,16 +36,16 @@ class Trade < ApplicationRecord
   def self.user_rating(user)
     ratings = Array.new
     trades = Trade.all.map do |tr|
-      if tr.requested_book.user == user && tr.requested_book_owner_rating)
-        ratings << tr.requested_book_owner_rating.to_f
+      if tr.book_trader_one_wants.user == user && tr.book_trader_one_wants_owner_rating)
+        ratings << tr.book_trader_one_wants_owner_rating.to_f
       elsif 
-        (tr.responded_book.user == user && tr.responded_book_owner_rating)
-        ratings << tr.responded_book_owner_rating.to_f
+        (tr.book_trader_two_wants.user == user && tr.book_trader_two_wants_owner_rating)
+        ratings << tr.book_trader_two_wants_owner_rating.to_f
       end 
     if ratings.empty?
       rating = user.rating
     else
-      rating = (ratings.inject(0.0){|sum, x| sum + x})/ratings.length).round
+      rating = (ratings.inject(0.0){|sum, x| sum + x})/ratings.length.round
     end
     rating
   end
