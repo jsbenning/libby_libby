@@ -1,5 +1,4 @@
 class BooksController < ApplicationController
-  #before_action :authenticate_user!#, :except => [:index_all, :index_users, :show]
   before_action :confirm_user_shipworthy, except: [:index_all, :index_users]
   before_action :confirm_user_visible, except: [:index_all]
   respond_to :html, :json

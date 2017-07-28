@@ -1,5 +1,5 @@
 class Genre < ApplicationRecord
-  before_save :confirm_base_genres
+  #before_save :confirm_base_genres
   has_and_belongs_to_many :books
 
 
@@ -15,13 +15,13 @@ class Genre < ApplicationRecord
   #   end
   # end
 
-  def self.create_base_genres
-    if Genre.all.empty?
-      BASE_GENRES.each do |genre|
-        Genre.create!(name: genre)
-      end
-    end
-  end
+  # def self.create_base_genres
+  #   if Genre.all.empty?
+  #     BASE_GENRES.each do |genre|
+  #       Genre.create!(name: genre)
+  #     end
+  #   end
+  # end
 
   def confirm_base_genres
     self.class.create_base_genres
