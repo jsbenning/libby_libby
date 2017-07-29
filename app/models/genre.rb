@@ -23,8 +23,8 @@ class Genre < ApplicationRecord
   #   end
   # end
 
-  def confirm_base_genres
-    self.class.create_base_genres
-  end
+  # def confirm_base_genres
+  #   self.class.create_base_genres
+  # end
 
 end
