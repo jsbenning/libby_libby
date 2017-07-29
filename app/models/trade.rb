@@ -7,41 +7,27 @@ class Trade < ApplicationRecord
   has_one :book_trader_two_wants, :class_name => 'Book', :foreign_key => 'book_trader_two_wants_id'
 
 
-  # def self.user_trades(user) # a simplified method to call db only once
-  #   Trade.where("trader_two_id = ? OR trader_one_id = ?", user.id, user.id)
-  # end
+  def self.user_trades(user) # a simplified method to call db only once
+    Trade.where("trader_two_id = ? OR trader_one_id = ?", user.id, user.id)
+  end
 
-  # def self.shared_trade(user1, user2)
-  #   Trade.where(:owner_id => user1.id).where(:trader_one_id => user2.id, :status => "pending").first
-  # end
+  def self.initialized_trade(user1, user2) #this only finds instatiated, incomplete trades
+    Trade.where(:trader_two_id => user1.id).where(:trader_one_id => user2.id, :status => "new").first
+  end
 
-  # def book_trader_one_wants_owner
-  #   User.find(self.book_trader_one_wants.user)
-  # end
 
-  # def book_trader_two_wants_owner
-  #   User.find(self.book_trader_two_wants.user)
-  # end
-
-  # def book_trader_one_wants
-  #   Book.find(self.book_trader_one_wants_id)
-  # end
-
-  # def book_trader_two_wants
-  #   Book.find(self.book_trader_two_wants_id)
-  # end
 
 
 
   def self.user_rating(user)
     ratings = Array.new
     trades = Trade.all.map do |tr|
-      if tr.book_trader_one_wants.user == user && tr.book_trader_one_wants_owner_rating)
+      if (tr.book_trader_one_wants.user == user && tr.trader_one_rating)
         ratings << tr.book_trader_one_wants_owner_rating.to_f
-      elsif 
-        (tr.book_trader_two_wants.user == user && tr.book_trader_two_wants_owner_rating)
+      elsif (tr.book_trader_two_wants.user == user && tr.trader_two_rating)
         ratings << tr.book_trader_two_wants_owner_rating.to_f
       end 
+    end
     if ratings.empty?
       rating = 4
     else
@@ -50,7 +36,7 @@ class Trade < ApplicationRecord
     rating
   end
 
-
+end
            
 
 

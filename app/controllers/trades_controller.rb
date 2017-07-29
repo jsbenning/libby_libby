@@ -5,7 +5,7 @@ class TradesController < ApplicationController
     @user_trades = Trade.user_trades(@user)
   end
   
-  def create
+  def create # Is created with trader_one and book_trader_one_wants attributes
     @trade = Trade.create(trade_params)
     if @trade.save && @trade.book_trader_one.shipworthy? && !(@trade.book_trader_one.books.empty?)
         book_trader_one_wants = Book.find(@trade.book_trader_one_wants_id)
@@ -58,7 +58,7 @@ class TradesController < ApplicationController
   private
 
   def trade_params
-    params.require(:trade).permit(:book_trader_one_wants_id, :book_trader_two_wants_id, :status, :book_trader_one_rating, :book_trader_two_rating)
+    params.require(:trade).permit(:book_trader_one_wants_id, :book_trader_two_wants_id, :status, :trader_one_rating, :trader_two_rating)
   end
 
 end

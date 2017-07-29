@@ -57,6 +57,8 @@ genres = Genre.create!([ {name: 'Literature'}, {name: 'History'}, {name: 'Religi
     
   end
 
+  20.times do |index|
+
     Book.create!(user_id: @user2.id, title: Faker::Book.title,
     author_last_name: Faker::Name.last_name,
     author_first_name: Faker::Name.first_name,
@@ -65,6 +67,8 @@ genres = Genre.create!([ {name: 'Literature'}, {name: 'History'}, {name: 'Religi
     description: Faker::Lorem.paragraph)
     
   end
+
+  20.times do |index|
 
     Book.create!(user_id: @user3.id, title: Faker::Book.title,
     author_last_name: Faker::Name.last_name,

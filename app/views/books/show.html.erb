@@ -38,7 +38,7 @@
 
     <% end %>  
 
-    <% if @new_trade && @book.user != current_user %>
+  ######  <% if @new_trade && @book.user != current_user %> ####This next!!!!!
 
       <%= form_for @new_trade do |f| %>
         <%= f.hidden_field :initial_book_id, value: @book.id %>

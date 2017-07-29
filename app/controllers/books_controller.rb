@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   before_action :confirm_user_shipworthy, except: [:index_all, :index_users]
   before_action :confirm_user_visible, except: [:index_all]
-  respond_to :html, :json
+  
 
 
 # YIKES!  Needs work, Love --- the guy who wrote it
@@ -9,11 +9,14 @@ class BooksController < ApplicationController
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
     search = params[:search]
     if params[:id]
-      @books = Book.search(search, current_user).where('id < ?', params[:id]).limit(10)
+      @books = Book.search(search, current_user).where('id < ?', params[:id])#.limit(10)
     else
-      @books = Book.search(search, current_user).limit(10)
+      @books = Book.search(search, current_user)#.limit(10)
     end
-    respond_with(@books) 
+    respond_to do |f|
+      f.html { render :index }
+      f.json { render json: @books}
+    end
   end
 
 
@@ -41,11 +44,20 @@ class BooksController < ApplicationController
     end
   end
 
+
+
   def show #/users/1/books/5
-    @book = Book.where(:user_id => (params[:user_id]), :id => (params[:id]), :status => 'at_home')
+    #### here something like if current_user != @user, @new_trade ...
+
+    @user = User.find(params[:user_id])
+    @book = Book.find(params[:id])
+    if @user != current_user && Trade.initialized_trade(@user, current_user)  #if current user is looking at a second user's books to complete a trade
+      @trade = { name: "new_trade"}
+    else
+      @trade = nil
     respond_to do |f|
       f.html { render :show }
-      f.json { render json: @book}
+      f.json { render json: { @book, @trade } }
     end
   end
 

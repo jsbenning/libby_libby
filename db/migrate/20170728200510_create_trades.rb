@@ -6,8 +6,10 @@ class CreateTrades < ActiveRecord::Migration[5.0]
       t.integer :book_trader_one_wants_id
       t.integer :book_trader_two_wants_id
       t.string :status, default: "new"
-      t.integer :book_trader_one_rating
-      t.integer :book_trader_two_rating
+      t.integer :trader_one_rating
+      t.integer :trader_two_rating
+
+      t.timestamps
     end
   end
 end

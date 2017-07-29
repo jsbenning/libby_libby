@@ -33,10 +33,10 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    if current_user.admin || current_user == @user?   
+    if (current_user.admin || current_user == @user)  
       @user.destroy
       flash[:notice] = "User Deleted!"
-      redirect_to 'home/index'
+      redirect_to :root
     else
       flash[:notice] = "User Not Deleted!"
       render :root
