@@ -26,12 +26,13 @@ class Trade < ApplicationRecord
       end 
     end
     if ratings.empty?
-      rating = 4
+      rating = 3
     else
       rating = (ratings.inject(0.0){|sum, x| sum + x})/ratings.length.round
     end
     rating
   end
+
 
 end
            

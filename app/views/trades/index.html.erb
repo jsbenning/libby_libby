@@ -3,10 +3,10 @@
 
 <div class="list-group">
   <h4 class="list-group-item-heading">Trades Awaiting Your Response:</h4>
-  <% @user_trades.each do |trade| %>
-    <% if trade.owner == @user && trade.status == "pending" %>
-      <p class="list-group-item-text"><a href="mailto:<%= trade.requester.email %>?subject=LibbyLibby Trade"><%= trade.requester.email %></a> requested <%= trade.initial_book.title %> from you on <%= trade.created_at.strftime("%b %d %Y") %>, and he/she is still waiting for your response/trade</p>
-      <p><%= link_to "See User's Books", user_books_path(trade.requester.id), class: "btn btn-primary" %></p>
+  <% @my_trades.each do |trade| %>
+    <% if trade.second_trader == @user && trade.status == "pending" %>
+      <p class="list-group-item-text"><a href="mailto:<%= trade.first_trader.email %>?subject=LibbyLibby Trade"><%= trade.first_trader.email %></a> requested <%= trade.initial_book.title %> from you on <%= trade.created_at.strftime("%b %d %Y") %>, and he/she is still waiting for your response/trade</p>
+      <p><%= link_to "See User's Books", user_books_path(trade.first_trader.id), class: "btn btn-primary" %></p>
       <p><%= button_to "Delete/Refuse Trade", trade_path(trade), data: {confirm: "Are you sure?" }, method: :delete, class: "btn btn-primary" %></p>
     <% end %>
   <% end %>
@@ -14,9 +14,9 @@
 
 <div class="list-group">
 <h4 class="list-group-item-heading">Trades You Requested Which Aren't Complete:</h4>
-<% @user_trades.each do |trade| %>
-  <% if trade.requester == @user && trade.status == "pending" %>
-      <p class="list-group-item-text">You requested <%= trade.initial_book.title %> from <a href="mailto:<%= trade.owner.email %>?subject=LibbyLibby Trade"><%= trade.owner.email %></a> on <%= trade.created_at.strftime("%b %d %Y") %> and you're still waiting for a response </p>
+<% @my_trades.each do |trade| %>
+  <% if trade.first_trader == @user && trade.status == "pending" %>
+      <p class="list-group-item-text">You requested <%= trade.initial_book.title %> from <a href="mailto:<%= trade.second_trader.email %>?subject=LibbyLibby Trade"><%= trade.second_trader.email %></a> on <%= trade.created_at.strftime("%b %d %Y") %> and you're still waiting for a response </p>
 
       <p><%= button_to "Delete/Cancel Trade", trade_path(trade), data: {confirm: "Are you sure?" }, method: :delete %></p>
    <% end %>
@@ -26,20 +26,20 @@
 <div class="list-group">
 <h4 class="list-group-item-heading">Completed Trades:</h4>
 
-<% @user_trades.each do |trade| %>
-  <% if trade.owner == @user && trade.status == "completed" %>
-    <p class="list-group-item-text"><%= trade.requester.email %> requested <strong><%= trade.initial_book.title %></strong> from you, and you traded <strong><%= trade.matched_book.title %></strong> for it on <%= trade.updated_at.strftime("%b %d %Y") %></p><br />
+<% @my_trades.each do |trade| %>
+  <% if trade.second_trader == @user && trade.status == "completed" %>
+    <p class="list-group-item-text"><%= trade.first_trader.email %> requested <strong><%= trade.initial_book.title %></strong> from you, and you traded <strong><%= trade.matched_book.title %></strong> for it on <%= trade.updated_at.strftime("%b %d %Y") %></p><br />
 
-      <% if trade.matched_book_owner_rating.nil? %>
+      <% if trade.matched_book_second_trader_rating.nil? %>
         <% @trade = trade %>
         <p class="list-group-item-text">When you (ideally) receive your book, feel free to rate the shipper:</p>
 
        <%= form_for trade, url: trade_path(trade) do |f| %>
 
           <b>Rating</b><br />
-          <%= f.radio_button :matched_book_owner_rating, '3' %> The book arrived in a reasonable amount of time and as described<br />
-          <%= f.radio_button :matched_book_owner_rating, '2' %> There were some problems which were eventually resolved<br />
-          <%= f.radio_button :matched_book_owner_rating, '1' %> The book never arrived/was in awful condition<br />
+          <%= f.radio_button :matched_book_second_trader_rating, '3' %> The book arrived in a reasonable amount of time and as described<br />
+          <%= f.radio_button :matched_book_second_trader_rating, '2' %> There were some problems which were eventually resolved<br />
+          <%= f.radio_button :matched_book_second_trader_rating, '1' %> The book never arrived/was in awful condition<br />
 
            <%= f.submit 'Rate this Reader' %><br />
 
@@ -58,20 +58,20 @@
   <% end %>
 <% end %>  
 
-<% @user_trades.each do |trade| %>
-  <% if trade.requester == @user && trade.status == "completed" %>
+<% @my_trades.each do |trade| %>
+  <% if trade.first_trader == @user && trade.status == "completed" %>
 
-    <p class="list-group-item-text">You requested <%= trade.initial_book.title %> from <% trade.owner %>, and he/she traded <%= trade.matched_book.title %> for it on <%= trade.updated_at.strftime("%b %d %Y") %></p>
-    <% if trade.initial_book_owner_rating.nil? %>
+    <p class="list-group-item-text">You requested <%= trade.initial_book.title %> from <% trade.second_trader %>, and he/she traded <%= trade.matched_book.title %> for it on <%= trade.updated_at.strftime("%b %d %Y") %></p>
+    <% if trade.initial_book_second_trader_rating.nil? %>
 
       <p class="list-group-item-text">When you (ideally) receive your book, feel free to rate the shipper:</p>
 
       <%= form_for trade do |f| %>
 
           <b>Rating</b><br />
-          <%= f.radio_button :initial_book_owner_rating, '3' %> The book arrived in a reasonable amount of time and as described<br />
-          <%= f.radio_button :initial_book_owner_rating, '2' %> There were some problems which were eventually resolved<br />
-          <%= f.radio_button :initial_book_owner_rating, '1' %> The book never arrived/was in awful condition<br />
+          <%= f.radio_button :initial_book_second_trader_rating, '3' %> The book arrived in a reasonable amount of time and as described<br />
+          <%= f.radio_button :initial_book_second_trader_rating, '2' %> There were some problems which were eventually resolved<br />
+          <%= f.radio_button :initial_book_second_trader_rating, '1' %> The book never arrived/was in awful condition<br />
 
           <%= f.submit 'Rate this Reader' %><br />
 
