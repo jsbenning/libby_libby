@@ -3,9 +3,6 @@ class BooksController < ApplicationController
   before_action :confirm_user_visible, except: [:index_all]
   
 
-
-# YIKES!  Needs work, Love --- the guy who wrote it
-
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
     search = params[:search]
     if params[:id]
@@ -53,9 +50,11 @@ class BooksController < ApplicationController
       @trade = { "name": "new_trade"}
     else
       @trade = nil
+    end
     respond_to do |f|
       f.html { render :show }
-      f.json { render json: { @book, @trade } }
+      #f.json { render :json => { :book => @book, :trade => @trade } }
+      f.json { render :json => { :book => @book, :trade => @trade } }#this is not right
     end
   end
 
@@ -103,7 +102,7 @@ class BooksController < ApplicationController
     @user = User.find(params[:user_id])
     unless @user.shipworthy?
       flash[:notice] = "Make sure your profile is complete before adding books!"
-      render "users/#{current_user.id}/edit"
+      render template: 'users/edit'
     end
   end
 
