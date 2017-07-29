@@ -19,6 +19,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = User.find(params[:id])
   end
 
   def update
@@ -27,7 +28,7 @@ class UsersController < ApplicationController
       redirect_to :root, notice: 'User Info Updated!'
     else
       flash[:notice] = "User Info Not Updated!"
-      render :root
+      render controller => :home, action => :logged_out
     end
   end
 

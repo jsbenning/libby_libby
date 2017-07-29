@@ -126,17 +126,18 @@ $(document).ready(function(){
       dataType: "json",
       url: url,
       success: function(data) {
-        html += "<img src='http://covers.openlibrary.org/b/isbn/" + data.isbn + "M.jpg?default=false' alt='bookcover' onerror=\"this.src='/assets/no-image-l.png'\" style='width:178px;height:255px;'>";
-        html += "<h3 class='boxframe-title'>Title: " +  data.title + "</h3>";  
+        var book = data.book;
+        html += "<img src='http://covers.openlibrary.org/b/isbn/" + book.isbn + "M.jpg?default=false' alt='bookcover' onerror=\"this.src='/assets/no-image-l.png'\" style='width:178px;height:255px;'>";
+        html += "<h3 class='boxframe-title'>Title: " +  book.title + "</h3>";  
         html += "<p class='boxframe-subj'>Author: </p>";
-        html += "<p class='boxframe-desc'>" +  data.author_last_name + ", " +  data.author_first_name + "</p>";
+        html += "<p class='boxframe-desc'>" +  book.author_first_name + " " +  book.author_last_name + "</p>";
         //html += "<p class='boxframe-subj'>Genre(s):</p>";
         html += "<p class='boxframe-subj'> ISBN: </p>";
-        html += "<p class='boxframe-desc'> " +  data.isbn + "</p>";
+        html += "<p class='boxframe-desc'> " +  book.isbn + "</p>";
         html += "<p class='boxframe-subj'>Condition:</p>";
-        html += "<p class='boxframe-desc'> " +  data.condition + "</p>";
+        html += "<p class='boxframe-desc'> " +  book.condition + "</p>";
         html += "<p class='boxframe-subj'>Description:</p>";
-        html += "<p class='boxframe-desc'>" +  data.description + "</p>";
+        html += "<p class='boxframe-desc'>" +  book.description + "</p>";
         html += "<hr>";
       $("#display-area").append(html);  
       },
