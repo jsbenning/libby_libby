@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170728203010) do
+ActiveRecord::Schema.define(version: 20170729014459) do
 
   create_table "books", force: :cascade do |t|
     t.integer  "user_id"
@@ -37,15 +37,15 @@ ActiveRecord::Schema.define(version: 20170728203010) do
   end
 
   create_table "trades", force: :cascade do |t|
-    t.integer  "trader_one_id"
-    t.integer  "trader_two_id"
-    t.integer  "book_trader_one_wants_id"
-    t.integer  "book_trader_two_wants_id"
-    t.string   "status",                   default: "new"
-    t.integer  "trader_one_rating"
-    t.integer  "trader_two_rating"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.integer  "first_trader_id"
+    t.integer  "second_trader_id"
+    t.integer  "book_first_trader_wants_id"
+    t.integer  "book_second_trader_wants_id"
+    t.string   "status",                      default: "new"
+    t.integer  "first_trader_rating"
+    t.integer  "second_trader_rating"
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
   end
 
   create_table "users", force: :cascade do |t|
