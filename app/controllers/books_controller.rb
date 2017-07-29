@@ -47,12 +47,10 @@ class BooksController < ApplicationController
 
 
   def show #/users/1/books/5
-    #### here something like if current_user != @user, @new_trade ...
-
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
     if @user != current_user && Trade.initialized_trade(@user, current_user)  #if current user is looking at a second user's books to complete a trade
-      @trade = { name: "new_trade"}
+      @trade = { "name": "new_trade"}
     else
       @trade = nil
     respond_to do |f|

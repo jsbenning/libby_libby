@@ -2,15 +2,15 @@ class TradesController < ApplicationController
 
   def index
     @user = current_user
-    @user_trades = Trade.user_trades(@user)
+    @my_trades = Trade.my_trades(@user)
   end
   
-  def create # Is created with trader_one and book_trader_one_wants attributes
+  def create # Is created with first_trader and book_first_trader_wants_id attributes
     @trade = Trade.create(trade_params)
-    if @trade.save && @trade.book_trader_one.shipworthy? && !(@trade.book_trader_one.books.empty?)
-        book_trader_one_wants = Book.find(@trade.book_trader_one_wants_id)
-        book_trader_one_wants.status = 'traded'
-        book_trader_one_wants.save
+    if @trade.save && @trade.book_first_trader.shipworthy? && !(@trade.book_first_trader.books.empty?)
+        book_first_trader_wants = Book.find(@trade.book_first_trader_wants_id)
+        book_first_trader_wants.status = 'traded'
+        book_first_trader_wants.save
         @trade.status = "new"
         flash[:notice] = "You've just initiated a new trade! Please wait for a response soon."
       redirect_to action: 'index'
@@ -24,8 +24,8 @@ class TradesController < ApplicationController
   def update
     @trade = Trade.find(params[:id])
     if @trade.update(trade_params)
-      book_trader_two_wants = Book.find(@trade.book_trader_two_wants_id)
-      book_trader_two_wants.status = 'traded'
+      book_second_trader_wants = Book.find(@trade.book_second_trader_wants_id)
+      book_second_trader_wants.status = 'traded'
       @trade.status = 'complete'
       @trade.save
       redirect_to action: 'index'
@@ -37,14 +37,14 @@ class TradesController < ApplicationController
 
   def destroy #this cancels a trade
     @trade = Trade.find(params[:id])
-    if @trade.book_trader_two_id == current_user.id || @trade.book_trader_one_id == current_user.id
-      book_trader_one_wants = Book.find(@trade.book_trader_one_wants_id)
-      book_trader_one_wants.status = 'at_home'
-      book_trader_one_wants.save
-      if @trade.book_trader_two_wants_id
-        book_trader_two_wants = Book.find(@trade.book_trader_two_wants_id)
-        book_trader_two_wants.status = 'at_home'
-        book_trader_two_wants.save
+    if @trade.book_second_trader_id == current_user.id || @trade.book_first_trader_id == current_user.id
+      book_first_trader_wants = Book.find(@trade.book_first_trader_wants_id)
+      book_first_trader_wants.status = 'at_home'
+      book_first_trader_wants.save
+      if @trade.book_second_trader_wants_id
+        book_second_trader_wants = Book.find(@trade.book_second_trader_wants_id)
+        book_second_trader_wants.status = 'at_home'
+        book_second_trader_wants.save
       end 
       @trade.destroy
       flash[:notice] = 'Trade deleted!'
@@ -58,7 +58,7 @@ class TradesController < ApplicationController
   private
 
   def trade_params
-    params.require(:trade).permit(:book_trader_one_wants_id, :book_trader_two_wants_id, :status, :trader_one_rating, :trader_two_rating)
+    params.require(:trade).permit(:book_first_trader_wants_id, :book_second_trader_wants_id, :status, :first_trader_rating, :second_trader_rating)
   end
 
 end
