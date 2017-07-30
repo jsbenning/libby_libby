@@ -20,6 +20,10 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    respond_to do |f|
+      f.html { render :edit}
+      f.json { render json: @user}
+    end
   end
 
   def update
@@ -27,8 +31,8 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params) 
       redirect_to :root, notice: 'User Info Updated!'
     else
-      flash[:notice] = "User Info Not Updated!"
-      render controller => :home, action => :logged_out
+      flash[:notice] = "All Fields Must Be Filled In..."
+      render "users/edit"
     end
   end
 
@@ -37,10 +41,10 @@ class UsersController < ApplicationController
     if (current_user.admin || current_user == @user)  
       @user.destroy
       flash[:notice] = "User Deleted!"
-      redirect_to :root
+      redirect_to root_url
     else
       flash[:notice] = "User Not Deleted!"
-      render :root
+      render 'home/logged_out'
     end
   end
 
