@@ -10,11 +10,6 @@ $(document).ready(function(){
   });
 
 
-
-
-
-
-
  //Book#index_all functions    
 
   // Generate all books (books#index_all)
@@ -88,39 +83,7 @@ $(document).ready(function(){
   // });
 
 
-  // books#show
-  $('#display-area').unbind('click').on('click', '.show-book-btn', function(e) {
-    $("#display-area").html('');
-    var userId = $(this).attr('data-value1');
-    var bookId = $(this).attr('data-value2');
-    var url = "http://localhost:3000/users/" + userId + "/books/" + bookId + ".json";
-    var html = "<div class='boxframe'>"
-    $.ajax({
-      dataType: "json",
-      url: url,
-      success: function(data) {
-        var book = data.book;
-        html += "<img src='http://covers.openlibrary.org/b/isbn/" + book.isbn + "M.jpg?default=false' alt='bookcover' onerror=\"this.src='/assets/no-image-l.png'\" style='width:178px;height:255px;'>";
-        html += "<h3 class='boxframe-title'>Title: " +  book.title + "</h3>";  
-        html += "<p class='boxframe-subj'>Author: </p>";
-        html += "<p class='boxframe-desc'>" +  book.author_first_name + " " +  book.author_last_name + "</p>";
-        //html += "<p class='boxframe-subj'>Genre(s):</p>";
-        html += "<p class='boxframe-subj'> ISBN: </p>";
-        html += "<p class='boxframe-desc'> " +  book.isbn + "</p>";
-        html += "<p class='boxframe-subj'>Condition:</p>";
-        html += "<p class='boxframe-desc'> " +  book.condition + "</p>";
-        html += "<p class='boxframe-subj'>Description:</p>";
-        html += "<p class='boxframe-desc'>" +  book.description + "</p>";
-        html += "<hr>";
-      $("#display-area").append(html);  
-      },
-      error: function() {
-        console.log("sumpin broke");
-      }
-    });
-    e.stopImmediatePropagation();
-    return false;
-  });
+
 
 
 })
