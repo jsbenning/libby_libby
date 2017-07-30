@@ -1,0 +1,12 @@
+
+
+
+{{#books}}
+  <div class="boxframe">
+  <img src={{isbn}} >
+  <h3>Title: {{title}}</h3>
+  <p>Author: {{author_first_name}} {{author_last_name}}</p></br>
+  <button type='button' class='btn btn-primary btn-xs show-book-btn' data-value1='{{book.user.id}}' data-value2='"{{book.id}}'>Click for More</button>
+  </div>
+{{/books}}  
+
