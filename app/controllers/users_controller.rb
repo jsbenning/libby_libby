@@ -36,17 +36,17 @@ class UsersController < ApplicationController
     end
   end
 
-  def destroy
-    @user = User.find(params[:id])
-    if (current_user.admin || current_user == @user)  
-      @user.destroy
-      flash[:notice] = "User Deleted!"
-      redirect_to root_url
-    else
-      flash[:notice] = "User Not Deleted!"
-      render 'home/logged_out'
-    end
-  end
+  # def destroy #let devise handle this?
+  #   @user = User.find(params[:id])
+  #   if (current_user.admin || current_user == @user)  
+  #     @user.destroy
+  #     flash[:notice] = "User Deleted!"
+  #     redirect_to root_url
+  #   else
+  #     flash[:notice] = "User Not Deleted!"
+  #     render 'home/logged_out'
+  #   end
+  # end
 
   private
 
@@ -54,6 +54,6 @@ class UsersController < ApplicationController
     
 
   def user_params
-    params.require(:user).permit(:real_name, :street, :city, :state, :zipcode, :role)
+    params.require(:user).permit(:real_name, :street, :city, :state, :zipcode, :role, :visible)
   end
 end

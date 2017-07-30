@@ -15,6 +15,22 @@ class Trade < ApplicationRecord
     Trade.where(:second_trader_id => user1.id).where(:first_trader_id => user2.id, :status => "new").first
   end
 
+  def first_trader
+    User.find(first_trader_id)
+  end
+
+  def second_trader
+    User.find(second_trader_id)
+  end
+
+  def book_first_trader_wants
+    Book.find(book_first_trader_wants_id)
+  end
+
+  def book_second_trader_wants
+    Book.find(book_second_trader_wants_id)
+  end
+
 
   def self.user_rating(user)
     ratings = Array.new

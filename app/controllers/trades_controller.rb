@@ -6,8 +6,9 @@ class TradesController < ApplicationController
   end
   
   def create # Is created with first_trader and book_first_trader_wants_id attributes
-    @trade = Trade.create(trade_params)
-    if @trade.save && @trade.book_first_trader.shipworthy? && !(@trade.book_first_trader.books.empty?)
+    @trade = Trade.new #this is here because the new action was bypassed
+    @trade = Trade.create(trade_params) # 
+    if @trade.save && @trade.first_trader.shipworthy? && !(@trade.first_trader.books.empty?)
         book_first_trader_wants = Book.find(@trade.book_first_trader_wants_id)
         book_first_trader_wants.status = 'traded'
         book_first_trader_wants.save
