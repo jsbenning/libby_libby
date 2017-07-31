@@ -46,14 +46,14 @@ class BooksController < ApplicationController
   def show #/users/1/books/5
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    if @user != current_user && Trade.initialized_trade(@user, current_user)  #if current user is looking at a second user's books to complete a trade
-      @trade = { "name": "new_trade"}
+    if @user != current_user && Trade.shared_trade(current_user, @user) #in other words, if someone initiated a trade with the current user, 
+    #and the current user is looking at that person's book, considering completing the trade
+      @trade = Trade.shared_trade(current_user, @user)
     else
       @trade = nil
     end
     respond_to do |f|
       f.html { render :show }
-      #f.json { render :json => { :book => @book, :trade => @trade } }
       f.json { render :json => { :book => @book, :trade => @trade } }#this is not right
     end
   end

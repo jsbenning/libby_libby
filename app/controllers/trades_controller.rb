@@ -9,7 +9,7 @@ class TradesController < ApplicationController
     trade = Trade.create(trade_params) # 
     if trade.save && trade.first_trader.shipworthy? && !(trade.first_trader.books.empty?)
         book_first_trader_wants = Book.find(trade.book_first_trader_wants_id)
-        book_first_trader_wants.status = 'traded'
+        book_first_trader_wants.status = "traded"
         book_first_trader_wants.save
         trade.status = "new"
         flash[:notice] = "You've just initiated a new trade! You can expect a response soon."
