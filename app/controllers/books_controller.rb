@@ -50,11 +50,11 @@ class BooksController < ApplicationController
     #and the current user is looking at that person's book, considering completing the trade
       @trade = Trade.shared_trade(current_user, @user)
     else
-      @trade = nil
+      @trade = Trade.new
     end
     respond_to do |f|
       f.html { render :show }
-      f.json { render :json => { :book => @book, :trade => @trade } }#this is not right
+      f.json { render :json => { :book => @book, :trade => @trade } }#not right?
     end
   end
 
