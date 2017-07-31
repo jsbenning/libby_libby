@@ -8,7 +8,7 @@ class UsersController < ApplicationController
         f.json { render json: @users}
       end
     elsif current_user
-      flash.now[:notice] = "You don't have the authority to access all users, scout..."
+      flash.now[:notice] = "You don't have the authority to access all users..."
       render 'home/logged_in'
     end
   end
@@ -35,15 +35,15 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.current_user || @user.admin?
+    if @user == current_user || @user.admin?
       if @user.update_attributes(user_params) 
         redirect_to root_path, notice: 'User Info Updated!'
       else
-        flash.now[:notice] = "All Fields Must Be Filled In..."
+        flash.now[:notice] = "All fields must be filled in..."
         render "users/edit"
       end
     else
-      render '/', notice: "You don't have permission, scout..."  
+      render '/', notice: "You don't have permission..."  
     end
   end
 

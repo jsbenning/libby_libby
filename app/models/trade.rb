@@ -11,13 +11,13 @@ class Trade < ApplicationRecord
     Trade.where("second_trader_id = ? OR first_trader_id = ?", user.id, user.id)
   end
 
-  def self.shared_trade(user1, user2)
-    Trade.where(:second_trader_id => user1.id).where(:first_trader_id => user2.id, :status).first
-  end
-
-  def self.initialized_trade(user1, user2) #this only finds instatiated, incomplete trades
+  def self.shared_trade(user1, user2) # if Trade.shared_trade
     Trade.where(:second_trader_id => user1.id).where(:first_trader_id => user2.id, :status => "new").first
   end
+
+  # def self.initialized_trade(user1, user2) #this only finds instatiated, incomplete trades
+  #   Trade.where(:second_trader_id => user1.id).where(:first_trader_id => user2.id, :status => "new").first
+  # end
 
   def first_trader
     User.find(first_trader_id)

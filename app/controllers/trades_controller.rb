@@ -4,7 +4,8 @@ class TradesController < ApplicationController
     @my_trades = Trade.my_trades(current_user)
   end
   
-  def create # Is created with first_trader and book_first_trader_wants_id attributes
+  def create # This s created with first_trader_id, second_trader_id and book_first_trader_wants_id attributes, status "new"; 
+    # also there is no 'new' action, as a trade is instantiated through the book show form
     
     trade = Trade.create(trade_params) # 
     if trade.save && trade.first_trader.shipworthy? && !(trade.first_trader.books.empty?)

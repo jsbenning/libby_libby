@@ -36,25 +36,23 @@ class BooksController < ApplicationController
       flash[:notice] = "You successfully added a book!"
       redirect_to user_books_url
     else
-      flash[:notice] = "Some necessary field is missing!" 
+      flash.now[:notice] = "Some necessary field is missing!" 
       render 'edit' 
     end
   end
-
-
 
   def show #/users/1/books/5
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
     if @user != current_user && Trade.shared_trade(current_user, @user) #in other words, if someone initiated a trade with the current user, 
     #and the current user is looking at that person's book, considering completing the trade
-      @trade = Trade.shared_trade(current_user, @user)
+      @trade = Trade.shared_trade(current_user, @user) #this gives the option of completing the trade
     else
-      @trade = Trade.new
+      @trade = Trade.new #this gives the option of creating a trade
     end
     respond_to do |f|
       f.html { render :show }
-      f.json { render :json => { :book => @book, :trade => @trade } }#not right?
+      f.json { render :json => { :book => @book, :trade => @trade } }
     end
   end
 
