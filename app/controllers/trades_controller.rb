@@ -1,65 +1,72 @@
 class TradesController < ApplicationController
 
   def index
-    @user = current_user
-    @my_trades = Trade.my_trades(@user)
+    @my_trades = Trade.my_trades(current_user)
   end
   
   def create # Is created with first_trader and book_first_trader_wants_id attributes
-    @trade = Trade.new #this is here because the new action was bypassed
-    @trade = Trade.create(trade_params) # 
-    if @trade.save && @trade.first_trader.shipworthy? && !(@trade.first_trader.books.empty?)
-        book_first_trader_wants = Book.find(@trade.book_first_trader_wants_id)
+    trade = Trade.new #this is here because the new action was bypassed
+    trade = Trade.create(trade_params) # 
+    if trade.save && trade.first_trader.shipworthy? && !(trade.first_trader.books.empty?)
+        book_first_trader_wants = Book.find(trade.book_first_trader_wants_id)
         book_first_trader_wants.status = 'traded'
         book_first_trader_wants.save
-        @trade.status = "new"
-        flash[:notice] = "You've just initiated a new trade! Please wait for a response soon."
-      redirect_to action: 'index'
+        trade.status = "new"
+        flash[:notice] = "You've just initiated a new trade! You can expect a response soon."
+        @my_trades = Trade.my_trades(current_user)
+        respond_to do |f|
+          f.html { redirect_to(trades_index_path) }
+          f.json { render json: @my_trades}
+        end
     else
       flash[:notice] = 'There was a problem creating a trade (make sure your shipping info is complete and you have a book to trade)!'
-      render 'home/index'
+      render 'home/logged_in'
     end
   end
 
 
-  def update
-    @trade = Trade.find(params[:id])
-    if @trade.update(trade_params)
-      book_second_trader_wants = Book.find(@trade.book_second_trader_wants_id)
+  def update #this completes a trade by adding a second book
+    trade = Trade.find(params[:id])
+    if trade.update(trade_params)
+      book_second_trader_wants = Book.find(trade.book_second_trader_wants_id)
       book_second_trader_wants.status = 'traded'
-      @trade.status = 'complete'
-      @trade.save
-      redirect_to action: 'index'
-    else
-      flash[:notice] = 'Sorry, trade not updated!'
-      render :root
+      trade.status = 'complete'
+      trade.save
+      @my_trades = Trade.my_trades(current_user)
+      respond_to do |f|
+        f.html { redirect_to(trades_index_path) }
+        f.json { render json: @my_trades}
+      end
     end
   end
 
   def destroy #this cancels a trade
-    @trade = Trade.find(params[:id])
-    if @trade.book_second_trader_id == current_user.id || @trade.book_first_trader_id == current_user.id
-      book_first_trader_wants = Book.find(@trade.book_first_trader_wants_id)
+    trade = Trade.find(params[:id])
+    if trade.second_trader_id == current_user.id || trade.first_trader_id == current_user.id
+      book_first_trader_wants = Book.find(trade.book_first_trader_wants_id)
       book_first_trader_wants.status = 'at_home'
       book_first_trader_wants.save
-      if @trade.book_second_trader_wants_id
-        book_second_trader_wants = Book.find(@trade.book_second_trader_wants_id)
+      if trade.book_second_trader_wants_id
+        book_second_trader_wants = Book.find(trade.book_second_trader_wants_id)
         book_second_trader_wants.status = 'at_home'
         book_second_trader_wants.save
       end 
-      @trade.destroy
+      trade.destroy
       flash[:notice] = 'Trade deleted!'
-      redirect_to root_path
+      respond_to do |f|
+        f.html { redirect_to(trades_index_path) }
+        f.json { render json: @my_trades }
+      end
     else
       flash[:notice] = "You don't have permission to delete this trade!"
-      render 'home/index'
+      render 'home/logged_in'
     end
   end
 
   private
 
   def trade_params
-    params.require(:trade).permit(:book_first_trader_wants_id, :book_second_trader_wants_id, :status, :first_trader_rating, :second_trader_rating)
+    params.require(:trade).permit(:first_trader_id, :second_trader_id, :book_first_trader_wants_id, :book_second_trader_wants_id, :status, :first_trader_rating, :second_trader_rating)
   end
 
 end
