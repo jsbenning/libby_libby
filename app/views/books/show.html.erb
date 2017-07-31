@@ -38,19 +38,19 @@
 
     <% end %>  
 
-  ######  <% if @new_trade && @book.user != current_user %> ####This next!!!!!
+  <% if !(@trade.first_trader_id) && @book.user != current_user && current_user.shipworthy? %> 
 
-      <%= form_for @new_trade do |f| %>
-        <%= f.hidden_field :initial_book_id, value: @book.id %>
-        <%= f.hidden_field :owner_id, value: @book.user.id %>
-        <%= f.hidden_field :requester_id, value: current_user.id %>
+      <%= form_for @trade do |f| %>
+        <%= f.hidden_field :book_first_trader_wants_id, value: @book.id %>
+        <%= f.hidden_field :second_trader_id, value: @book.user.id %>
+        <%= f.hidden_field :first_trader_id, value: current_user.id %>
         <%= f.submit 'Request a Trade', :class => 'btn btn-primary' %>
       <% end %> 
 
-    <% elsif @shared_trade && @book.user != current_user %>
+    <% elsif @trade.first_trader_id  && @book.user != current_user %>
 
-      <%= form_for @shared_trade do |f| %>
-        <%= f.hidden_field :matched_book_id, value: @book.id %>
+      <%= form_for @trade do |f| %>
+        <%= f.hidden_field :book_second_trader_wants_id, value: @book.id %>
         <%= f.submit 'Complete a Trade', :class => 'btn btn-primary' %>
       <% end %> 
     <% end %> 

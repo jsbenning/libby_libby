@@ -5,7 +5,7 @@ class TradesController < ApplicationController
   end
   
   def create # Is created with first_trader and book_first_trader_wants_id attributes
-    trade = Trade.new #this is here because the new action was bypassed
+    
     trade = Trade.create(trade_params) # 
     if trade.save && trade.first_trader.shipworthy? && !(trade.first_trader.books.empty?)
         book_first_trader_wants = Book.find(trade.book_first_trader_wants_id)
@@ -16,7 +16,7 @@ class TradesController < ApplicationController
         @my_trades = Trade.my_trades(current_user)
         respond_to do |f|
           f.html { redirect_to(trades_index_path) }
-          f.json { render json: @my_trades}
+          f.json { render json: @my_trades} #could also user a TradeSerializer for this object?
         end
     else
       flash[:notice] = 'There was a problem creating a trade (make sure your shipping info is complete and you have a book to trade)!'
