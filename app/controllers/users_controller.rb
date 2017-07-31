@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     respond_to do |f|
       f.html { render :show}
-      f.json { render json: @user}
+      f.json { render json: @user.as_json(include: :books) }
     end
   end
 
