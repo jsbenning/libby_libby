@@ -4,7 +4,6 @@ class HomeController < ApplicationController
 
   def logged_out
     if current_user
-      #redirect_to '/logged_in'
       render 'home/logged_in'
     end
   end

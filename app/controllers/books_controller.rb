@@ -20,7 +20,10 @@ class BooksController < ApplicationController
   def index_users # localhost:3000/users/5/books
     @user = User.find(params[:user_id])
     @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
-    render :index
+    respond_to do |f|
+      f.html { render :index }
+      f.json { render json: @books}
+    end
   end
 
   def new
@@ -44,11 +47,11 @@ class BooksController < ApplicationController
   def show #/users/1/books/5
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    if @user != current_user && Trade.shared_trade(current_user, @user) #in other words, if someone initiated a trade with the current user, 
-    #and the current user is looking at that person's book, considering completing the trade
-      @trade = Trade.shared_trade(current_user, @user) #this gives the option of completing the trade
+    if @user != current_user && Trade.shared_trade(current_user, @user) #in other words, if someone else initiated a trade with the current user, 
+    #and the current user is now looking at that person's book, considering completing the trade
+      @trade = Trade.shared_trade(current_user, @user) #this gives the option of completing the trade in book show view
     else
-      @trade = Trade.new #this gives the option of creating a trade
+      @trade = Trade.new #this gives the option of creating a trade in book show view
     end
     respond_to do |f|
       f.html { render :show }
