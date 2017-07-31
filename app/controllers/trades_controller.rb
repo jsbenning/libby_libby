@@ -34,20 +34,12 @@ class TradesController < ApplicationController
   end
 
   def destroy #this cancels a trade
-    trade = Trade.find(params[:id])
-    if trade.second_trader_id == current_user.id || trade.first_trader_id == current_user.id
-      book_first_trader_wants = Book.find(trade.book_first_trader_wants_id)
-      book_first_trader_wants.status = 'at_home'
-      book_first_trader_wants.save
-      if trade.book_second_trader_wants_id
-        book_second_trader_wants = Book.find(trade.book_second_trader_wants_id)
-        book_second_trader_wants.status = 'at_home'
-        book_second_trader_wants.save
-      end 
-      trade.destroy
-      flash[:notice] = 'Trade deleted!'
+    @trade = Trade.find(params[:id])
+    if @trade.second_trader_id == current_user.id || @trade.first_trader_id == current_user.id
+      destroy_a_trade(@trade) 
+      flash.now[:notice] = 'Trade deleted!'
       respond_to do |f|
-        f.html { redirect_to(trades_index_path) }
+        f.html { redirect_to(trades_path) }
         f.json { render json: @my_trades }
       end
     else
@@ -73,6 +65,18 @@ class TradesController < ApplicationController
     trade.status = 'complete'
     trade.save
   end
+
+  def destroy_a_trade(trade)
+    book_first_trader_wants = Book.find(trade.book_first_trader_wants_id)
+    book_first_trader_wants.status = 'at_home'
+    book_first_trader_wants.save
+    if trade.book_second_trader_wants_id
+      book_second_trader_wants = Book.find(trade.book_second_trader_wants_id)
+      book_second_trader_wants.status = 'at_home'
+      book_second_trader_wants.save
+    end
+    trade.destroy
+  end 
 
   def trade_params
     params.require(:trade).permit(:first_trader_id, :second_trader_id, :book_first_trader_wants_id, :book_second_trader_wants_id, :status, :first_trader_rating, :second_trader_rating)
