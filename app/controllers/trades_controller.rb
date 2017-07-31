@@ -5,34 +5,26 @@ class TradesController < ApplicationController
   end
   
   def create # This s created with first_trader_id, second_trader_id and book_first_trader_wants_id attributes, status "new"; 
-    # also there is no 'new' action, as a trade is instantiated through the book show form
-    
-    trade = Trade.create(trade_params) # 
-    if trade.save && trade.first_trader.shipworthy? && !(trade.first_trader.books.empty?)
-        book_first_trader_wants = Book.find(trade.book_first_trader_wants_id)
-        book_first_trader_wants.status = "traded"
-        book_first_trader_wants.save
-        trade.status = "new"
-        flash[:notice] = "You've just initiated a new trade! You can expect a response soon."
-        @my_trades = Trade.my_trades(current_user)
-        respond_to do |f|
-          f.html { redirect_to(trades_index_path) }
-          f.json { render json: @my_trades} #could also user a TradeSerializer for this object?
-        end
+    # also there is no 'new' action, as a trade is instantiated through the book show form 
+    @trade = Trade.create(trade_params) # 
+    if @trade.save && @trade.first_trader.shipworthy? && !(@trade.first_trader.books.empty?)
+      setup_a_trade(@trade)
+      @my_trades = Trade.my_trades(current_user)
+      respond_to do |f|
+        f.html { redirect_to(trades_index_path), notice: "You've just initiated a new trade! You can expect a response soon."}
+        f.json { render json: @my_trades} #could also user a TradeSerializer for this object?
+      end
     else
-      flash[:notice] = 'There was a problem creating a trade (make sure your shipping info is complete and you have a book to trade)!'
+      flash.now[:notice] = 'There was a problem creating a trade (make sure your shipping info is complete and you have a book to trade)!'
       render 'home/logged_in'
     end
   end
 
 
   def update #this completes a trade by adding a second book
-    trade = Trade.find(params[:id])
-    if trade.update(trade_params)
-      book_second_trader_wants = Book.find(trade.book_second_trader_wants_id)
-      book_second_trader_wants.status = 'traded'
-      trade.status = 'complete'
-      trade.save
+    @trade = Trade.find(params[:id])
+    if @trade.update(trade_params)
+      complete_a_trade(@trade)
       @my_trades = Trade.my_trades(current_user)
       respond_to do |f|
         f.html { redirect_to(trades_index_path) }
@@ -65,6 +57,22 @@ class TradesController < ApplicationController
   end
 
   private
+
+  def setup_a_trade(trade)
+    book_first_trader_wants = Book.find(trade.book_first_trader_wants_id)
+    book_first_trader_wants.status = "traded"
+    book_first_trader_wants.save
+    trade.status = "new"
+    trade.save
+  end
+
+
+  def complete_a_trade(trade)
+    book_second_trader_wants = Book.find(trade.book_second_trader_wants_id)
+    book_second_trader_wants.status = 'traded'
+    trade.status = 'complete'
+    trade.save
+  end
 
   def trade_params
     params.require(:trade).permit(:first_trader_id, :second_trader_id, :book_first_trader_wants_id, :book_second_trader_wants_id, :status, :first_trader_rating, :second_trader_rating)
