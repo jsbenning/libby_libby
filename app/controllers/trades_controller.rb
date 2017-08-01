@@ -11,7 +11,7 @@ class TradesController < ApplicationController
       setup_a_trade(@trade)
       @my_trades = Trade.my_trades(current_user)
       respond_to do |f|
-        f.html { redirect_to(trades_index_path), notice: "You've just initiated a new trade! You can expect a response soon."}
+        f.html { redirect_to trades_path_url, notice: "You've just initiated a new trade! You can expect a response soon."}
         f.json { render json: @my_trades} #could also user a TradeSerializer for this object?
       end
     else

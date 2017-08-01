@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   validates :real_name, :street, :city, :state, :zipcode, presence: true, on: :update # can create but not update incomplete user model
   
-  enum role: [ :reader, :mod, :admin ]# admins can delete all users, mods can view all users
+  enum role: [ :reader, :mod, :admin ]# admins can make users invisible, mods can view all users
   has_many :books, :dependent => :destroy
   accepts_nested_attributes_for :books
   has_many :genres, through: :books

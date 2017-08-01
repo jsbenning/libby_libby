@@ -9,7 +9,7 @@ class UsersController < ApplicationController
       end
     elsif current_user
       flash.now[:notice] = "You don't have the authority to access all users..."
-      render 'home/logged_in'
+      redirect_to 'home/logged_out'
     end
   end
 
@@ -21,15 +21,21 @@ class UsersController < ApplicationController
       f.json { render json: @user.as_json(include: :books) }
     end
     else
-      render '/'
+      flash.now[:notice] = "You don't have permission..." 
+      redirect_to 'home/logged_out'
     end
   end
 
   def edit
     @user = User.find(params[:id])
+    if @user.admin? || @user == current_user 
     respond_to do |f|
-      f.html { render :edit}
+      f.html { render :edit }
       f.json { render json: @user}
+    end
+    else
+      flash.now[:notice] = "You don't have permission..." 
+      redirect_to 'home/logged_out'
     end
   end
 
@@ -43,7 +49,8 @@ class UsersController < ApplicationController
         render "users/edit"
       end
     else
-      render '/', notice: "You don't have permission..."  
+      flash.now[:notice] = "You don't have permission..." 
+      redirect_to 'home/logged_out' 
     end
   end
 
