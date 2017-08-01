@@ -40,16 +40,8 @@
     <div class="checkboxes">
     <b>Genre(s): </b><%= f.collection_check_boxes :genre_ids, Genre.all, :id, :name, :item_wrapper_class => "inline" %>
     </div>
-
-    <div class="text_area">
-      <%= f.fields_for :genres, @book.genres.build do |genres_fields| %>Add a Genre:
-      <%= genres_fields.text_field :name %>
-      <% end %>
-    </div>
   </div>
   <br />
-
-
 
   <div class="submit">
     <%= f.submit %><br />

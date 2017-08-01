@@ -1,8 +1,5 @@
 $(document).ready(function(){
 
-// Profile Functions
-    // Show
-
   $("#my-profile-btn").on('click', function(e) { 
     $("#my-profile-btn").attr('disabled', 'disabled');
     $("#display-area").html('');

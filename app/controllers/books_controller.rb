@@ -27,17 +27,26 @@ class BooksController < ApplicationController
   end
 
   def new
+    @genres = Genre.all
     @user = User.find(params[:user_id])
-    @book = Book.new 
+    @book = Book.new
+    respond_to do |f|
+      f.html { render :index }
+      f.json { render json: @book, @user, @genres } 
+    end
   end
 
    def create
     @book = Book.new(book_params)
     @user = User.find(params[:user_id])
     @book.user = @user
+    @books = Book.where( :user => )
     if @book.save
+      respond_to do |f|
       flash[:notice] = "You successfully added a book!"
-      redirect_to user_books_url
+      f.html { redirect_to user_books_url }
+      f.
+      
     else
       flash.now[:notice] = "Some necessary field is missing!" 
       render 'edit' 

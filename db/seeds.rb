@@ -12,10 +12,6 @@ User.destroy_all
 Book.destroy_all
 Genre.destroy_all
 
-genres = Genre.create!([ {name: 'Literature'}, {name: 'History'}, {name: 'Religion'}, {name: 'Science'},
-  {name: 'Appearance'}, {name: 'Cooking'}, {name: 'Travel'}, {name: 'Romance'}, {name: 'Art'}, 
-  {name: 'Health'}, {name: 'Social Science'}, {name: 'Self-Help'}
- ])
 
 @user1 = User.create!(email: Faker::Internet.email,
   password: "password123",
