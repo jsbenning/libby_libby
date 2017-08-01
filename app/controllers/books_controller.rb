@@ -20,9 +20,12 @@ class BooksController < ApplicationController
   def index_users # localhost:3000/users/5/books
     @user = User.find(params[:user_id])
     @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
+    if @books.empty?
+      @books = nil
+    end
     respond_to do |f|
       f.html { render :index }
-      f.json { render json: @books}
+      f.json { render :json => { :books => @book, :user => @user } }
     end
   end
 
@@ -32,7 +35,7 @@ class BooksController < ApplicationController
     @book = Book.new
     respond_to do |f|
       f.html { render :index }
-      f.json { render json: @book, @user, @genres } 
+      f.json { render :json => { :book => @book, :user => @user, :genres => @genres } }
     end
   end
 
@@ -40,16 +43,20 @@ class BooksController < ApplicationController
     @book = Book.new(book_params)
     @user = User.find(params[:user_id])
     @book.user = @user
-    @books = Book.where( :user => )
+    @msg = "Huzzah!"
     if @book.save
       respond_to do |f|
-      flash[:notice] = "You successfully added a book!"
-      f.html { redirect_to user_books_url }
-      f.
-      
+        flash[:notice] = "You successfully added a book!"
+        f.html { redirect_to user_books_url }
+        f.json { render :json => { :message => @msg }}
+      end 
     else
+      @msg = "Yikes!"
       flash.now[:notice] = "Some necessary field is missing!" 
-      render 'edit' 
+      respond_to do |f|
+        f.html { render 'edit' }
+        f.json { render :json => { :message => @msg }} 
+      end 
     end
   end
 
