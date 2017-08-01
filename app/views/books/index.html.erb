@@ -12,16 +12,17 @@
   <% end %>
 <% end %>
 
+<% if @books %>
+  <% @books.each do |book| %>
+    <% unless book.status == "traded" %>
+      <%= div_for book, :class => "boxframe" do %>
 
-<% @books.each do |book| %>
-  <% unless book.status == "traded" %>
-    <%= div_for book, :class => "boxframe" do %>
+        <img src="http://covers.openlibrary.org/b/isbn/<%= book.isbn %>-M.jpg?default=false"  alt="" onerror="this.src='/assets/no-image-s.png'" style="width:43px;height:60px;">
+        <h3><%= book.title %></h3>
+        <p>Author: <%= book.author_first_name %> <%= book.author_last_name %></p>
+        <%= link_to "See More", user_book_path(book.user, book) %><br>
 
-      <img src="http://covers.openlibrary.org/b/isbn/<%= book.isbn %>-M.jpg?default=false"  alt="" onerror="this.src='/assets/no-image-s.png'" style="width:43px;height:60px;">
-      <h3><%= book.title %></h3>
-      <p>Author: <%= book.author_first_name %> <%= book.author_last_name %></p>
-      <%= link_to "See More", user_book_path(book.user, book) %><br>
-
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20170729014459) do
     t.integer  "second_trader_id"
     t.integer  "book_first_trader_wants_id"
     t.integer  "book_second_trader_wants_id"
-    t.string   "status",                      default: "new" 
+    t.string   "status",                      default: "new"
     t.integer  "first_trader_rating"
     t.integer  "second_trader_rating"
     t.datetime "created_at",                                  null: false

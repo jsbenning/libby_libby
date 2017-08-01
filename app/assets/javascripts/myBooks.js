@@ -10,11 +10,15 @@ $(document).ready(function(){
       url: url,
       success: function(data) {
         $("#my-books-btn").removeAttr('disabled');
-        booksListHtml = HandlebarsTemplates['allBooksTemplate'] ({
-          books: data
-        });
-        $('#display-area').html(booksListHtml);
-      },
+        if (data.books) {
+          booksListHtml = HandlebarsTemplates['allBooksTemplate'] ({
+            books: data
+          });
+          $('#display-area').html(booksListHtml);
+        } else {
+          $('#display-area').html('');
+        };
+      }, 
       error: function() {
         console.log("sumpin broke");
       }
