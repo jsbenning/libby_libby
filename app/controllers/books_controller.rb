@@ -25,7 +25,7 @@ class BooksController < ApplicationController
     end
     respond_to do |f|
       f.html { render :index }
-      f.json { render :json => { :books => @book, :user => @user } }
+      f.json { render :json => @book.to_json(:include => { :user })#render :json => @notes.to_json(:include => { :user => { :only => :username } })
     end
   end
 
@@ -34,7 +34,7 @@ class BooksController < ApplicationController
     @user = User.find(params[:user_id])
     @book = Book.new
     respond_to do |f|
-      f.html { render :index }
+      f.html { render :new }
       f.json { render :json => { :book => @book, :user => @user, :genres => @genres } }
     end
   end
@@ -43,19 +43,19 @@ class BooksController < ApplicationController
     @book = Book.new(book_params)
     @user = User.find(params[:user_id])
     @book.user = @user
-    @msg = "Huzzah!"
-    if @book.save
-      respond_to do |f|
-        flash[:notice] = "You successfully added a book!"
+    if @user.has_permission? && @book.save
+      flash[:notice] = "You successfully added a book!"
+      @msg = "You successfully added a book!"
+      respond_to do |f|   
         f.html { redirect_to user_books_url }
-        f.json { render :json => { :message => @msg }}
+        f.json { render :json => { :msg => @msg }}
       end 
-    else
-      @msg = "Yikes!"
+    else  
       flash.now[:notice] = "Some necessary field is missing!" 
+      @msg = "Some necessary field is missing!"
       respond_to do |f|
         f.html { render 'edit' }
-        f.json { render :json => { :message => @msg }} 
+        f.json { render :json => { :msg => @msg }} 
       end 
     end
   end
@@ -64,43 +64,72 @@ class BooksController < ApplicationController
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
     if @user != current_user && Trade.shared_trade(current_user, @user) #in other words, if someone else initiated a trade with the current user, 
-    #and the current user is now looking at that person's book, considering completing the trade
-      @trade = Trade.shared_trade(current_user, @user) #this gives the option of completing the trade in book show view
+    #and the current user is now looking at that person's book, considering completing the trade...
+      @trade = Trade.shared_trade(current_user, @user) #...this then gives the option of completing the trade in book show view
     else
-      @trade = Trade.new #this gives the option of creating a trade in book show view
+      @trade = Trade.new #this gives the option of initiating a trade in book show view
     end
     respond_to do |f|
       f.html { render :show }
-      f.json { render :json => { :book => @book, :trade => @trade } }
+      f.json { render :json => @book.to_json(:include => :user), @trade.to_json }
     end
   end
 
   def edit
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
+    if @user.has_permission?
+      respond_to do |f|
+        f.html { render :edit }
+        f.json { render :json => @book.to_json(:include => :user) }
+      end 
+    else
+      flash.now[:notice] = "You don't have permission to edit this book!"
+      @msg = "You don't have permission to edit this book!"
+      respond_to do |f|
+        f.html { render :edit }
+        f.json { render :json => @book.to_json(:include => :user) }
+      end 
+    end
   end
   
   def update
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    if @book.update_attributes(book_params)
+    if @user.has_permission? && @book.update_attributes(book_params)
       flash[:notice] = "The book was updated!"
-      redirect_to user_books_url
+      @msg = "The book was updated!"
+      respond_to do |f|
+        f.html { redirect_to user_books_url }
+        f.json { render :json => { :msg => @msg }}
+      end  
     else
-      flash.now[:notice] = "The book wasn't updated, sorry!" 
-    render :root
+      flash.now[:notice] = "The book wasn't updated, sorry!"
+      @msg = "The book wasn't updated, sorry!"
+      respond_to do |f|
+        f.html { render :books}
+        f.json { render :json => { :msg => @msg }}
+      end
     end
   end
 
   def destroy
     @book = Book.find(params[:id])
-    if @book.user == current_user || current_user.admin?
+    if @book.user.has_permission?
       @book.destroy
       flash[:notice] = "The book was deleted!"
-      redirect_to user_books_url
+      @msg = "The book was deleted!"
+      respond_to do |f|
+        f.html { redirect_to user_books_url }
+        f.json { render :json => { :msg => @msg }}
+      end 
     else
       flash.now[:notice] = "You don't have permission to delete this title, sorry!"
-      render :root
+      @msg = "You don't have permission to delete this title, sorry!"
+      respond_to do |f|
+        f.html { render :books }
+        f.json { render :json => { :msg => @msg }}
+      end
     end   
   end
 

@@ -42,6 +42,10 @@ class User < ApplicationRecord
     self.admin? || self.mod?
   end
 
+  def has_permission?
+    self.admin || self == current_user
+  end
+
   def rating
     Trade.user_rating(self)
   end          
