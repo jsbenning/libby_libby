@@ -10,7 +10,7 @@ $(document).ready(function(){
       url: url,
       success: function(data) {
         $("#my-books-btn").removeAttr('disabled');
-        if (data.books) {
+        if (data) {
           booksListHtml = HandlebarsTemplates['allBooksTemplate'] ({
             books: data
           });
