@@ -88,6 +88,15 @@ img[src=""] {
     display: none;
 }
 
+.centered {
+  width: 100%;
+  text-align: center;
+}
+
+#load-more-books-btn {
+  display: inline-block;
+}
+
 .boxframe {
   background-color: Azure;
   border: 10px solid #74cef1; 

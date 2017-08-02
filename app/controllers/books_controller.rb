@@ -12,7 +12,7 @@ class BooksController < ApplicationController
     end
     respond_to do |f|
       f.html { render :index }
-      f.json { render json: @books}
+      f.json { render json: @books }
     end
   end
 
@@ -25,7 +25,7 @@ class BooksController < ApplicationController
     end
     respond_to do |f|
       f.html { render :index }
-      f.json { render :json => @book.to_json(:include => { :user })#render :json => @notes.to_json(:include => { :user => { :only => :username } })
+      f.json { render :text => @book.to_json }#(:include => { :user => @user })}
     end
   end
 
@@ -71,7 +71,7 @@ class BooksController < ApplicationController
     end
     respond_to do |f|
       f.html { render :show }
-      f.json { render :json => @book.to_json(:include => :user), @trade.to_json }
+      f.json { render :text => @book.to_json(:include => :user) }#, :text => @trade.to_json }
     end
   end
 
@@ -88,7 +88,7 @@ class BooksController < ApplicationController
       @msg = "You don't have permission to edit this book!"
       respond_to do |f|
         f.html { render :edit }
-        f.json { render :json => @book.to_json(:include => :user) }
+        f.json { render :text => @book.to_json(:include => :user) }
       end 
     end
   end

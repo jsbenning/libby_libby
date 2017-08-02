@@ -26,7 +26,7 @@ $(document).ready(function(){
   });
   
     // Edit
-  ('#display-area').unbind('click').on('click', '#edit-profile', function(e) { #This is FUBAR
+  $('#display-area').unbind('click').on('click', '#edit-profile', function(e) { //This is FUBAR
     $("#edit-profile").on('click', function(e) { 
       $("#edit-profile").attr('disabled', 'disabled');
       $("#display-area").html('');
