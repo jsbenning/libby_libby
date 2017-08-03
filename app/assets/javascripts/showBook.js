@@ -9,11 +9,6 @@ $(document).ready(function(){
       dataType: "json",
       url: url,
       success: function(data) {
-        function extend(obj) {
-          obj.authorFullName = function() {
-            return this.author_first_name + " " + this.author_last_name
-          }
-        }
         var book = data.book;
         extend(book);
         book.authorFullName = book.authorFullName();
@@ -21,8 +16,8 @@ $(document).ready(function(){
           data: data
         });
       $('#display-area').html(bookHtml);
-      var bookUser = ($('#trade-request-btn').attr('data-user'));
-      var bookId = ($('#trade-request-btn').attr('data-book'));
+      // var bookUser = ($('#trade-request-btn').attr('data-user'));
+      // var bookId = ($('#trade-request-btn').attr('data-book'));
       },
 
       error: function() {

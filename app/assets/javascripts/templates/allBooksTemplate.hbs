@@ -1,5 +1,10 @@
+<div class="searchArea">
+<input name='search' id='search-field' type='text' size='50' placeholder='Enter keyword (title, author, ISBN) here to search'/><br><br><button id='json-search-btn' class='btn btn-primary'>Search</button>
+</div>
+
 {{#books}}
 <div class="boxframe">
+
 <img src="http://covers.openlibrary.org/b/isbn/{{isbn}}-M.jpg?default=false"  alt="" onerror="this.src='/assets/no-image-s.png'" style="width:43px;height:60px;">
 <h3>Title: {{title}}</h3>
 <p>Author: {{author_first_name}} {{author_last_name}}</p></br>

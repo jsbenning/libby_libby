@@ -2,7 +2,7 @@ $(document).ready(function(){
 
   $("#my-profile-btn").on('click', function(e) { 
     $("#my-profile-btn").attr('disabled', 'disabled');
-    $("#display-area").html('');
+    clearDivs();
   
     var personId = this.getAttribute('data-id');
     var url = "http://localhost:3000/users/" + personId + ".json";
