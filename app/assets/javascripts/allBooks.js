@@ -1,7 +1,7 @@
 $(document).ready(function(){
   $("#all-books-btn").on('click', function(e) { 
     $("#all-books-btn").attr('disabled', 'disabled');
-    $("#display-area").html('');
+    clearDivs;
     
     var searchButton = "<form accept-charset='UTF-8' action='/books' method='get'><input name='search' type='text' id='search' size='50' placeholder='Enter keyword(title, author, ISBN) here to search'/><br><br><input type='submit' class='btn btn-primary' value='Search' /></form>"
 
@@ -13,8 +13,9 @@ $(document).ready(function(){
       success: function(data) {
         $("#all-books-btn").removeAttr('disabled');
         allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
-          books: data
+          books: data.books
         });
+
         $('#display-area').html(allBooksHtml);
       },
       error: function() {

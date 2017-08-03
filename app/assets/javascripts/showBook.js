@@ -14,11 +14,11 @@ $(document).ready(function(){
             return this.author_first_name + " " + this.author_last_name
           }
         }
-        var book = data["book"];
+        var book = data.book;
         extend(book);
         book.authorFullName = book.authorFullName();
         bookHtml = HandlebarsTemplates['showBookTemplate'] ({
-          book: book
+          data: data
         });
       $('#display-area').html(bookHtml);
       var bookUser = ($('#trade-request-btn').attr('data-user'));

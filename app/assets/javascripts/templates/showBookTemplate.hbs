@@ -1,18 +1,29 @@
 <div class="boxframe">
-<img src="http://covers.openlibrary.org/b/isbn/{{isbn}}M.jpg?default=false" alt='bookcover' onerror="this.src='/assets/no-image-l.png'" style="width:178px;height:255px;">
+  <img src="http://covers.openlibrary.org/b/isbn/{{isbn}}M.jpg?default=false" alt='bookcover' onerror="this.src='/assets/no-image-l.png'" style="width:178px;height:255px;">
 
-<h3 class='boxframe-title'>Title: {{book.title}}</h3>  
-<p class='boxframe-subj'>Author: </p>
-<p class='boxframe-desc'>{{book.authorFullName}}</p>
-<p class='boxframe-subj'>Genre(s):</p>
+  <h3 class='boxframe-title'>Title: {{data.book.title}}</h3>  
+  <p class='boxframe-subj'>Author: </p>
+  <p class='boxframe-desc'>{{data.book.authorFullName}}</p>
+  <p class='boxframe-subj'>Genre(s):</p>
 
-<p class='boxframe-subj'> ISBN: </p>
-<p class='boxframe-desc'>{{book.isbn}}</p>
-<p class='boxframe-subj'>Condition:</p>
-<p class='boxframe-desc'>{{book.condition}}</p>
-<p class='boxframe-subj'>Description:</p>
-<p class='boxframe-desc'>{{book.description}}</p>
-  <button type="button" class="btn btn-primary btn-xs" data-user={{book.user_id}} data-book={{book.id}} id="trade-request-btn">Suggest a Trade</button>
+  <p class='boxframe-subj'> ISBN: </p>
+  <p class='boxframe-desc'>{{data.book.isbn}}</p>
+  <p class='boxframe-subj'>Condition:</p>
+  <p class='boxframe-desc'>{{data.book.condition}}</p>
+  <p class='boxframe-subj'>Description:</p>
+  <p class='boxframe-desc'>{{data.book.description}}</p>
+
+  {{#if data.trade.book_first_trader_wants_id}}
+    <button type="button" class="btn btn-primary btn-xs" data-user={{data.book.user_id}} data-book={{data.book.id}} id="complete-trade-btn">Complete a Trade</button>
+  {{else if data.trade.status}}
+    <button type="button" class="btn btn-primary btn-xs" data-user={{data.book.user_id}} data-book={{data.book.id}} id="request-trade-btn">Request a Trade</button>
+  {{else}} 
+    <button type="button" class="btn btn-primary btn-xs" data-user={{data.book.user_id}} data-book={{data.book.id}} id="edit-book-btn">Edit This Book</button>
+  {{/if}}
 </div>
 <hr>
-  
+
+
+
+
+

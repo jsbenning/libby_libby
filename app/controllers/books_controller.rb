@@ -12,7 +12,7 @@ class BooksController < ApplicationController
     end
     respond_to do |f|
       f.html { render :index }
-      f.json { render json: @books }
+      f.json { render :json => { :books => @books }}
     end
   end
 
@@ -24,7 +24,7 @@ class BooksController < ApplicationController
     end
     respond_to do |f|
       f.html { render :index }
-      f.json { render :json => { :book => @book, :user => @user }
+      f.json { render :json => { :books => @books, :user => @user }}
     end
   end
 
@@ -47,9 +47,9 @@ class BooksController < ApplicationController
       respond_to do |f|   
         f.html { redirect_to user_books_url, notice: @msg }
         f.json { render :json => { :msg => @msg }}
-      end 
+      end
     else
-    @msg = "Some necessary field is missing!"  
+      @msg = "Some necessary field is missing!"  
       flash.now[:notice] = @msg
       respond_to do |f|
         f.html { render :edit }
@@ -81,14 +81,14 @@ class BooksController < ApplicationController
     if @user.has_permission?
       respond_to do |f|
         f.html { render :edit }
-        f.json { render :json => { :book => @book } }
+        f.json { render :json => { :book => @book }}
       end 
     else
       flash.now[:notice] = "You don't have permission to edit this book!"
       @msg = "You don't have permission to edit this book!"
       respond_to do |f|
-        f.html { redirect_to '/' }
-        f.json { render :json => { :book => @book, :msg => @msg }
+        f.html { render :index }
+        f.json { render :json => { :book => @book, :msg => @msg }}
       end 
     end
   end
