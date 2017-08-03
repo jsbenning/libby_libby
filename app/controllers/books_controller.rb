@@ -23,8 +23,10 @@ class BooksController < ApplicationController
       @books = nil
     end
     respond_to do |f|
+      @msg = "#{@user.first_name} has no books yet!"  
+      flash.now[:notice] = @msg
       f.html { render :index }
-      f.json { render :json => { :books => @books, :user => @user }}
+      f.json { render :json => { :books => @books, :user => @user, :msg => @msg }}
     end
   end
 
