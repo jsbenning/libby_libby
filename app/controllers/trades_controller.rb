@@ -11,12 +11,15 @@ class TradesController < ApplicationController
       setup_a_trade(@trade)
       @my_trades = Trade.my_trades(current_user)
       respond_to do |f|
-        f.html { redirect_to trades_path_url, notice: "You've just initiated a new trade! You can expect a response soon."}
+        f.html { redirect_to trades_path_url, notice: }
         f.json { render json: @my_trades} #could also user a TradeSerializer for this object?
       end
     else
-      flash.now[:notice] = 'There was a problem creating a trade (make sure your shipping info is complete and you have a book to trade)!'
-      render 'home/logged_in'
+      @msg = 'There was a problem creating a trade (make sure your shipping info is complete and you have a book to trade)!'
+      respond_to do |f|
+        f.html { redirect_to trades_path_url, notice: @msg }
+        f.json { render json: @msg } 
+      end
     end
   end
 
@@ -28,7 +31,13 @@ class TradesController < ApplicationController
       @my_trades = Trade.my_trades(current_user)
       respond_to do |f|
         f.html { redirect_to(trades_index_path) }
-        f.json { render json: @my_trades}
+        f.json { render json: @my_trades }
+      end
+    else
+      @msg = "Trade not updated!"
+      respond_to do |f|
+        f.html { redirect_to(home_logged_out_path), notice: @msg }
+        f.json { render json: @msg }
       end
     end
   end
@@ -37,14 +46,17 @@ class TradesController < ApplicationController
     @trade = Trade.find(params[:id])
     if @trade.second_trader_id == current_user.id || @trade.first_trader_id == current_user.id
       destroy_a_trade(@trade) 
-      flash.now[:notice] = 'Trade deleted!'
+      @msg = 'Trade deleted!'
       respond_to do |f|
-        f.html { redirect_to(trades_path) }
+        f.html { redirect_to(trades_path), notice: @msg }
         f.json { render json: @my_trades }
       end
     else
-      flash[:notice] = "You don't have permission to delete this trade!"
-      render 'home/logged_in'
+      @msg = "You don't have permission to delete that trade!" 
+      respond_to do |f|
+        f.html { redirect_to(trades_path) }
+        f.json { render json: @msg }
+      end
     end
   end
 

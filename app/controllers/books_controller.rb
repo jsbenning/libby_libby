@@ -16,7 +16,6 @@ class BooksController < ApplicationController
     end
   end
 
-
   def index_users # localhost:3000/users/5/books
     @user = User.find(params[:user_id])
     @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
@@ -25,7 +24,7 @@ class BooksController < ApplicationController
     end
     respond_to do |f|
       f.html { render :index }
-      f.json { render :text => @book.to_json }#(:include => { :user => @user })}
+      f.json { render :json => { :book => @book, :user => @user }
     end
   end
 
@@ -44,17 +43,16 @@ class BooksController < ApplicationController
     @user = User.find(params[:user_id])
     @book.user = @user
     if @user.has_permission? && @book.save
-      flash[:notice] = "You successfully added a book!"
       @msg = "You successfully added a book!"
       respond_to do |f|   
-        f.html { redirect_to user_books_url }
+        f.html { redirect_to user_books_url, notice: @msg }
         f.json { render :json => { :msg => @msg }}
       end 
-    else  
-      flash.now[:notice] = "Some necessary field is missing!" 
-      @msg = "Some necessary field is missing!"
+    else
+    @msg = "Some necessary field is missing!"  
+      flash.now[:notice] = @msg
       respond_to do |f|
-        f.html { render 'edit' }
+        f.html { render :edit }
         f.json { render :json => { :msg => @msg }} 
       end 
     end
@@ -66,12 +64,14 @@ class BooksController < ApplicationController
     if @user != current_user && Trade.shared_trade(current_user, @user) #in other words, if someone else initiated a trade with the current user, 
     #and the current user is now looking at that person's book, considering completing the trade...
       @trade = Trade.shared_trade(current_user, @user) #...this then gives the option of completing the trade in book show view
-    else
+    elsif @user != current_user
       @trade = Trade.new #this gives the option of initiating a trade in book show view
+    else 
+      @trade = nil #in this case the current_user is viewing his/her own title
     end
     respond_to do |f|
       f.html { render :show }
-      f.json { render :text => @book.to_json(:include => :user) }#, :text => @trade.to_json }
+      f.json { render :json => { :book => @book, :trade => @trade }}
     end
   end
 
@@ -81,14 +81,14 @@ class BooksController < ApplicationController
     if @user.has_permission?
       respond_to do |f|
         f.html { render :edit }
-        f.json { render :json => @book.to_json(:include => :user) }
+        f.json { render :json => { :book => @book } }
       end 
     else
       flash.now[:notice] = "You don't have permission to edit this book!"
       @msg = "You don't have permission to edit this book!"
       respond_to do |f|
-        f.html { render :edit }
-        f.json { render :text => @book.to_json(:include => :user) }
+        f.html { redirect_to '/' }
+        f.json { render :json => { :book => @book, :msg => @msg }
       end 
     end
   end
@@ -107,25 +107,26 @@ class BooksController < ApplicationController
       flash.now[:notice] = "The book wasn't updated, sorry!"
       @msg = "The book wasn't updated, sorry!"
       respond_to do |f|
-        f.html { render :books}
+        f.html { render :books }
         f.json { render :json => { :msg => @msg }}
       end
     end
   end
 
   def destroy
+    @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    if @book.user.has_permission?
+    if @user.has_permission?
       @book.destroy
-      flash[:notice] = "The book was deleted!"
       @msg = "The book was deleted!"
+      flash[:notice] = @msg
       respond_to do |f|
         f.html { redirect_to user_books_url }
         f.json { render :json => { :msg => @msg }}
       end 
     else
-      flash.now[:notice] = "You don't have permission to delete this title, sorry!"
       @msg = "You don't have permission to delete this title, sorry!"
+      flash.now[:notice] = @msg  
       respond_to do |f|
         f.html { render :books }
         f.json { render :json => { :msg => @msg }}
