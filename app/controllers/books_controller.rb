@@ -170,6 +170,7 @@ class BooksController < ApplicationController
     self.author_first_name.capitalize!
     self.author_last_name.capitalize!
     self.description.capitalize!
+  end
 
   def book_params
     params.require(:book).permit(:user_id, :title, :author_last_name, :author_first_name, :isbn, :condition, :description, :status, genre_ids:[], genres_attributes: [:name])
