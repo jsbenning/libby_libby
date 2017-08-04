@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  before_save :capitalize_fields
-  
+   
   def index
     if current_user.mod_or_admin?
       @users = User.all
@@ -93,10 +92,6 @@ class UsersController < ApplicationController
   # end
 
   private
-
-  def capitalize_fields
-    self.real_name.split(" ").each{|w| w.capitalize!()}.join(" ")
-  end
  
 
   def user_params

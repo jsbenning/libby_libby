@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   before_action :confirm_user_shipworthy, except: [:index_all, :index_users]
   before_action :confirm_user_visible, except: [:index_all]
-  before_save :capitalize_fields
+  
   
 
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
@@ -163,13 +163,6 @@ class BooksController < ApplicationController
       flash[:notice] = "Make sure your profile is complete before adding books!"
       render template: 'users/edit'
     end
-  end
-
-  def capitalize_fields
-    self.title.capitalize!
-    self.author_first_name.capitalize!
-    self.author_last_name.capitalize!
-    self.description.capitalize!
   end
 
   def book_params

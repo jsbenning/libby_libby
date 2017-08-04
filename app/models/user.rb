@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  before_save :capitalize_fields
   validates :real_name, :street, :city, :state, :zipcode, presence: true, on: :update # can create but not update incomplete user model
   attr_accessor :current_user
   
@@ -43,6 +44,9 @@ class User < ApplicationRecord
     self.admin? || self.mod?
   end
 
+  def capitalize_fields
+    self.real_name.split(" ").each{|w| w.capitalize!()}.join(" ")
+  end
 
 
   def rating

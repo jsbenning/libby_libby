@@ -1,4 +1,5 @@
 class Book < ApplicationRecord
+  before_save :capitalize_fields
   validates :title, :condition, presence: true
 
   #scope :visible, -> { where(status: 'at_home')} #forgot how this works ---zbytecny?
@@ -15,6 +16,13 @@ class Book < ApplicationRecord
       genre = Genre.find_or_create_by(genre_attribute)
       self.genres << genre
     end
+  end
+  
+  def capitalize_fields
+    self.title.capitalize!
+    self.author_first_name.capitalize!
+    self.author_last_name.capitalize!
+    self.description.capitalize!
   end
 
   def self.search(search, user) #checks if book 'at_home', and that it isn't the searcher's title

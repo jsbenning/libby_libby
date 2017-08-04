@@ -12,6 +12,10 @@ User.destroy_all
 Book.destroy_all
 Genre.destroy_all
 
+BASE_GENRES = ["History", "Math and Science", "Fiction", "Foreign Language", "Children's", "Young Adult", "Sci-Fi/Fantasy", "Reference",\
+ "Social Science", "Art, Design and Fashion", "Psychology and Self-Help", "Horror", "Romance", "Music", "Biography and Memoir", "Travel",\
+  "Ethnic Studies", "Nature and the Environment", "Gender Studies", "Legal Studies", "Sports, Crafts and Hobbies", "Health and Medicine", "TV, Media and Film" ]
+
 
 @user1 = User.create!(email: Faker::Internet.email,
   password: "password123",
@@ -43,6 +47,7 @@ Genre.destroy_all
 
 20.times do |index|
   # genre = Genre.first(offset: rand(Genre.count))
+  
 
   Book.create!(user_id: @user1.id, title: Faker::Book.title,
     author_last_name: Faker::Name.last_name,
