@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170729014459) do
+ActiveRecord::Schema.define(version: 20170803210623) do
 
   create_table "books", force: :cascade do |t|
     t.integer  "user_id"
@@ -42,8 +42,8 @@ ActiveRecord::Schema.define(version: 20170729014459) do
     t.integer  "book_first_trader_wants_id"
     t.integer  "book_second_trader_wants_id"
     t.string   "status",                      default: "new"
-    t.integer  "first_trader_rating"
-    t.integer  "second_trader_rating"
+    t.integer  "first_trader_rating",         default: 3
+    t.integer  "second_trader_rating",        default: 3
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
   end
