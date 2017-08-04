@@ -47,7 +47,7 @@ $(document).ready(function(){
         success: function(data) {
           $("#my-profile-btn").removeAttr('disabled');
           editMyProfileHtml = HandlebarsTemplates['editMyProfileTemplate'] ({
-            user: data
+            data: data
           });
           $('#display-area').html(editMyProfileHtml);
         },

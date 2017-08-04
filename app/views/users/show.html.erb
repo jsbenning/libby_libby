@@ -6,7 +6,8 @@
 
 <% if current_user.mod_or_admin? && current_user != @user %>
 
-<h1> User's Profile </h1>
+<div class='boxframe'>
+  <h1> User's Profile </h1>
 
   <p>User's Real Name: <%= @user.real_name %></p>
   <p>User's Street Address: <%= @user.street %></p>
@@ -14,17 +15,13 @@
   <p>User's State: <%= @user.state %></p>
   <p>User's Zipcode: <%= @user.zipcode %></p>
   <p>User's email: <%= @user.email %></p>
-  <p>User's Current Rating: <strong><%= @user.rating %></strong></p>
-
-  <% if current_user.admin? %> 
-  <p><%= button_to "Delete This account", registration_path(@user, as: :accounts), data: { confirm: "Are you sure?" }, method: :delete %></p> <!-- changed from user_path(@user) to test -->
-  <% end %>
+  <p>User's Current Rating: <strong><%= @rating %> out of 3 (3 is best)</strong></p>
+</div> 
 
 <% elsif current_user == @user %>
 
 <div class='boxframe'>
   <h1>Your Profile </h1>
-
 
   <div class="remember">Remember, if any of the fields below are blank, you must update them to add or trade books</div><br>
   <p><strong>Your Real Name: </strong><%= @user.real_name %></p>
@@ -33,8 +30,9 @@
   <p><strong>Your State: </strong><%= @user.state %></p>
   <p><strong>Your Zipcode: </strong><%= @user.zipcode %></p>
   <p><strong>Your email: </strong><%= @user.email %></p>
-  <p><strong>Your Current Rating: <strong><%= @rating %></strong></p>
+  <p><strong>Your Current Rating: <strong><%= @rating %> out of 3 (3 is best)</strong></p>
 </div>
+
 <% end %>
 
 <hr>
