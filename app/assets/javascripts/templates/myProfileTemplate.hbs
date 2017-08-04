@@ -1,5 +1,5 @@
 <div class='boxframe'><h2>Your Profile: </h2>
-  <p><strong>Your Real Name: {{data.data.user.real_name}}</strong></p>
+  <p><strong>Your Real Name: {{data.user.real_name}}</strong></p>
   <p><strong>Your Street Address: {{data.user.street}} </strong></p>
   <p><strong>Your City: {{data.user.city}}</strong></p>
   <p><strong>Your State: {{data.user.state}}</strong></p>
@@ -9,7 +9,7 @@
   {{#data.books}}
    <p>{{title}}</p>
   {{/data.books}}
-  <p><strong>Your email: </strong><%= @data.user.email %></p>
+  <p><strong>Your email: </strong>{{data.user.email}}</p>
   <p><strong>Your Current Rating:{{data.rating}} out of 3 (3 is best)</strong></p>
   <button type="button" class="btn btn-primary" data-id={{data.user.id}} id="edit-profile">Edit My Profile</button>
 </div>

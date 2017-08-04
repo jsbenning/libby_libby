@@ -53,13 +53,13 @@ class BooksController < ApplicationController
     @user = User.find(params[:user_id])
     @book.user = @user
     if @book.save 
-      @msg = "You successfully added a book!"
+      @msg = "You successfully added a book! Let the nerdfest begin!"
       respond_to do |f|   
         f.html { redirect_to user_books_url, notice: @msg }
         f.json { render :json => { :msg => @msg }}
       end
     else
-      @msg = "Some necessary field is missing!"  
+      @msg = "Some necessary field is missing.  Well don't look at me, I don't understand computers!"  
       flash.now[:alert] = @msg
       respond_to do |f|
         f.html { render :edit }
@@ -116,8 +116,8 @@ class BooksController < ApplicationController
         f.json { render :json => { :msg => @msg }}
       end  
     else
-      flash.now[:notice] = "The book wasn't updated, sorry!"
       @msg = "The book wasn't updated, sorry!"
+      flash.now[:notice] = @msg
       respond_to do |f|
         f.html { render :books }
         f.json { render :json => { :msg => @msg }}
@@ -137,7 +137,7 @@ class BooksController < ApplicationController
         f.json { render :json => { :msg => @msg }}
       end 
     else
-      @msg = "You don't have permission to delete this title, sorry!"
+      @msg = "You don't have permission to delete this title, what's wrong with you?!"
       flash.now[:notice] = @msg  
       respond_to do |f|
         f.html { render :books }
@@ -151,7 +151,7 @@ class BooksController < ApplicationController
   def confirm_user_visible
     @user = User.find(params[:user_id])
     unless @user.visible
-      flash[:notice] = "Requested user is not currently active!"
+      flash[:notice] = "The requested user is not currently active. They're hiding or ... they've been hidden(shudder)!"
       render :root
     end
   end

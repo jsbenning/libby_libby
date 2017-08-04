@@ -10,7 +10,7 @@ class TradesController < ApplicationController
     if @trade.save && @trade.first_trader.shipworthy? && !(@trade.first_trader.books.empty?)
       setup_a_trade(@trade)
       @my_trades = Trade.my_trades(current_user)
-      @msg = "You just created a trade!"
+      @msg = "You just created a trade! Well done #{curent_user.real_name}!"
       respond_to do |f|
         f.html { redirect_to trades_path_url, notice: @msg }
         f.json { render :json => { :my_trades => @my_trades, :msg => @msg }}
@@ -35,13 +35,13 @@ class TradesController < ApplicationController
         @my_book = @trade.book_first_trader_wants
       end
       @my_trades = Trade.my_trades(current_user)
-      @msg = "You just completed a trade.  See the info below and send out your book!"
+      @msg = "You just completed a trade.  See the info below and send out your book! Weeeeeeee!"
       respond_to do |f|
         f.html { redirect_to 'trades/index', notice: @msg }
         f.json { render :json => { :my_trades => @my_trades, :my_book => @my_book, :msg => @msg }}
       end
     else
-      @msg = "Trade not updated!"
+      @msg = "Trade not updated! Something happened!"
       flash.now[:alert] = @msg
       respond_to do |f|
         f.html { render 'home/logged_out' }
@@ -54,13 +54,13 @@ class TradesController < ApplicationController
     @trade = Trade.find(params[:id])
     if @trade.second_trader_id == current_user.id || @trade.first_trader_id == current_user.id
       destroy_a_trade(@trade) 
-      @msg = 'Trade deleted!'
+      @msg = 'Trade deleted! And sent to Hell! (Actually, it was just deleted...)'
       respond_to do |f|
         f.html { redirect_to 'trades/index', notice: @msg }
         f.json { render :json => { :my_trades => @my_trades, :msg => @msg }}
       end
     else
-      @msg = "You don't have permission to delete that trade!" 
+      @msg = "You don't have permission to delete that trade! Cut it out!" 
       flash.now[:alert] = @msg
       respond_to do |f|
         f.html { render 'home/logged_out' }

@@ -8,7 +8,7 @@ class UsersController < ApplicationController
         f.json { render :json => {:users => @users}}
       end
     else
-      @msg = "You can't see all users, sorry..."
+      @msg = "You can't see all users, sorry about that..."
       flash.now[:alert] = @msg
       respond_to do |f|
         f.html { render 'home/logged_out' }
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
       f.json { render :json => {:user => @user}}
     end
     else
-      @msg =  "You're not allowed to edit that account."  
+      @msg =  "You're not allowed to edit that account. Just who do you think you are?"  
       flash.now[:alert] = @msg
       respond_to do |f|
         f.html { render 'home/logged_out' }
@@ -63,7 +63,7 @@ class UsersController < ApplicationController
         f.json { render :json => { :user => @user, :msg => @msg}}
       end   
       else
-        @msg = "All fields must be filled in..."
+        @msg = "Make sure all fields are filled in correctly..."
         flash.now[:alert] = @msg
         respond_to do |f|
           f.html { render :edit }
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
         end
       end
     else
-      flash.now[:alert] = "You're not allowed to edit that account." 
+      flash.now[:alert] = "You're not allowed to edit that account, ya weirdo." 
       respond_to do |f|
         f.html { render 'home/logged_out' }
         f.json { render :json => {:msg => @msg }}
