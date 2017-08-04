@@ -1,48 +1,15 @@
 class User < ApplicationRecord
-  //before_save :capitalize_fields
   validates :real_name, :street, :city, :state, :zipcode, presence: true, on: :update # can create but not update incomplete user model
   validates :state, inclusion: { in: ["AK","Alaska", "AL","Alabama", "AR","Arkansas", "AS","American Samoa", "AZ","Arizona", "CA",\
     "California","CO","Colorado", "CT","Connecticut","DC","District of Columbia", "DE","Delaware", "FL","Florida", "GA","Georgia",\
-    "GU","Guam", "HI","Hawaii","IA","Iowa", "ID","Idaho", "IL","Illinois", "IN","Indiana","KS","Kansas", 
-                "KY","Kentucky", 
-                "LA","Louisiana", 
-                "MA","Massachusetts", 
-                "MD","Maryland", 
-                "ME","Maine", 
-                "MI","Michigan", 
-                "MN","Minnesota", 
-                "MO","Missouri", 
-                "MS","Mississippi", 
-                "MT","Montana", 
-                "NC","North Carolina", 
-                "ND","North Dakota", 
-                "NE","Nebraska", 
-                "NH","New Hampshire", 
-                "NJ","New Jersey", 
-                "NM","New Mexico", 
-                "NV","Nevada", 
-                "NY","New York", 
-                "OH","Ohio", 
-                "OK","Oklahoma", 
-                "OR","Oregon", 
-                "PA","Pennsylvania", 
-                "PR","Puerto Rico", 
-                "RI","Rhode Island", 
-                "SC","South Carolina", 
-                "SD","South Dakota", 
-                "TN","Tennessee", 
-                "TX","Texas", 
-                "UT","Utah", 
-                "VA","Virginia", 
-                "VI","Virgin Islands", 
-                "VT","Vermont", 
-                "WA","Washington", 
-                "WI","Wisconsin", 
-                "WV","West Virginia", 
-                "WY","Wyoming"], message: "%{value} is not a valid state" }
+    "GU","Guam", "HI","Hawaii","IA","Iowa", "ID","Idaho", "IL","Illinois", "IN","Indiana","KS","Kansas", "KY","Kentucky","LA",\
+    "Louisiana", "MA","Massachusetts", "MD","Maryland", "ME","Maine", "MI","Michigan", "MN","Minnesota", "MO","Missouri", "MS",\
+    "Mississippi", "MT","Montana", "NC","North Carolina", "ND","North Dakota", "NE","Nebraska", "NH","New Hampshire", "NJ", \
+    "New Jersey", "NM","New Mexico", "NV","Nevada", "NY","New York", "OH","Ohio", "OK","Oklahoma", "OR","Oregon", "PA","Pennsylvania", \
+    "PR","Puerto Rico", "RI","Rhode Island","SC","South Carolina", "SD","South Dakota", "TN","Tennessee", "TX","Texas", "UT","Utah", \
+    "VA","Virginia", "VI","Virgin Islands",  "VT","Vermont", "WA","Washington", "WI","Wisconsin", "WV","West Virginia", "WY","Wyoming"],\
+     message: "%{value} is not a valid state" }
 
-
-  
   enum role: [ :reader, :mod, :admin ]# admins can make users invisible, mods can view all users
   has_many :books, :dependent => :destroy
   accepts_nested_attributes_for :books
@@ -98,23 +65,12 @@ class User < ApplicationRecord
 
   def state=(s)
     if s.length == 2
-      s.upcase
+      write_attribute(:state, s.to_s.upcase)
     else
       write_attribute(:state, s.to_s.titleize)
     end
   end
-
-  # def capitalize_fields
-  #   self.real_name.split(" ").each{|w| w.capitalize!()}.join(" ")
-  #   self.street.split(" ").each{|w| w.capitalize!()}.join(" ")
-  #   self.city.split(" ").each{|w| w.capitalize!()}.join(" ")
-  #   if self.state.length == 2
-  #     self.state.upcase!
-  #   elsif self.state.length > 2
-  #     self.state.split(" ").each{|w| w.capitalize!()}.join(" ")
-  #   end        
-  # end     
-
+   
   def rating
     Trade.user_rating(self)
   end          
