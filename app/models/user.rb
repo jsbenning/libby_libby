@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  validate :capitalize_fields
+  //before_save :capitalize_fields
   validates :real_name, :street, :city, :state, :zipcode, presence: true, on: :update # can create but not update incomplete user model
   validates :state, inclusion: { in: ["AK","Alaska", "AL","Alabama", "AR","Arkansas", "AS","American Samoa", "AZ","Arizona", "CA",\
     "California","CO","Colorado", "CT","Connecticut","DC","District of Columbia", "DE","Delaware", "FL","Florida", "GA","Georgia",\
@@ -84,16 +84,36 @@ class User < ApplicationRecord
     self.admin? || self.mod?
   end
 
-  def capitalize_fields
-    self.real_name.split(" ").each{|w| w.capitalize!()}.join(" ")
-    self.street.split(" ").each{|w| w.capitalize!()}.join(" ")
-    self.city.split(" ").each{|w| w.capitalize!()}.join(" ")
-    if self.state.length == 2
-      self.state.upcase!
-    elsif self.state.length > 2
-      self.state.split(" ").each{|w| w.capitalize!()}.join(" ")
-    end        
-  end     
+  def real_name=(s)
+    write_attribute(:real_name, s.to_s.titleize)
+  end
+
+  def street=(s)
+    write_attribute(:street, s.to_s.titleize)
+  end
+
+  def city=(s)
+    write_attribute(:city, s.to_s.titleize)
+  end
+
+  def state=(s)
+    if s.length == 2
+      s.upcase
+    else
+      write_attribute(:state, s.to_s.titleize)
+    end
+  end
+
+  # def capitalize_fields
+  #   self.real_name.split(" ").each{|w| w.capitalize!()}.join(" ")
+  #   self.street.split(" ").each{|w| w.capitalize!()}.join(" ")
+  #   self.city.split(" ").each{|w| w.capitalize!()}.join(" ")
+  #   if self.state.length == 2
+  #     self.state.upcase!
+  #   elsif self.state.length > 2
+  #     self.state.split(" ").each{|w| w.capitalize!()}.join(" ")
+  #   end        
+  # end     
 
   def rating
     Trade.user_rating(self)
