@@ -44,7 +44,7 @@ class BooksController < ApplicationController
     @book = Book.new(book_params)
     @user = User.find(params[:user_id])
     @book.user = @user
-    if @user.has_permission? && @book.save
+    if (@user.id == current_user.id || @user.admin?) && @book.save
       @msg = "You successfully added a book!"
       respond_to do |f|   
         f.html { redirect_to user_books_url, notice: @msg }
@@ -80,7 +80,7 @@ class BooksController < ApplicationController
   def edit
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    if @user.has_permission?
+    if @user.id == (current_user.id || @user.admin?)
       respond_to do |f|
         f.html { render :edit }
         f.json { render :json => { :book => @book }}
@@ -98,7 +98,7 @@ class BooksController < ApplicationController
   def update
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    if @user.has_permission? && @book.update_attributes(book_params)
+    if @user.id == (current_user.id || @user.admin?) && @book.update_attributes(book_params)
       flash[:notice] = "The book was updated!"
       @msg = "The book was updated!"
       respond_to do |f|
@@ -118,7 +118,7 @@ class BooksController < ApplicationController
   def destroy
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    if @user.has_permission?
+    if @user.id == (current_user.id || @user.admin?)
       @book.destroy
       @msg = "The book was deleted!"
       flash[:notice] = @msg
