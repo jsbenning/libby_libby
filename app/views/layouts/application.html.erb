@@ -6,13 +6,11 @@
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
   <%= analytics_init if Rails.env.production? %>
-  <div id="banner">
-    <div id="wrapper">
+
         <div id="container">
-                <input type="image" id="banner-img" class= "col-xs-12 col-md-12" <%= image_tag "banner1.png" %>
+                <img id="banner-img" <%= image_tag "banner1.png" %>
         </div>
-    </div>
-  </div>
+
 
 
     <%= csrf_meta_tags %>

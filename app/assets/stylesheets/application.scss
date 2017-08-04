@@ -21,8 +21,7 @@
 /* Some Style from the Bootstrap Default Theme */
 
 body {
-  padding-top: 70px;
-  padding-bottom: 50px;
+
   padding: 50px;
 }
 
@@ -49,6 +48,11 @@ hr {
     padding: 0; 
 }
 
+p.notice, p.alert, #msg-area {
+  color: red;
+  font-size: 150%;
+}
+
 img {
     border-radius: 3px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.9); 
@@ -69,19 +73,13 @@ img {
   text-align: center;
 }
 
-.wrapper {
-    width: 100%;
-    overflow: hidden;
-}
-.container {
-    width: 100%;
-    margin: 0 auto;
-}
+
 #banner-img {
-    max-width: 100%;
-    margin: 10px 0 20px 0;
-    border-radius: 3px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.9);
+    width: 90%;
+    height: auto;
+    margin-left: 4%;
+    margin-right: 0;
+    margin-bottom: 20px;
 }
 
 img[src=""] {
@@ -104,7 +102,8 @@ img[src=""] {
   margin-left: 15%;
   margin-right: 15%;
   margin-top: 20px;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
+  color: darkblue; 
 }
 
 .boxframe-title {
