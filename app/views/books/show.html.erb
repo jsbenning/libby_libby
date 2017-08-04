@@ -9,7 +9,7 @@
 
     <h3 class="boxframe-title">Title: <%= @book.title %></h3>
     <p class="boxframe-subj">Author: </p>
-    <p class="boxframe-desc"><%= @book.author_last_name %>, <%= @book.author_first_name %></p>
+    <p class="boxframe-desc"><%= @book.author_first_name %> <%= @book.author_last_name %></p>
 
     <p class="boxframe-subj">Genre(s):</p>
     <% @book.genres.each do |genre| %>
@@ -21,7 +21,7 @@
     <p class="boxframe-subj">Condition:</p>
     <p class="boxframe-desc"> <%= @book.condition %></p>
     <p class="boxframe-subj">Description:</p>
-    <p class="boxframe-desc"><%= @book.description%></p>
+    <p class="boxframe-desc"><%= @book.description %></p>
     <hr>
 
     <% if @book.user == current_user %>
