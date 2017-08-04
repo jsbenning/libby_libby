@@ -1,6 +1,13 @@
+/////// Golden key
+//   $(document.body).on('click', 'button', function() {
+//     alert ('button ' + this.id + ' clicked');
+// });
+
+
 $(document).ready(function(){ 
 
-  $('#display-area').unbind('click').on('click', '.show-book-btn', function(e) {
+  //$('#display-area').unbind('click').on('click', '.show-book-btn', function(e) {
+  $(document.body).on('click', '.show-book-btn', function(e) {
     clearDivs;
     var userId = $(this).attr('data-value1');
     var bookId = $(this).attr('data-value2');
@@ -27,4 +34,21 @@ $(document).ready(function(){
     e.stopImmediatePropagation();
     return false;
   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 });

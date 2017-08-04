@@ -1,3 +1,9 @@
+/////// Golden key
+//   $(document.body).on('click', 'button', function() {
+//     alert ('button ' + this.id + ' clicked');
+// });
+
+
 $(document).ready(function(){
   $("#my-books-btn").on('click', function(e) { 
     $("#my-books-btn").attr('disabled', 'disabled');
@@ -18,7 +24,7 @@ $(document).ready(function(){
           $('#display-area').html(booksListHtml);
           $('#display-area').append(addBookButton);
         } else {
-          $('#msg-area').html(data.msg);
+          $('.notice').html(data.msg);
           $('#display-area').html(addBookButton);
         };
       }, 

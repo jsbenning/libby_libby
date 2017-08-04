@@ -1,3 +1,9 @@
+/////// Golden key
+//   $(document.body).on('click', 'button', function() {
+//     alert ('button ' + this.id + ' clicked');
+// });
+
+
 $(document).ready(function(){
 
   $("#my-profile-btn").on('click', function(e) { 
