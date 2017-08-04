@@ -17,8 +17,9 @@ class TradesController < ApplicationController
       end
     else
       @msg = 'There was a problem creating a trade (make sure your shipping info is complete and you have a book to trade)!'
+      flash.now[:alert] = @msg
       respond_to do |f|
-        f.html { render :index, notice: @msg }
+        f.html { render 'home/logged_out' }
         f.json { render :json => { :msg => @msg }} 
       end
     end
@@ -41,8 +42,9 @@ class TradesController < ApplicationController
       end
     else
       @msg = "Trade not updated!"
+      flash.now[:alert] = @msg
       respond_to do |f|
-        f.html { render :index, notice: @msg }
+        f.html { render 'home/logged_out' }
         f.json { render :json => { :msg => @msg }}
       end
     end
@@ -59,8 +61,9 @@ class TradesController < ApplicationController
       end
     else
       @msg = "You don't have permission to delete that trade!" 
+      flash.now[:alert] = @msg
       respond_to do |f|
-        f.html { render :index }
+        f.html { render 'home/logged_out' }
         f.json { render :json => { :msg => @msg }}
       end
     end

@@ -48,11 +48,11 @@ class BooksController < ApplicationController
     end
   end
 
-   def create
+  def create
     @book = Book.new(book_params)
     @user = User.find(params[:user_id])
     @book.user = @user
-    if (@user.id == current_user.id || @user.admin?) && @book.save
+    if @book.save 
       @msg = "You successfully added a book!"
       respond_to do |f|   
         f.html { redirect_to user_books_url, notice: @msg }
@@ -60,11 +60,11 @@ class BooksController < ApplicationController
       end
     else
       @msg = "Some necessary field is missing!"  
-      flash.now[:notice] = @msg
+      flash.now[:alert] = @msg
       respond_to do |f|
         f.html { render :edit }
         f.json { render :json => { :msg => @msg }} 
-      end 
+      end   
     end
   end
 

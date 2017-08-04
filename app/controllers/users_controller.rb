@@ -6,13 +6,13 @@ class UsersController < ApplicationController
       @users = User.all
       respond_to do |f|
         f.html { render :index }
-        f.json { render json: @users}
+        f.json { render :json => {:users => @users}}
       end
-    elsif current_user
-      @msg = "You don't have the authority to access all users..."
-      flash.now[:notice] = @msg
+    else
+      @msg = "You can't see all users, sorry..."
+      flash.now[:alert] = @msg
       respond_to do |f|
-        f.html { render 'home/logged_in' }
+        f.html { render 'home/logged_out' }
         f.json { render :json => {:msg => @msg }}
       end
     end
@@ -20,15 +20,20 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @books = @user.books
     @rating = @user.rating
-    if @user.admin? || @user == current_user 
-    respond_to do |f|
-      f.html { render :show }
-      f.json { render json: @user.as_json(include: :books) }
-    end
+    if @user.admin? || @user == current_user
+      respond_to do |f|
+        f.html { render :show }
+        f.json { render json: => {:user => @user, :books => @books, :rating => @rating }}
+      end
     else
-      flash.now[:notice] = "You don't have permission..." 
-      redirect_to 'home/logged_out'
+      @msg = "You don't have permission to look at that user's info. Come on, now you're just being creepy."
+      flash.now[:alert] = @msg
+      respond_to do |f|
+        f.html { render 'home/logged_out' }
+        f.json { render :json => {:msg => @msg }}
+      end
     end
   end
 
@@ -40,27 +45,42 @@ class UsersController < ApplicationController
       f.json { render json: @user}
     end
     else
-      flash.now[:notice] = "You don't have permission..." 
-      redirect_to 'home/logged_out'
+      @msg =  "You're not allowed to edit that account."  
+      flash.now[:alert] = @msg
+      respond_to do |f|
+        f.html { render 'home/logged_out' }
+        f.json { render :json => {:msg => @msg }}
+      end
     end
   end
 
   def update
     @user = User.find(params[:id])
     if @user == current_user || @user.admin?
-      if @user.update_attributes(user_params) 
-        redirect_to root_path, notice: 'User Info Updated!'
+      if @user.update_attributes(user_params)
+      @msg = 'User Info Updated! Huzzah!'
+      respond_to do |f|
+        f.html { redirect_to root_path, notice: @msg }
+        f.json { render :json => { :user => @user, :msg => @msg}}
+      end   
       else
-        flash.now[:notice] = "All fields must be filled in..."
-        render "users/edit"
+        @msg = "All fields must be filled in..."
+        flash.now[:alert] = @msg
+        respond_to do |f|
+          f.html { render :edit }
+          f.json { render :json => { :msg => @msg }}
+        end
       end
     else
-      flash.now[:notice] = "You don't have permission..." 
-      redirect_to 'home/logged_out' 
+      flash.now[:alert] = "You're not allowed to edit that account." 
+      respond_to do |f|
+        f.html { render 'home/logged_out' }
+        f.json { render :json => {:msg => @msg }}
+      end  
     end
   end
 
-  # def destroy #let devise handle this?
+  # def destroy # let devise handle this? I say yass!
   #   @user = User.find(params[:id])
   #   if (current_user.admin || current_user == @user)  
   #     @user.destroy
