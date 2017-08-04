@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
   before_action :confirm_user_shipworthy, except: [:index_all, :index_users]
   before_action :confirm_user_visible, except: [:index_all]
+  before_save :capitalize_fields
   
 
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
@@ -18,12 +19,19 @@ class BooksController < ApplicationController
 
   def index_users # localhost:3000/users/5/books
     @user = User.find(params[:user_id])
+    if @user == current_user
+      the_name = "You don't have "
+    else
+      the_name = "#{@user.first_name.capitalize} hasn't got "
+    end
     @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
     if @books.empty?
       @books = nil
+      @msg = "#{the_name} any books yet!"
+    else
+    @msg = "Here are #{@user.first_name}'s books..." 
     end
-    respond_to do |f|
-      @msg = "#{@user.first_name} has no books yet!"  
+    respond_to do |f|   
       flash.now[:notice] = @msg
       f.html { render :index }
       f.json { render :json => { :books => @books, :user => @user, :msg => @msg }}
@@ -66,14 +74,16 @@ class BooksController < ApplicationController
     if @user != current_user && Trade.shared_trade(current_user, @user) #in other words, if someone else initiated a trade with the current user, 
     #and the current user is now looking at that person's book, considering completing the trade...
       @trade = Trade.shared_trade(current_user, @user) #...this then gives the option of completing the trade in book show view
+      @other_trader_rating = Trade.user_rating(@user)
     elsif @user != current_user
       @trade = Trade.new #this gives the option of initiating a trade in book show view
+      @other_trader_rating = Trade.user_rating(@user)
     else 
       @trade = nil #in this case the current_user is viewing his/her own title
     end
     respond_to do |f|
       f.html { render :show }
-      f.json { render :json => { :book => @book, :trade => @trade }}
+      f.json { render :json => { :book => @book, :trade => @trade, :other_trader_rating => @other_trader_rating }}
     end
   end
 
@@ -154,6 +164,12 @@ class BooksController < ApplicationController
       render template: 'users/edit'
     end
   end
+
+  def capitalize_fields
+    self.title.capitalize!
+    self.author_first_name.capitalize!
+    self.author_last_name.capitalize!
+    self.description.capitalize!
 
   def book_params
     params.require(:book).permit(:user_id, :title, :author_last_name, :author_first_name, :isbn, :condition, :description, :status, genre_ids:[], genres_attributes: [:name])

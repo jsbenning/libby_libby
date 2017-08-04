@@ -36,9 +36,11 @@
 
       <p>Owner's Current Rating: <%= @book.user.rating %> </p>
 
-    <% end %>  
+    <% end %>
 
-  <% if !(@trade.first_trader_id) && @book.user != current_user && current_user.shipworthy? %> 
+    <% if !(@trade) %> 
+
+    <% elsif !(@trade.first_trader_id) && @book.user != current_user && current_user.shipworthy? %> 
 
       <%= form_for @trade do |f| %>
         <%= f.hidden_field :book_first_trader_wants_id, value: @book.id %>

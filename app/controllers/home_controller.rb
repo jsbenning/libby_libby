@@ -9,6 +9,9 @@ class HomeController < ApplicationController
   end
 
   def logged_in
+    unless current_user
+      render 'home/logged_out'
+    end
   end
   
 end

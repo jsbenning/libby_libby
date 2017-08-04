@@ -25,12 +25,8 @@
 <div class='boxframe'>
   <h1>Your Profile </h1>
 
-  <p><strong>Your Favorite Genres:</strong></p>
-    <% @user.genres.each do |genre| %>
-      <%= genre.name %></p>
-    <% end %>
 
-  <p><i>Remember, if any of the fields below are blank, you must update them to add or trade books</i><p>
+  <div class="remember">Remember, if any of the fields below are blank, you must update them to add or trade books</div><br>
   <p><strong>Your Real Name: </strong><%= @user.real_name %></p>
   <p><strong>Your Street Address: </strong><%= @user.street %></p>
   <p><strong>Your City: </strong><%= @user.city %></p>

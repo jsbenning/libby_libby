@@ -19,10 +19,10 @@ $(document).ready(function(){
         var book = data.book;
         extend(book);
         book.authorFullName = book.authorFullName();
-        bookHtml = HandlebarsTemplates['showBookTemplate'] ({
+        showBookHtml = HandlebarsTemplates['showBookTemplate'] ({
           data: data
         });
-      $('#display-area').html(bookHtml);
+      $('#display-area').html(showBookHtml);
       // var bookUser = ($('#trade-request-btn').attr('data-user'));
       // var bookId = ($('#trade-request-btn').attr('data-book'));
       },

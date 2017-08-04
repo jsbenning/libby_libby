@@ -1,5 +1,7 @@
 var clearDivs = function() {
-  $("#display-area").html('');
+  $("#display-area").html("");
+  $(".notice").html("");
+  $(".alert").html("");
 }
 
 function extend(obj) {

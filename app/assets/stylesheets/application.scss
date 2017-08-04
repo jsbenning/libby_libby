@@ -48,10 +48,26 @@ hr {
     padding: 0; 
 }
 
-p.notice, p.alert, #msg-area {
-  color: red;
-  font-size: 150%;
+p.notice {
+    color: #00529B;
+    background-color: #BDE5F8;
+    padding: 10px 0px 10px 20px;
+    font-size: 120%;
+
 }
+
+p.alert {
+  color: #D8000C;
+  background-color: #FFBABA;
+  padding: 5px 0px 5px 20px;
+  font-size: 120%;
+}
+
+#msg-area {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+
 
 img {
     border-radius: 3px;
@@ -84,6 +100,11 @@ img {
 
 img[src=""] {
     display: none;
+}
+
+.remember {
+  font-style: italic;
+  color: orange;
 }
 
 .centered {

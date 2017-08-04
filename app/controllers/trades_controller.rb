@@ -29,24 +29,21 @@ class TradesController < ApplicationController
     if @trade.update(trade_params)
       complete_a_trade(@trade)
       if current_user == @trade.first_trader
-        @other_trader = @trade.second_trader
         @my_book = @trade.book_second_trader_wants
       else
-        @other_trader = @trade.first_trader
         @my_book = @trade.book_first_trader_wants
       end
-      @other_trader_rating = Trade.user_rating(@other_trader)
       @my_trades = Trade.my_trades(current_user)
       @msg = "You just completed a trade.  See the info below and send out your book!"
       respond_to do |f|
-        f.html { redirect_to(trades_index_url), notice: @msg }
-        f.json { render :json => { :my_trades => @my_trades, :other_trader => @other_trader, :other_trader_rating => @other_trader_rating, :my_book => @my_book, :msg => @msg }}
+        f.html { redirect_to 'trades/index', notice: @msg }
+        f.json { render :json => { :my_trades => @my_trades, :my_book => @my_book, :msg => @msg }}
       end
     else
       @msg = "Trade not updated!"
       respond_to do |f|
         f.html { render :index, notice: @msg }
-        f.json { render :json { :msg => @msg }}
+        f.json { render :json => { :msg => @msg }}
       end
     end
   end
@@ -57,7 +54,7 @@ class TradesController < ApplicationController
       destroy_a_trade(@trade) 
       @msg = 'Trade deleted!'
       respond_to do |f|
-        f.html { redirect_to(trades_index_url), notice: @msg }
+        f.html { redirect_to 'trades/index', notice: @msg }
         f.json { render :json => { :my_trades => @my_trades, :msg => @msg }}
       end
     else
@@ -75,7 +72,7 @@ class TradesController < ApplicationController
     book_first_trader_wants = Book.find(trade.book_first_trader_wants_id)
     book_first_trader_wants.status = 'traded'
     book_first_trader_wants.save
-    //trade.status = 'new', this is the default
+    #trade.status = 'new', this is the default
     trade.save
   end
 

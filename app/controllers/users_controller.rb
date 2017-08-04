@@ -8,13 +8,18 @@ class UsersController < ApplicationController
         f.json { render json: @users}
       end
     elsif current_user
-      flash.now[:notice] = "You don't have the authority to access all users..."
-      redirect_to 'home/logged_out'
+      @msg = "You don't have the authority to access all users..."
+      flash.now[:notice] = @msg
+      respond_to do |f|
+        f.html { render 'home/logged_in' }
+        f.json { render :json => {:msg => @msg }}
+      end
     end
   end
 
   def show
     @user = User.find(params[:id])
+    @rating = @user.rating
     if @user.admin? || @user == current_user 
     respond_to do |f|
       f.html { render :show }
