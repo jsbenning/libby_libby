@@ -14,11 +14,16 @@
   <p class='boxframe-desc'>{{data.book.description}}</p>
 
   {{#if data.trade.book_first_trader_wants_id}}
+  <div id='trader1-rating'>Trader's Rating: {{data.trade.first_trader_rating}}
+  </div>
     <button type="button" class="btn btn-primary btn-xs" data-user={{data.book.user_id}} data-book={{data.book.id}} id="complete-trade-btn">Complete a Trade</button>
   {{else if data.trade.status}}
+  <div id='trader1-rating'>Trader's Rating: {{data.trade.first_trader_rating}}
+  </div>
     <button type="button" class="btn btn-primary btn-xs" data-user={{data.book.user_id}} data-book={{data.book.id}} id="request-trade-btn">Request a Trade</button>
   {{else}} 
     <button type="button" class="btn btn-primary btn-xs" data-user={{data.book.user_id}} data-book={{data.book.id}} id="edit-book-btn">Edit This Book</button>
+    <button type="button" class="btn btn-primary btn-xs" data-user={{data.book.user_id}} data-book={{data.book.id}} id="delete-book-btn" onclick = "return confirm('are you sure?')" >Delete This Book</button>
   {{/if}}
 </div>
 <hr>

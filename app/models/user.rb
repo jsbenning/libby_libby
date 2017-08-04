@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   validates :real_name, :street, :city, :state, :zipcode, presence: true, on: :update # can create but not update incomplete user model
+  attr_accessor :current_user
   
   enum role: [ :reader, :mod, :admin ]# admins can make users invisible, mods can view all users
   has_many :books, :dependent => :destroy
@@ -43,7 +44,7 @@ class User < ApplicationRecord
   end
 
   def has_permission?
-    self.admin || self == current_user
+    self.admin? || self.id == User.current.user.id
   end
 
   def rating

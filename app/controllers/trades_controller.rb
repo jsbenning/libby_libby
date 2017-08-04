@@ -5,7 +5,7 @@ class TradesController < ApplicationController
   end
   
   def create # This is created with first_trader_id, second_trader_id and book_first_trader_wants_id attributes, status "new"; 
-    # also there is no 'new' action, as a trade is instantiated through the book show form 
+    # also there is no 'new' action, as a trade is instantiated through the book show form by current user as first trader
     @trade = Trade.create(trade_params)
     if @trade.save && @trade.first_trader.shipworthy? && !(@trade.first_trader.books.empty?)
       setup_a_trade(@trade)
@@ -35,11 +35,12 @@ class TradesController < ApplicationController
         @other_trader = @trade.first_trader
         @my_book = @trade.book_first_trader_wants
       end
+      @other_trader_rating = Trade.user_rating(@other_trader)
       @my_trades = Trade.my_trades(current_user)
       @msg = "You just completed a trade.  See the info below and send out your book!"
       respond_to do |f|
         f.html { redirect_to(trades_index_url), notice: @msg }
-        f.json { render :json => { :my_trades => @my_trades, :other_trader => @other_trader, :my_book => @my_book, :msg => @msg }}
+        f.json { render :json => { :my_trades => @my_trades, :other_trader => @other_trader, :other_trader_rating => @other_trader_rating, :my_book => @my_book, :msg => @msg }}
       end
     else
       @msg = "Trade not updated!"
@@ -74,7 +75,7 @@ class TradesController < ApplicationController
     book_first_trader_wants = Book.find(trade.book_first_trader_wants_id)
     book_first_trader_wants.status = 'traded'
     book_first_trader_wants.save
-    trade.status = 'new'
+    //trade.status = 'new', this is the default
     trade.save
   end
 
