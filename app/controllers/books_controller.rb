@@ -3,7 +3,6 @@ class BooksController < ApplicationController
   before_action :confirm_user_visible, except: [:index_all]
   
   
-
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
     search = params[:search]
     if params[:id]

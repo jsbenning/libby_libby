@@ -21,11 +21,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @books = @user.books
     @rating = @user.rating
-    if @user.admin? || @user == current_user
+    if @user.mod_or_admin? || @user == current_user
       respond_to do |f|
         f.html { render :show }
         f.json { render :json => {:user => @user, :books => @books, :rating => @rating }}
-      end
+      end   
     else
       @msg = "You don't have permission to look at that user's info. Come on, now you're just being creepy."
       flash.now[:alert] = @msg
@@ -39,10 +39,10 @@ class UsersController < ApplicationController
   def edit
     @user = User.find(params[:id])
     if @user.admin? || @user == current_user 
-    respond_to do |f|
-      f.html { render :edit }
-      f.json { render :json => {:user => @user}}
-    end
+      respond_to do |f|
+        f.html { render :edit }
+        f.json { render :json => {:user => @user }}
+      end
     else
       @msg =  "You're not allowed to edit that account. Just who do you think you are?"  
       flash.now[:alert] = @msg
