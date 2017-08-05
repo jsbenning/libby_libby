@@ -119,51 +119,10 @@ $(document).ready(function(){
     // return false;
   });
 
+  // Load More Books
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  $(document.body).on('click', 'load-more-books-btn', function() {
+    alert("Wow!");
+  })
 
 });
