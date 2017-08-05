@@ -1,16 +1,15 @@
 <div class='boxframe'><h2>Your Profile: </h2>
-  <p><strong>Your Real Name: {{data.user.real_name}}</strong></p>
-  <p><strong>Your Street Address: {{data.user.street}} </strong></p>
-  <p><strong>Your City: {{data.user.city}}</strong></p>
-  <p><strong>Your State: {{data.user.state}}</strong></p>
-  <p><strong>Your Zipcode: {{data.user.zipcode}} </strong></p>
-  <p><strong>Your Role: {{data.user.role}} </strong></p>
-  <p><strong>Your Books: (This can be removed later, just an experiment)</strong></p>
+  <p><strong>Your Real Name:</strong> {{data.user.real_name}}</p>
+  <p><strong>Your Street Address:</strong> {{data.user.street}}</p>
+  <p><strong>Your City:</strong> {{data.user.city}}</p>
+  <p><strong>Your State:</strong> {{data.user.state}}</p>
+  <p><strong>Your Zipcode:</strong> {{data.user.zipcode}}</p>
+  <p><strong>Your Role:</strong> {{data.user.role}}</p>
+  <p><strong>Your Books:</strong></p>
   {{#data.books}}
-   <p>{{title}}</p>
+   <p class="indent">{{title}}</p>
   {{/data.books}}
-  <p><strong>Your email: </strong>{{data.user.email}}</p>
-  <p><strong>Your Current Rating:<span> {{data.rating}} out of 3 (3 is best)</strong></p>
-  <button type="button" class="btn btn-primary" data-id={{data.user.id}} id="edit-profile">Edit My Profile</button>
+  <p><strong>Your email:</strong> {{data.user.email}}</p>
+  <p><strong>Your Current Rating:</strong><span> {{data.rating}} out of 3 (3 is best)</p>
 </div>
 
