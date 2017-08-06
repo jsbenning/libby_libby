@@ -11,7 +11,7 @@ class UsersController < ApplicationController
       @msg = "You can't see all users, sorry about that..."
       flash.now[:alert] = @msg
       respond_to do |f|
-        f.html { render 'home/logged_out' }
+        f.html { redirect_to 'home/logged_out' }
         f.json { render :json => {:msg => @msg }}
       end
     end
@@ -73,7 +73,7 @@ class UsersController < ApplicationController
     else
       flash.now[:alert] = "You're not allowed to edit that account, ya weirdo." 
       respond_to do |f|
-        f.html { render 'home/logged_out' }
+        f.html { redirect_to 'home/logged_out' }
         f.json { render :json => {:msg => @msg }}
       end  
     end

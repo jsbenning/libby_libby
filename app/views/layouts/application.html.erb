@@ -28,6 +28,7 @@
     <%= yield %>
   </body>
   <footer>
+  <hr>
    
 <% if current_user && !(current_user.uid) %>
 <p><%= button_to "Change My Password", edit_user_registration_path(current_user), :method => 'get', :class => 'btn btn-primary' %></p>

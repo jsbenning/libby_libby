@@ -8,7 +8,7 @@ class User < ApplicationRecord
     "New Jersey", "NM","New Mexico", "NV","Nevada", "NY","New York", "OH","Ohio", "OK","Oklahoma", "OR","Oregon", "PA","Pennsylvania", \
     "PR","Puerto Rico", "RI","Rhode Island","SC","South Carolina", "SD","South Dakota", "TN","Tennessee", "TX","Texas", "UT","Utah", \
     "VA","Virginia", "VI","Virgin Islands",  "VT","Vermont", "WA","Washington", "WI","Wisconsin", "WV","West Virginia", "WY","Wyoming"],\
-     message: "%{value} is not a valid state" }
+     message: "%{value} is not a valid state" }, on: :update
 
   enum role: [ :reader, :mod, :admin ]# admins can make users invisible, mods can view all users
   has_many :books, :dependent => :destroy

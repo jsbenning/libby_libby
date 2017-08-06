@@ -2,10 +2,10 @@ $(document).ready(function(){
 
 
   // My Books
-  $(document.body).ready('click', '#my-books-btn', function(e){ 
+  $(document.body).on('click', '#my-books-btn', function(e){ 
     $("#my-books-btn").attr('disabled', 'disabled');
-    $("#display-area").html('');
     clearDivs();
+    
     
     var personId = this.getAttribute('data-id');
     var url = "http://localhost:3000/users/" + personId + "/books.json";
@@ -13,7 +13,7 @@ $(document).ready(function(){
       dataType: "json",
       url: url,
       success: function(data) {
-        var addBookButton = "<button type='button' class='btn btn-primary' data-user={{data.user.id}} id='add-book-btn'>Add a Book</button>";
+        var newBookButton = "<button type='button' class='btn btn-primary' data-user={{data.user.id}} id='new-book-btn'>Add a Book</button>";
         $("#my-books-btn").removeAttr('disabled');
         if (data.book) {
           booksListHtml = HandlebarsTemplates['allBooksTemplate'] ({
@@ -23,7 +23,7 @@ $(document).ready(function(){
           $('#display-area').append(addBookButton);
         } else {
           $('.notice').html(data.msg);
-          $('#display-area').html(addBookButton);
+          $('#display-area').html(newBookButton);
         };
       }, 
       error: function() {
@@ -35,11 +35,12 @@ $(document).ready(function(){
   });
 
 
-  // All Books
+  //All Books
 
   $(document.body).on('click', '#all-books-btn', function(e) {
-    $("#all-books-btn").attr('disabled', 'disabled');
     clearDivs();
+    $("#all-books-btn").attr('disabled', 'disabled');
+    
     var url = "http://localhost:3000/books.json";
     $.ajax({
       dataType: "json",
@@ -93,13 +94,13 @@ $(document).ready(function(){
 
   // Search Function
 
-  $(document.body).on('click', '#json-search-btn', function(e) {
-    $("#json-search-btn").attr('disabled', 'disabled');
+  // $(document.body).on('click', '#json-search-btn', function(e) {
+  //   $("#json-search-btn").attr('disabled', 'disabled');
     
-    var searchTerm = $('#search-field').text;
-    console.log(searchTerm);
+  //   var searchTerm = $('#search-field').text;
+  //   console.log(searchTerm);
     // var url = "http://localhost:3000/books.json?Search=" + searchTerm;
-    // clearDivs;
+    // clearDivs();
     // $.ajax({
     //   dataType: "json",
     //   url: url,
@@ -117,12 +118,38 @@ $(document).ready(function(){
     // });
     // e.stopImmediatePropagation();
     // return false;
+  //});
+
+  // Create a Book
+
+  $(document.body).on('click', '#new-book-btn', function(e) {
+    clearDivs();
+    var userId = $(this).attr('data-user');
+    $("#new-book-btn").attr('disabled', 'disabled');
+    var url = "http://localhost:3000/users/" + userId + "/books/" + "new.json"
+    $.ajax({
+    dataType: "json",
+      url: url,
+      success: function(data) {
+        $("#new-book-btn").removeAttr('disabled');
+        newBookHtml = HandlebarsTemplates['newBookForm'] ({
+        data: data
+      });
+      $('#display-area').html(newBookForm);
+    },
+    error: function() {
+        console.log("Sumpin broke");
+      }
+    });
+    e.stopImmediatePropagation();
+    return false;
   });
+
 
   // Load More Books
 
-  $(document.body).on('click', 'load-more-books-btn', function() {
-    alert("Wow!");
-  })
+  // $(document.body).on('click', 'load-more-books-btn', function() {
+  //   alert("Wow!");
+  // })
 
 });

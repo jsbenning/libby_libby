@@ -11,6 +11,10 @@ class Trade < ApplicationRecord
     Trade.where("second_trader_id = ? OR first_trader_id = ?", user.id, user.id).where( :status => "new")
   end
 
+  def self.shared_trade(user1, user2)
+    Trade.where("first_trader_id = ? AND second_trader_id = ?", user2.id, user1.id).first
+  end
+
   def self.user_rating(user)
     ratings = Array.new
     trades = Trade.all.map do |tr|
