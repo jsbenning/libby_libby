@@ -1,7 +1,30 @@
 class TradesController < ApplicationController
 
   def index
+    @my_initiated_trades =[]
+    @my_must_respond_trades = []
+    @my_completed_trades = []
+
     @my_trades = Trade.my_trades(current_user)
+    if @my_trades.empty?
+      @msg = "You don't have any trades yet!"
+    else
+      @msg = "Check out your trades below..."
+    end
+    @my_trades.each do |trade|
+      if trade.first_trader == current_user && trade.book_second_trader_wants_id.nil?
+        @my_initiated_trades << trade  
+      elsif trade.second_trader == current_user && book_second_trader_wants_id.nil?
+        @my_must_respond_trades << trade
+      elsif trade.status == "complete"
+        @my_completed_trades << trade
+      end
+    end
+    respond_to do |f|
+      flash.now[:notice] = @msg
+      f.html { render :index }
+      f.json { render :json => { :my_initiated_trades => @my_initiated_trades, :my_must_respond_trades => @my_must_respond_trades, :my_completed_trades => @my_completed_trades, :msg => @msg }}
+    end
   end
   
   def create # This is created with first_trader_id, second_trader_id and book_first_trader_wants_id attributes, status "new"; 
