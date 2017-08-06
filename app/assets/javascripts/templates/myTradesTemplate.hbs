@@ -1,33 +1,5 @@
 
 <h2>Your Trades (if any):</h2>
-</br >
-<div class="list-group">
-  <h4 class="list-group-item-heading">Trades Awaiting Your Response:</h4>
-  {{#if data.my_must_respond_trades.length > 0}}
-    {{# each my_must_respond_trades}}
-    <p class="list-group-item-text"><a href="mailto:{{this.first_trader.email }}?subject=LibbyLibby Trade">{{this.first_trader.email}}</a> requested {{this.first_book.title}} from you on {{this.created_at.strftime("%b %d %Y")}}, and he/she is still waiting for your response/trade</p>
-      <button class="btn btn-primary btn-xs" id="other-users-books">See Their Books</button>
-      <button class="btn btn-primary btn-xs" id="refuse-trade" data-trade-id="{{this.first_trader.id}}">Refuse Trade</button>
-    {{/each}}
-  {{/if}}
-</div>
 
-<div class="list-group">
-<h4 class="list-group-item-heading">Trades You Requested Which Aren't Complete:</h4>
-  {{#if data.my_initiated_trades.length > 0}}
-  {{# each my_must_respond_trades}}
-  {{/each}}
-
-  
-  {{/if}}
-
-</div>
-
-<div class="list-group">
-<h4 class="list-group-item-heading">Completed Trades:</h4>
-  {{#if data.my_completed_trades.length > 0}}
-  
-  {{/if}}
-</div>
 
 

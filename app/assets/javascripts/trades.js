@@ -16,7 +16,7 @@ $(document).ready(function(){
           data: data
         });
         $('#display-area').html(myTradesHtml);
-        $('#msg-area').html(data.msg);
+        $('.notice').html(data.msg);
       },
       error: function() {
         console.log("sumpin broke");
