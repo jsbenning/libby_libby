@@ -13,12 +13,12 @@ $(document).ready(function(){
       dataType: "json",
       url: url,
       success: function(data) {
-        var newBookButton = "<button type='button' class='btn btn-primary' data-user={{data.user.id}} id='new-book-btn'>Add a Book</button>";
+        books: data.books
+        var newBookButton = "<button type='button' class='btn btn-primary' data-user=" + books.user_id + "id='new-book-btn'>Add a Book</button>";
         $("#my-books-btn").removeAttr('disabled');
-        if (data.book) {
+        if (books[0].id > ) {
           booksListHtml = HandlebarsTemplates['allBooksTemplate'] ({
-            books: data
-          });
+          });  
           $('#display-area').html(booksListHtml);
           $('#display-area').append(addBookButton);
         } else {
@@ -48,7 +48,8 @@ $(document).ready(function(){
       success: function(data) {
         $("#all-books-btn").removeAttr('disabled');
         allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
-          books: data.books
+          books: data.books,
+          user: data.user
         });
 
         $('#display-area').html(allBooksHtml);
@@ -125,24 +126,25 @@ $(document).ready(function(){
   $(document.body).on('click', '#new-book-btn', function(e) {
     clearDivs();
     var userId = $(this).attr('data-user');
-    $("#new-book-btn").attr('disabled', 'disabled');
-    var url = "http://localhost:3000/users/" + userId + "/books/" + "new.json"
-    $.ajax({
-    dataType: "json",
-      url: url,
-      success: function(data) {
-        $("#new-book-btn").removeAttr('disabled');
-        newBookHtml = HandlebarsTemplates['newBookForm'] ({
-        data: data
-      });
-      $('#display-area').html(newBookForm);
-    },
-    error: function() {
-        console.log("Sumpin broke");
-      }
-    });
-    e.stopImmediatePropagation();
-    return false;
+    console.log(userId);
+    // $("#new-book-btn").attr('disabled', 'disabled');
+    // var url = "http://localhost:3000/users/" + userId + "/books/" + "new.json"
+    // $.ajax({
+    // dataType: "json",
+    //   url: url,
+    //   success: function(data) {
+    //     $("#new-book-btn").removeAttr('disabled');
+    //     newBookHtml = HandlebarsTemplates['newBookForm'] ({
+    //     data: data
+    //   });
+    //   $('#display-area').html(newBookForm);
+    // },
+    // error: function() {
+    //     console.log("Sumpin broke");
+    //   }
+    // });
+    // e.stopImmediatePropagation();
+    // return false;
   });
 
 
