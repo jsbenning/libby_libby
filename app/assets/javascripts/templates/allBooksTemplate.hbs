@@ -2,14 +2,14 @@
 <input name='search' id='search-field' type='text' size='50' placeholder='Enter keyword (title, author, ISBN) here to search'/><br><br><button id='json-search-btn' class='btn btn-primary'>Search</button>
 </div>
 
-{{#books}}
+{{#each books}}
 <div class="boxframe">
 <img src="http://covers.openlibrary.org/b/isbn/{{isbn}}-M.jpg?default=false"  alt="" onerror="this.src='/assets/no-image-s.png'" style="width:43px;height:60px;">
-<h3>{{book.title}}</h3>
-<p>Author: {{author_first_name}} {{author_last_name}}</p></br>
+<h3>{{this.title}}</h3>
+<p>Author: {{this.author_first_name}} {{this.author_last_name}}</p></br>
 <button type='button' class='btn btn-primary btn-xs show-book-btn' data-value1='{{user_id}}' data-value2='{{id}}'>Click for More</button>
 </div>
-{{/books}} 
+{{/each}} 
 <div class="centered">
 <button type='button' class='btn btn-primary btn-xs' id='load-more-books-btn'>Load More Books</button>
 <div>

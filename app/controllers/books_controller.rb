@@ -89,17 +89,18 @@ class BooksController < ApplicationController
   def edit
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
+    @genres = Genre.all
     if @user.id == (current_user.id || @user.admin?)
       respond_to do |f|
         f.html { render :edit }
-        f.json { render :json => { :book => @book }}
+        f.json { render :json => { :book => @book, :genres => @genres }}
       end 
     else
       flash.now[:notice] = "You don't have permission to edit this book!"
       @msg = "You don't have permission to edit this book!"
       respond_to do |f|
         f.html { render :index }
-        f.json { render :json => { :book => @book, :msg => @msg }}
+        f.json { render :json => { :msg => @msg }}
       end 
     end
   end

@@ -7,20 +7,21 @@ $(document).ready(function(){
     clearDivs();
     
     
-    var personId = this.getAttribute('data-id');
-    var url = "http://localhost:3000/users/" + personId + "/books.json";
+    var userId = this.getAttribute('data-id');
+    var url = "http://localhost:3000/users/" + userId + "/books.json";
     $.ajax({
       dataType: "json",
       url: url,
       success: function(data) {
-        books: data.books
-        var newBookButton = "<button type='button' class='btn btn-primary' data-user=" + books.user_id + "id='new-book-btn'>Add a Book</button>";
+        console.log(data.books[0])
+        var newBookButton = "<button type='button' class='btn btn-primary' data-user=" + data.user.id + "id='new-book-btn'>Add a New Book</button>";
         $("#my-books-btn").removeAttr('disabled');
-        if (books[0].id > ) {
-          booksListHtml = HandlebarsTemplates['allBooksTemplate'] ({
+        if (data.books[0].id) {
+          var booksListHtml = HandlebarsTemplates['allBooksTemplate'] ({
+            books :data.books
           });  
           $('#display-area').html(booksListHtml);
-          $('#display-area').append(addBookButton);
+          $('#display-area').append(newBookButton);
         } else {
           $('.notice').html(data.msg);
           $('#display-area').html(newBookButton);
@@ -47,9 +48,9 @@ $(document).ready(function(){
       url: url,
       success: function(data) {
         $("#all-books-btn").removeAttr('disabled');
-        allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
-          books: data.books,
-          user: data.user
+        var allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
+          books: data.books
+          //user: data.user
         });
 
         $('#display-area').html(allBooksHtml);
@@ -76,13 +77,11 @@ $(document).ready(function(){
         var book = data.book;
         extend(book);
         book.authorFullName = book.authorFullName();
-        showBookHtml = HandlebarsTemplates['showBookTemplate'] ({
+        var showBookHtml = HandlebarsTemplates['showBookTemplate'] ({
           data: data
         });
       $('#display-area').html(showBookHtml);
       $('.notice').html(data.msg);
-      // var bookUser = ($('#trade-request-btn').attr('data-user'));
-      // var bookId = ($('#trade-request-btn').attr('data-book'));
       },
 
       error: function() {
@@ -107,7 +106,7 @@ $(document).ready(function(){
     //   url: url,
     //   success: function(data) {
     //     $("#json-search-btn").removeAttr('disabled');
-    //     allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
+    //     var allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
     //       books: data.books
     //     });
 
@@ -120,6 +119,69 @@ $(document).ready(function(){
     // e.stopImmediatePropagation();
     // return false;
   //});
+
+  // Edit Book
+
+    $(document.body).on('click', '#edit-book-btn', function(e) {
+      clearDivs();
+      var userId = $(this).attr('data-user');
+      var bookId = $(this).attr('data-book');
+      $("#edit-book-btn").attr('disabled', 'disabled');
+      var url = "http://localhost:3000/" + "/users/" + userId + "/books/" + bookId + "/edit.json";
+      $.ajax({
+        dataType: "json",
+        url: url,
+        success: function(data) { 
+          $("#edit-book-btn").removeAttr('disabled');
+          if (data.book) {
+            var editBookForm = HandlebarsTemplates['editBookForm'] ({
+              data: data
+            });
+            $('#display-area').html(editBookForm);    
+          } else {
+           $('.notice').html(data.msg);
+          }; 
+        },
+        error: function() {
+          console.log("Sumpin broke!");
+        }
+      });
+      e.stopImmediatePropagation();
+      return false;
+    });
+
+    // Update Book
+
+  $(document.body).on('click', '#test', function(e) {
+    e.preventDefault();
+    var book_title = ($('#book_title').val());
+    // "book_author_last_name"
+    // "book_author_first_name"
+    // "book_ISBN"
+    // "book_description"
+    $('#test').attr('disabled', 'disabled'); 
+    var bookId = this.data-book
+    var userId = this.data-user
+    var url = "http://localhost:3000/" + "/users/" + userId + "/books/" + bookId + "/update.json";
+    $.ajax({
+      dataType: "json",
+      method: "POST",
+      url: url,
+      data: { 
+       { title: "Steve Jobs" }
+      },
+      success: function(data) {
+        console.log("Yes");
+      },
+      error : function() {
+        console.log("Crap");
+      }
+    });
+    e.stopImmediatePropagation();
+      return false;
+  });
+
+
 
   // Create a Book
 
