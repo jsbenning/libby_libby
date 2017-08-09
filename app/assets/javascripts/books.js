@@ -4,23 +4,21 @@ $(document).ready(function(){
   // My Books
   $(document.body).on('click', '#my-books-btn', function(e){ 
     $("#my-books-btn").attr('disabled', 'disabled');
-    clearDivs();
-    
-    
+    clearDivs();  
     var userId = this.getAttribute('data-id');
     var url = "http://localhost:3000/users/" + userId + "/books.json";
     $.ajax({
       dataType: "json",
       url: url,
       success: function(data) {
-        console.log(data.books[0])
         var newBookButton = "<button type='button' class='btn btn-primary' data-user=" + data.user.id + "id='new-book-btn'>Add a New Book</button>";
         $("#my-books-btn").removeAttr('disabled');
         if (data.books[0].id) {
-          var booksListHtml = HandlebarsTemplates['allBooksTemplate'] ({
+          var myBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
             books :data.books
           });  
-          $('#display-area').html(booksListHtml);
+          $('#display-area').html(myBooksHtml);
+          $('.notice').html(data.msg);
           $('#display-area').append(newBookButton);
         } else {
           $('.notice').html(data.msg);
@@ -49,10 +47,9 @@ $(document).ready(function(){
       success: function(data) {
         $("#all-books-btn").removeAttr('disabled');
         var allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
-          books: data.books
-          //user: data.user
+          books: data.books  
         });
-
+  
         $('#display-area').html(allBooksHtml);
       },
       error: function() {
@@ -67,8 +64,8 @@ $(document).ready(function(){
 
   $(document.body).on('click', '.show-book-btn', function(e) {
     clearDivs;
-    var userId = $(this).attr('data-value1');
-    var bookId = $(this).attr('data-value2');
+    var userId = $(this).data('user');
+    var bookId = $(this).data('book');
     var url = "http://localhost:3000/users/" + userId + "/books/" + bookId + ".json";
     $.ajax({
       dataType: "json",
@@ -94,11 +91,11 @@ $(document).ready(function(){
 
   // Search Function
 
-  // $(document.body).on('click', '#json-search-btn', function(e) {
-  //   $("#json-search-btn").attr('disabled', 'disabled');
+  $(document.body).on('click', '#json-search-btn', function(e) {
+    $("#json-search-btn").attr('disabled', 'disabled');
     
-  //   var searchTerm = $('#search-field').text;
-  //   console.log(searchTerm);
+    var searchTerm = $('#search-field').text;
+    console.log(searchTerm);
     // var url = "http://localhost:3000/books.json?Search=" + searchTerm;
     // clearDivs();
     // $.ajax({
@@ -116,67 +113,95 @@ $(document).ready(function(){
     //     console.log("Sumpin broke");
     //   }
     // });
-    // e.stopImmediatePropagation();
-    // return false;
-  //});
+    e.stopImmediatePropagation();
+    return false;
+  });
 
   // Edit Book
 
     $(document.body).on('click', '#edit-book-btn', function(e) {
       clearDivs();
-      var userId = $(this).attr('data-user');
-      var bookId = $(this).attr('data-book');
-      $("#edit-book-btn").attr('disabled', 'disabled');
-      var url = "http://localhost:3000/" + "/users/" + userId + "/books/" + bookId + "/edit.json";
+      var userId = $(this).data('user');
+      var bookId = $(this).data('book');     
+      var url = "http://localhost:3000/users/" + userId + "/books/" + bookId + "/edit.json";
       $.ajax({
         dataType: "json",
         url: url,
         success: function(data) { 
-          $("#edit-book-btn").removeAttr('disabled');
-          if (data.book) {
-            var editBookForm = HandlebarsTemplates['editBookForm'] ({
-              data: data
-            });
-            $('#display-area').html(editBookForm);    
-          } else {
-           $('.notice').html(data.msg);
-          }; 
+          //$("#edit-book-btn").removeAttr('disabled');
+          var editBookForm = HandlebarsTemplates['editBookForm'] ({
+            book: JSON.parse(data.book),
+            genres: JSON.parse(data.genres)
+          });
+          var allGenres = findAllGenres(data);
+
+          $('#display-area').html(editBookForm);
+          assignRadio(data);
+
+          $('#all-genres').html(allGenres);
+          assignBookGenres(data);
+          $('.notice').html(data.msg); 
         },
         error: function() {
-          console.log("Sumpin broke!");
-        }
-      });
+            console.log("Sumpin broke!");
+          }
+        });
       e.stopImmediatePropagation();
       return false;
     });
 
+
+
+//     )))))))))))))
+
+// function assignRadio(data) {
+//   var bookCondition = JSON.parse(data.book).condition
+//   var newCond = document.getElementById('book_condition_like_new');
+//   var goodCond = document.getElementById('book_condition_good');
+//   var fairCond = document.getElementById('book_condition_fair');
+//   if (bookCondition == "Like New") {
+//     newCond.checked = true;
+//   } else if (bookCondition == "Good") {
+//     goodCond.checked = true;
+//   } else {
+//     fairCond.checked = true;
+//   }
+// } 
+
+// ))))))))))
+
+
     // Update Book
 
   $(document.body).on('click', '#test', function(e) {
+    //var book_title = ($('#genre').val());
+    
     e.preventDefault();
-    var book_title = ($('#book_title').val());
+    console.log($('#book_title').val());
+    
+    // var book_title = ($('#book_title').val());
     // "book_author_last_name"
     // "book_author_first_name"
     // "book_ISBN"
     // "book_description"
-    $('#test').attr('disabled', 'disabled'); 
-    var bookId = this.data-book
-    var userId = this.data-user
-    var url = "http://localhost:3000/" + "/users/" + userId + "/books/" + bookId + "/update.json";
-    $.ajax({
-      dataType: "json",
-      method: "POST",
-      url: url,
-      data: { 
-       { title: "Steve Jobs" }
-      },
-      success: function(data) {
-        console.log("Yes");
-      },
-      error : function() {
-        console.log("Crap");
-      }
-    });
+    // $('#test').attr('disabled', 'disabled'); 
+    // var bookId = this.data-book
+    // var userId = this.data-user
+    // var url = "http://localhost:3000/" + "/users/" + userId + "/books/" + bookId + "/update.json";
+    // $.ajax({
+    //   dataType: "json",
+    //   type: "PATCH",
+    //   url: url,
+    //   data: { 
+    //    { title: "Steve Jobs" }
+    //   },
+    //   success: function(data) {
+    //     console.log("Yes");
+    //   },
+    //   error : function() {
+    //     console.log("Crap");
+    //   }
+    // });
     e.stopImmediatePropagation();
       return false;
   });

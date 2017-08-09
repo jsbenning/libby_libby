@@ -93,7 +93,8 @@ class BooksController < ApplicationController
     if @user.id == (current_user.id || @user.admin?)
       respond_to do |f|
         f.html { render :edit }
-        f.json { render :json => { :book => @book, :genres => @genres }}
+        f.json { render :json => {:book => @book.to_json(include: :genres), :genres => @genres.to_json, :only => [:id, :name] }}
+        #f.json { render :json => {:book => @book.to_json(include: :genres, :only => [:id, :name]), :genres => @genres }}#{ render :json => { :book => @book, :genres => @genres }}
       end 
     else
       flash.now[:notice] = "You don't have permission to edit this book!"
