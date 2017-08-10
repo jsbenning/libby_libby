@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
   before_action :confirm_user_shipworthy, except: [:index_all, :index_users]
   before_action :confirm_user_visible, except: [:index_all]
+  require 'pry'
   
   
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
@@ -107,8 +108,10 @@ class BooksController < ApplicationController
   end
   
   def update
+
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
+    binding.pry
     if @user.id == (current_user.id || @user.admin?) && @book.update_attributes(book_params)
       flash[:notice] = "The book was updated!"
       @msg = "The book was updated!"

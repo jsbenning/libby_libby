@@ -1,3 +1,5 @@
+//wanted to revisit Handlebars, so I avoided the (mush easier) serialize method for my forms
+
 $(document).ready(function(){ 
 
 
@@ -98,25 +100,25 @@ $(document).ready(function(){
   $(document.body).on('click', '#json-search-btn', function(e) {
     $("#json-search-btn").attr('disabled', 'disabled');
     
-    var searchTerm = $('#search-field').text;
-    console.log(searchTerm);
-    // var url = "http://localhost:3000/books.json?Search=" + searchTerm;
-    // clearDivs();
-    // $.ajax({
-    //   dataType: "json",
-    //   url: url,
-    //   success: function(data) {
-    //     $("#json-search-btn").removeAttr('disabled');
-    //     var allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
-    //       books: data.books
-    //     });
+    var searchTerm = $('#search-field').val();
 
-    //     $('#display-area').html(allBooksHtml);
-    //   },
-    //   error: function() {
-    //     console.log("Sumpin broke");
-    //   }
-    // });
+    var url = "http://localhost:3000/books.json?search=" + searchTerm;
+    clearDivs();
+    $.ajax({
+      dataType: "json",
+      url: url,
+      success: function(data) {
+        $("#json-search-btn").removeAttr('disabled');
+        var allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
+          books: data.books
+        });
+
+        $('#display-area').html(allBooksHtml);
+      },
+      error: function() {
+        console.log("Sumpin broke");
+      }
+    });
     e.stopImmediatePropagation();
     return false;
   });
@@ -131,8 +133,9 @@ $(document).ready(function(){
       $.ajax({
         dataType: "json",
         url: url,
+        contentType: "application/javascript; charset=utf-8",
         success: function(data) { 
-          //$("#edit-book-btn").removeAttr('disabled');
+          $("#edit-book-btn").removeAttr('disabled');
           var editBookForm = HandlebarsTemplates['editBookForm'] ({
             book: JSON.parse(data.book),
             genres: JSON.parse(data.genres)
@@ -160,44 +163,42 @@ $(document).ready(function(){
     // Update Book
 
   $(document.body).on('click', '#update-json', function(e) { 
+    $('#update-json').attr('disabled', 'disabled');
     e.preventDefault();
+
     var genres = []    
-    var book_title = ($('#book_title').val());
+    var title = ($('#book_title').val());
     var last_name = ($('#book_author_last_name').val());
     var first_name = ($('#book_author_first_name').val());
     var isbn = ($('#book_isbn').val());
     var description = ($('#book_description').val());
     var condition = $(document.querySelector('input[name=book_condition]:checked')).val();
-    //console.log($('input[name="book[genre_ids][]"]:checked').serialize());
     $('input[name="book[genre_ids][]"]:checked').each(function() {
       genres.push(this.value);
     });
-    console.log(genres);
-
-
-    $('#test').attr('disabled', 'disabled'); 
-    // var bookId = this.data-book
-    // var userId = this.data-user
-    // var url = "http://localhost:3000/" + "/users/" + userId + "/books/" + bookId + "/update.json";
-    // $.ajax({
-    //   dataType: "json",
-    //   type: "PATCH",
-    //   url: url,
-    //   data: { 
-    //    { title: "Steve Jobs" }
-    //   },
-    //   success: function(data) {
-    //     console.log("Yes");
-    //   },
-    //   error : function() {
-    //     console.log("Crap");
-    //   }
-    // });
+    var userId = $(this).data('user'); 
+    var bookId = $(this).data('book');
+    var url = "http://localhost:3000" + "/users/" + userId + "/books/" + bookId + ".json";
+    var myData = { book: { "id": bookId, "title": title, "author_last_name": last_name, "author_first_name": first_name, "isbn": isbn, "condition": condition, "description": description, "genre_ids": genres } };
+    
+    $.ajax({
+      dataType: "json",
+      type: "PATCH",
+      url: url,
+      contentType: "application/javascript; charset=utf-8",
+      data: myData,
+      success: function(data) {
+        $('.notice').html(data.msg);
+      },
+      error : function() {
+        console.log("Sumpin broke!");
+      }
+    });
     e.stopImmediatePropagation();
       return false;
   });
 
-//document.querySelector('input[name=book_condition]:checked').value
+
 
   // Create a Book
 
@@ -232,11 +233,7 @@ $(document).ready(function(){
   //   alert("Wow!");
   // })
 
-// {"utf8"=>"✓", 
-// "authenticity_token"=>"J1IvQud02Anjr3BJCewwAyJJHEbL8C7H0E10fG77IJo66zYL/S64hyTH7GCcP0lMEbxLPYmtDdT1nHNSZt99WA==", 
-// "book"=>{"title"=>"I Hate Rainbows", "author_last_name"=>"Larson", "author_first_name"=>"Bobby", "isbn"=>"9780675664", 
-// "condition"=>"Fair", "description"=>"Fantastic!", "genre_ids"=>["", "32"]}, "commit"=>"Update Book", "user_id"=>"6", 
-// "id"=>"63"}
+
 
 
 
