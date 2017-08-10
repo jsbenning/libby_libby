@@ -164,7 +164,7 @@ $(document).ready(function(){
 
   $(document.body).on('click', '#update-json', function(e) { 
     $('#update-json').attr('disabled', 'disabled');
-    e.preventDefault();
+
 
     var genres = []    
     var title = ($('#book_title').val());
@@ -179,15 +179,16 @@ $(document).ready(function(){
     var userId = $(this).data('user'); 
     var bookId = $(this).data('book');
     var url = "http://localhost:3000" + "/users/" + userId + "/books/" + bookId + ".json";
-    var myData = { book: { "id": bookId, "title": title, "author_last_name": last_name, "author_first_name": first_name, "isbn": isbn, "condition": condition, "description": description, "genre_ids": genres } };
+    var myData = { book: { title: title, author_last_name: last_name, author_first_name: first_name, isbn: isbn, condition: condition, description: description, genre_ids: genres } };
     
     $.ajax({
       dataType: "json",
       type: "PATCH",
       url: url,
-      contentType: "application/javascript; charset=utf-8",
-      data: myData,
+      //contentType: "application/javascript; charset=utf-8",
+      data:  myData,
       success: function(data) {
+        clearDivs();
         $('.notice').html(data.msg);
       },
       error : function() {
