@@ -82,7 +82,7 @@ class BooksController < ApplicationController
     end
     respond_to do |f|
       f.html { render :show }
-      f.json { render :json => { :book => @book, :trade => @trade, :other_trader_rating => @other_trader_rating }}
+      f.json { render :json => { :book => @book.to_json(include: :genres), :trade => @trade.to_json, :other_trader_rating => @other_trader_rating.to_json }}
     end
   end
 
