@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @books = @user.books
     @rating = @user.rating
-    if @user.mod_or_admin? || @user == current_user
+    if current_user.mod_or_admin? || @user == current_user
       respond_to do |f|
         f.html { render :show }
         f.json { render :json => {:user => @user, :books => @books, :rating => @rating }}
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-    if @user.admin? || @user == current_user 
+    if current_user.admin? || @user == current_user 
       respond_to do |f|
         f.html { render :edit }
         f.json { render :json => {:user => @user }}
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user == current_user || @user.admin?
+    if @user == current_user || current_user.admin?
       if @user.update_attributes(user_params)
       @msg = 'User Info Updated! Huzzah!'
       respond_to do |f|
