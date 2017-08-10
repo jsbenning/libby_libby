@@ -1,17 +1,14 @@
-<div class="searchArea">
-<input name='search' id='search-field' type='text' size='50' placeholder='Enter keyword (title, author, ISBN) here to search'/><br><br><button id='json-search-btn' class='btn btn-primary'>Search</button>
-</div>
 
 {{#each books}}
 <div class="boxframe">
 <img src="http://covers.openlibrary.org/b/isbn/{{isbn}}-M.jpg?default=false"  alt="" onerror="this.src='/assets/no-image-s.png'" style="width:43px;height:60px;">
 <h3>{{this.title}}</h3>
 <p>Author: {{this.author_first_name}} {{this.author_last_name}}</p></br>
-<button type='button' class='btn btn-primary btn-xs show-book-btn' data-user='{{user_id}}' data-book='{{id}}'>Click for More</button>
+<button type='button' class='btn btn-primary btn-xs show-book-btn' value= "hey" data-user='{{this.user_id}}' data-book='{{this.id}}'>Click for More</button>
 </div>
 {{/each}} 
 <div class="centered">
-<button type='button' class='btn btn-primary btn-xs' id='load-more-books-btn'>Load More Books</button>
+<button type='button' class='btn btn-primary btn-xs load-more-books-btn'>Load More Books</button>
 <div>
-<hr>
+
 

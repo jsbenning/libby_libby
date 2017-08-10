@@ -1,56 +1,66 @@
 
-<h1>Create a Book</h1>
-<i>All fields but 'title' and 'condition' are optional, but the more fields added, the better the chance of trading a book</i><br /><br />
+<h3>Edit a Book</h3>
 
-<form class="new_book" id="new_book" action="/users/4/books" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="xiD9cSKc0ex0VIamHZGbnxOIbmFN/brC2pYrV4/DyDI32CY9kg595q9xNGZdqKzbNbv2MW0npY4cG6LuJh3htw==" />
+<p class="remember">All fields but 'title' and 'condition' are optional, but the more fields added, the better the chance of trading a book</p><br /><br />
+
+<label>Title</label>
+
+<!-- <input type="text" id="book_title" value="{{book.title}}" placeholder="{{book.title}}" size="50" > -->
   <div class="centerbox">
     <div class="field">
       <label for="book_title">Title</label><br />
-      <input size="50" type="text" name="book[title]" id="book_title" />
+      <input type="text" id="book_title" value="{{book.title}}" placeholder="{{book.title}}" size="50" >
     </div>  
 
     <div class="field">
       <label for="book_author_last_name">Author last name</label><br />
-      <input type="text" name="book[author_last_name]" id="book_author_last_name" />
+      <input type="text" value="{{book.author_last_name}}" placeholder="{{book.author_last_name}}" id="book_author_last_name" />
     </div>
 
     <div class="field">
       <label for="book_author_first_name">Author first name</label><br />
-      <input type="text" name="book[author_first_name]" id="book_author_first_name" />
+      <input type="text" value="{{book.author_first_name}}" placeholder="{{book.author_first_name}}" id="book_author_first_name" />
     </div>
 
     <div class="field">
       <label for="book_ISBN">Isbn</label><br />
-      <input type="text" name="book[isbn]" id="book_isbn" />
+      <input type="text" value="{{book.isbn}}" placeholder="{{book.isbn}}" id="book_isbn" />
     </div>
 
     <div class="radio_field">
       <p><strong>Condition</strong></p>
       <label for="book_condition_like_new">Like New</label>
-      <input type="radio" value="Like New" name="book[condition]" id="book_condition_like_new" /><br />
+      <input type="radio" value="Like New" name="book_condition" id="book_condition_like_new" /><br />
       <label for="book_condition_good">Good</label>
-      <input type="radio" value="Good" name="book[condition]" id="book_condition_good" /><br />
+      <input type="radio" value="Good" name="book_condition" id="book_condition_good" /><br />
       <label for="book_condition_fair">Fair</label>
-      <input type="radio" value="Fair" name="book[condition]" id="book_condition_fair" /><br />
+      <input type="radio" value="Fair" name="book_condition" id="book_condition_fair" /><br />
     </div>
 
     <div class="text_area">
       <label for="book_description">Description</label><br />
-      <textarea name="book[description]" id="book_description" cols="50">
-</textarea>
+      <textarea name="book[description]" id="book_description" cols="50">{{book.description}}
+ </textarea>
     </div>
 
+    <b>Genre(s): </b>
     <div class="checkboxes">
-    <b>Genre(s): </b><input type="hidden" name="book[genre_ids][]" value="" /><input type="checkbox" value="24" name="book[genre_ids][]" id="book_genre_ids_24" /><label for="book_genre_ids_24">Religion</label><input type="checkbox" value="25" name="book[genre_ids][]" id="book_genre_ids_25" /><label for="book_genre_ids_25">Philosophy</label><input type="checkbox" value="26" name="book[genre_ids][]" id="book_genre_ids_26" /><label for="book_genre_ids_26">Paranormal and the Occult</label><input type="checkbox" value="27" name="book[genre_ids][]" id="book_genre_ids_27" /><label for="book_genre_ids_27">History</label><input type="checkbox" value="28" name="book[genre_ids][]" id="book_genre_ids_28" /><label for="book_genre_ids_28">Math, Science and Technology</label><input type="checkbox" value="29" name="book[genre_ids][]" id="book_genre_ids_29" /><label for="book_genre_ids_29">Fiction</label><input type="checkbox" value="30" name="book[genre_ids][]" id="book_genre_ids_30" /><label for="book_genre_ids_30">Literary Criticism</label><input type="checkbox" value="31" name="book[genre_ids][]" id="book_genre_ids_31" /><label for="book_genre_ids_31">Foreign Language</label><input type="checkbox" value="32" name="book[genre_ids][]" id="book_genre_ids_32" /><label for="book_genre_ids_32">Children&#39;s</label><input type="checkbox" value="33" name="book[genre_ids][]" id="book_genre_ids_33" /><label for="book_genre_ids_33">Young Adult</label><input type="checkbox" value="34" name="book[genre_ids][]" id="book_genre_ids_34" /><label for="book_genre_ids_34">Sci-Fi/Fantasy</label><input type="checkbox" value="35" name="book[genre_ids][]" id="book_genre_ids_35" /><label for="book_genre_ids_35">Reference</label><input type="checkbox" value="36" name="book[genre_ids][]" id="book_genre_ids_36" /><label for="book_genre_ids_36">Social Science</label><input type="checkbox" value="37" name="book[genre_ids][]" id="book_genre_ids_37" /><label for="book_genre_ids_37">Art and Design</label><input type="checkbox" value="38" name="book[genre_ids][]" id="book_genre_ids_38" /><label for="book_genre_ids_38">Fashion and Appearance</label><input type="checkbox" value="39" name="book[genre_ids][]" id="book_genre_ids_39" /><label for="book_genre_ids_39">Psychology and Self-Help</label><input type="checkbox" value="40" name="book[genre_ids][]" id="book_genre_ids_40" /><label for="book_genre_ids_40">Social Science</label><input type="checkbox" value="41" name="book[genre_ids][]" id="book_genre_ids_41" /><label for="book_genre_ids_41">Horror</label><input type="checkbox" value="42" name="book[genre_ids][]" id="book_genre_ids_42" /><label for="book_genre_ids_42">Romance</label><input type="checkbox" value="43" name="book[genre_ids][]" id="book_genre_ids_43" /><label for="book_genre_ids_43">Music</label><input type="checkbox" value="44" name="book[genre_ids][]" id="book_genre_ids_44" /><label for="book_genre_ids_44">Biography and Memoir</label><input type="checkbox" value="45" name="book[genre_ids][]" id="book_genre_ids_45" /><label for="book_genre_ids_45">Travel and Transportation</label><input type="checkbox" value="46" name="book[genre_ids][]" id="book_genre_ids_46" /><label for="book_genre_ids_46">Ethnic Studies</label><input type="checkbox" value="47" name="book[genre_ids][]" id="book_genre_ids_47" /><label for="book_genre_ids_47">Nature and the Environment</label><input type="checkbox" value="48" name="book[genre_ids][]" id="book_genre_ids_48" /><label for="book_genre_ids_48">Gender Studies</label><input type="checkbox" value="49" name="book[genre_ids][]" id="book_genre_ids_49" /><label for="book_genre_ids_49">Legal Studies</label><input type="checkbox" value="50" name="book[genre_ids][]" id="book_genre_ids_50" /><label for="book_genre_ids_50">Sports, Crafts and Hobbies</label><input type="checkbox" value="51" name="book[genre_ids][]" id="book_genre_ids_51" /><label for="book_genre_ids_51">Health and Medicine</label><input type="checkbox" value="52" name="book[genre_ids][]" id="book_genre_ids_52" /><label for="book_genre_ids_52">TV, Media and Film</label>
+
+    
+    <div id="all-genres">
     </div>
+
+
   </div>
   <br />
 
- <div class="submit">
-    <input type="submit" name="commit" value="Create Book" data-disable-with="Create Book" /><br />
-  </div>
+  <button id="update-json" data-user="{{book.user_id}}" data-book="{{book.id}}" class="btn btn-primary btn-xs">Update This Book</button> 
   
-</form>
+
+
+
+
+
 
 
 

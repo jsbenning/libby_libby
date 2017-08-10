@@ -6,10 +6,10 @@ class BooksController < ApplicationController
   
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
     search = params[:search]
-    if params[:id]
-      @books = Book.search(search, current_user).where('id < ?', params[:id])#.limit(10)
+    if params[:lastid]
+      @books = Book.search(search, current_user).where('id > ?', params[:lastid]).limit(10)
     else
-      @books = Book.search(search, current_user)#.limit(10)
+      @books = Book.search(search, current_user).limit(10)
     end
     respond_to do |f|
       f.html { render :index }
@@ -95,7 +95,6 @@ class BooksController < ApplicationController
       respond_to do |f|
         f.html { render :edit }
         f.json { render :json => {:book => @book.to_json(include: :genres), :genres => @genres.to_json, :only => [:id, :name] }}
-        #f.json { render :json => {:book => @book.to_json(include: :genres, :only => [:id, :name]), :genres => @genres }}#{ render :json => { :book => @book, :genres => @genres }}
       end 
     else
       flash.now[:notice] = "You don't have permission to edit this book!"
@@ -108,10 +107,8 @@ class BooksController < ApplicationController
   end
   
   def update
-
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    binding.pry
     if @user.id == (current_user.id || @user.admin?) && @book.update_attributes(book_params)
       flash[:notice] = "The book was updated!"
       @msg = "The book was updated!"

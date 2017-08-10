@@ -41,7 +41,7 @@ $(document).ready(function(){
   $(document.body).on('click', '#all-books-btn', function(e) {
     clearDivs();
     $("#all-books-btn").attr('disabled', 'disabled');
-    
+    var inputField = "<input name='search' id='search-field' type='text' size='50' placeholder='Enter keyword (title, author, ISBN) here to search'/><br><br><button id='json-search-btn' class='btn btn-primary'>Search</button></div>" 
     var url = "http://localhost:3000/books.json";
     $.ajax({
       dataType: "json",
@@ -51,8 +51,8 @@ $(document).ready(function(){
         var allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
           books: data.books  
         });
-  
-        $('#display-area').html(allBooksHtml);
+        $('#display-area').html(inputField);
+        $('#display-area').append(allBooksHtml);
       },
       error: function() {
         console.log("Sumpin broke");
@@ -164,8 +164,6 @@ $(document).ready(function(){
 
   $(document.body).on('click', '#update-json', function(e) { 
     $('#update-json').attr('disabled', 'disabled');
-
-
     var genres = []    
     var title = ($('#book_title').val());
     var last_name = ($('#book_author_last_name').val());
@@ -185,7 +183,6 @@ $(document).ready(function(){
       dataType: "json",
       type: "PATCH",
       url: url,
-      //contentType: "application/javascript; charset=utf-8",
       data:  myData,
       success: function(data) {
         clearDivs();
@@ -230,9 +227,28 @@ $(document).ready(function(){
 
   // Load More Books
 
-  // $(document.body).on('click', 'load-more-books-btn', function() {
-  //   alert("Wow!");
-  // })
+  $(document.body).on('click', '.load-more-books-btn', function(e) {
+    $(".load-more-books-btn").hide();
+    var lastId = $('.show-book-btn').last().data('book');
+    var url = "http://localhost:3000/books.json?lastid=" + lastId;
+      $.ajax({
+      dataType: "json",
+      url: url,
+      success: function(data) {
+        var allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
+          books: data.books  
+        });
+      $('#display-area').append(allBooksHtml);
+      console.log(lastId);
+      },
+      error: function() {
+        console.log("Sumpin broke");
+      }
+    });
+    e.stopImmediatePropagation();
+    return false; 
+  });
+
 
 
 
