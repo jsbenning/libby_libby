@@ -71,11 +71,15 @@ $(document).ready(function(){
       dataType: "json",
       url: url,
       success: function(data) {
-        var book = data.book;
+        var book = JSON.parse(data.book);
+        var trade = JSON.parse(data.trade);
+        var other_trader_rating = JSON.parse(data.other_trader_rating)
         extend(book);
         book.authorFullName = book.authorFullName();
         var showBookHtml = HandlebarsTemplates['showBookTemplate'] ({
-          data: data
+          book: book,
+          trade: trade,
+          other_trader_rating: other_trader_rating
         });
       $('#display-area').html(showBookHtml);
       $('.notice').html(data.msg);
@@ -152,39 +156,26 @@ $(document).ready(function(){
 
 
 
-//     )))))))))))))
-
-// function assignRadio(data) {
-//   var bookCondition = JSON.parse(data.book).condition
-//   var newCond = document.getElementById('book_condition_like_new');
-//   var goodCond = document.getElementById('book_condition_good');
-//   var fairCond = document.getElementById('book_condition_fair');
-//   if (bookCondition == "Like New") {
-//     newCond.checked = true;
-//   } else if (bookCondition == "Good") {
-//     goodCond.checked = true;
-//   } else {
-//     fairCond.checked = true;
-//   }
-// } 
-
-// ))))))))))
-
 
     // Update Book
 
-  $(document.body).on('click', '#test', function(e) {
-    //var book_title = ($('#genre').val());
-    
+  $(document.body).on('click', '#update-json', function(e) { 
     e.preventDefault();
-    console.log($('#book_title').val());
-    
-    // var book_title = ($('#book_title').val());
-    // "book_author_last_name"
-    // "book_author_first_name"
-    // "book_ISBN"
-    // "book_description"
-    // $('#test').attr('disabled', 'disabled'); 
+    var genres = []    
+    var book_title = ($('#book_title').val());
+    var last_name = ($('#book_author_last_name').val());
+    var first_name = ($('#book_author_first_name').val());
+    var isbn = ($('#book_isbn').val());
+    var description = ($('#book_description').val());
+    var condition = $(document.querySelector('input[name=book_condition]:checked')).val();
+    //console.log($('input[name="book[genre_ids][]"]:checked').serialize());
+    $('input[name="book[genre_ids][]"]:checked').each(function() {
+      genres.push(this.value);
+    });
+    console.log(genres);
+
+
+    $('#test').attr('disabled', 'disabled'); 
     // var bookId = this.data-book
     // var userId = this.data-user
     // var url = "http://localhost:3000/" + "/users/" + userId + "/books/" + bookId + "/update.json";
@@ -206,7 +197,7 @@ $(document).ready(function(){
       return false;
   });
 
-
+//document.querySelector('input[name=book_condition]:checked').value
 
   // Create a Book
 
@@ -240,5 +231,26 @@ $(document).ready(function(){
   // $(document.body).on('click', 'load-more-books-btn', function() {
   //   alert("Wow!");
   // })
+
+// {"utf8"=>"✓", 
+// "authenticity_token"=>"J1IvQud02Anjr3BJCewwAyJJHEbL8C7H0E10fG77IJo66zYL/S64hyTH7GCcP0lMEbxLPYmtDdT1nHNSZt99WA==", 
+// "book"=>{"title"=>"I Hate Rainbows", "author_last_name"=>"Larson", "author_first_name"=>"Bobby", "isbn"=>"9780675664", 
+// "condition"=>"Fair", "description"=>"Fantastic!", "genre_ids"=>["", "32"]}, "commit"=>"Update Book", "user_id"=>"6", 
+// "id"=>"63"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 });
