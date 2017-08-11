@@ -27,9 +27,9 @@ function assignRadio(data) {
 function assignBookGenres(data) {
   var bookGenres = JSON.parse(data.book).genres;
   var inputs = document.getElementsByTagName("input");
-  var bookIds =[]
+  var bookIds =[];
   for (i=0; i < bookGenres.length; i++) {
-    bookIds.push(bookGenres[0].id);
+    bookIds.push(bookGenres[i].id);
   }
   for(var i = 0; i < inputs.length; i++) {
     if (inputs[i].type == "checkbox") {
