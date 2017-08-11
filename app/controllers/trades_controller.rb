@@ -13,11 +13,15 @@ class TradesController < ApplicationController
     end
     @my_trades.each do |trade|
       if trade.first_trader == current_user && trade.book_second_trader_wants_id.nil?
-        @my_initiated_trades << trade  
+        this_trade = build_initiated_trade_object(trade)
+        @my_initiated_trades << this_trade  
       elsif trade.second_trader == current_user && book_second_trader_wants_id.nil?
-        @my_must_respond_trades << trade
+        this_trade = build_must_respond_object(trade)
+        @my_must_respond_trades << this_trade
       elsif trade.status == "complete"
-        @my_completed_trades << trade
+        if trade.first_user == current_user
+        this_trade = build_initiated_trade_object(trade)
+        @my_completed_trades << this_trade
       end
     end
     respond_to do |f|
@@ -42,7 +46,7 @@ class TradesController < ApplicationController
       @msg = 'There was a problem creating a trade (make sure your shipping info is complete and you have a book to trade)!'
       flash.now[:alert] = @msg
       respond_to do |f|
-        f.html { render 'home/logged_out' }
+        f.html { render 'home/logged_in' }
         f.json { render :json => { :msg => @msg }} 
       end
     end
@@ -67,7 +71,7 @@ class TradesController < ApplicationController
       @msg = "Trade not updated! Something happened!"
       flash.now[:alert] = @msg
       respond_to do |f|
-        f.html { render 'home/logged_out' }
+        f.html { render 'home/logged_in' }
         f.json { render :json => { :msg => @msg }}
       end
     end
@@ -86,7 +90,7 @@ class TradesController < ApplicationController
       @msg = "You don't have permission to delete that trade! Cut it out!" 
       flash.now[:alert] = @msg
       respond_to do |f|
-        f.html { render 'home/logged_out' }
+        f.html { render 'home/logged_in' }
         f.json { render :json => { :msg => @msg }}
       end
     end
@@ -121,6 +125,30 @@ class TradesController < ApplicationController
     end
     trade.destroy
   end 
+
+  def build_initiated_trade_object(trade)
+    trade_hash = {}
+    trade_hash["me"] = current_user
+    trade_hash["second_trader"] = trade.second_trader
+    trade["book_I_want"] = trade.book_first_trader_wants
+    trade["created_date"] = trade.created_at.strftime("%b %d %Y")
+    trade_hash
+  end
+
+
+
+  def build_must_respond_object(trade)
+    trade_hash = {}
+    trade_hash["me"] = current_user
+    trade_hash["first_trader"] = trade.first_trader
+    trade_hash["book_they_want"] = trade.book_first_trader_wants
+    trade_hash["created_date"] = trade.created_at.strftime("%b %d %Y")
+    trade_hash
+  end 
+
+
+
+
 
   def trade_params
     params.require(:trade).permit(:first_trader_id, :second_trader_id, :book_first_trader_wants_id, :book_second_trader_wants_id, :status, :first_trader_rating, :second_trader_rating)

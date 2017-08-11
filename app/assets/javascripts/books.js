@@ -2,8 +2,8 @@
 
 $(document).ready(function(){ 
 
-
   // My Books
+
   $(document.body).on('click', '#my-books-btn', function(e){ 
     $("#my-books-btn").attr('disabled', 'disabled');
     clearDivs();  
@@ -94,35 +94,9 @@ $(document).ready(function(){
     return false;
   });
 
-  // Search Function
 
-  $(document.body).on('click', '#json-search-btn', function(e) {
-    $("#json-search-btn").attr('disabled', 'disabled');
-    
-    var searchTerm = $('#search-field').val();
 
-    var url = "http://localhost:3000/books.json?search=" + searchTerm;
-    clearDivs();
-    $.ajax({
-      dataType: "json",
-      url: url,
-      success: function(data) {
-        $("#json-search-btn").removeAttr('disabled');
-        var allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
-          books: data.books
-        });
-
-        $('#display-area').html(allBooksHtml);
-      },
-      error: function() {
-        console.log("Sumpin broke");
-      }
-    });
-    e.stopImmediatePropagation();
-    return false;
-  });
-
-  // Edit Book
+  // Render Edit Book Form
 
     $(document.body).on('click', '#edit-book-btn', function(e) {
       clearDivs();
@@ -137,8 +111,6 @@ $(document).ready(function(){
           $("#edit-book-btn").removeAttr('disabled');
           var editBookForm = HandlebarsTemplates['editBookForm'] ({
             book: JSON.parse(data.book),
-
-            //genres: JSON.parse(data.genres)
           });
           var allGenres = findAllGenres(data);
           var bookGenres = JSON.parse(data.book).genres;
@@ -158,9 +130,7 @@ $(document).ready(function(){
     });
 
 
-
-
-    // Update Book
+    // Update Book (submit edit book form)
 
   $(document.body).on('click', '#update-book-btn', function(e) { 
     $('#update-book-btn').attr('disabled', 'disabled');
@@ -197,9 +167,7 @@ $(document).ready(function(){
       return false;
   });
 
-
-
-  // Get New Book Form 
+  // Render New Book Form 
 
   $(document.body).on('click', '#new-book-btn', function(e) {
     $("#new-book-btn").attr('disabled', 'disabled');
@@ -228,7 +196,7 @@ $(document).ready(function(){
       return false;
     });
 
-  // Create a New Book
+  // Create a New Book (submit new book form)
 
     $(document.body).on('click', '#create-book-btn', function(e) { 
     $('#create-book-btn').attr('disabled', 'disabled');
@@ -264,44 +232,32 @@ $(document).ready(function(){
       return false;
   });
 
+  // Search Function
 
-//%%%%%%%%%%%%%%%%%%%%%%%%%%
-  // $(document.body).on('click', '#update-book-btn', function(e) { 
-  //   $('#update-book-btn').attr('disabled', 'disabled');
-  //   var genres = []    
-  //   var title = ($('#book_title').val());
-  //   var last_name = ($('#book_author_last_name').val());
-  //   var first_name = ($('#book_author_first_name').val());
-  //   var isbn = ($('#book_isbn').val());
-  //   var description = ($('#book_description').val());
-  //   var condition = $(document.querySelector('input[name=book_condition]:checked')).val();
-  //   $('input[name="book[genre_ids][]"]:checked').each(function() {
-  //     genres.push(this.value);
-  //   });
-  //   var userId = $(this).data('user'); 
-  //   var bookId = $(this).data('book');
-  //   var url = "http://localhost:3000" + "/users/" + userId + "/books/" + bookId + ".json";
-  //   var myData = { book: { title: title, author_last_name: last_name, author_first_name: first_name, isbn: isbn, condition: condition, description: description, genre_ids: genres } };
+  $(document.body).on('click', '#json-search-btn', function(e) {
+    $("#json-search-btn").attr('disabled', 'disabled');
     
-  //   $.ajax({
-  //     dataType: "json",
-  //     type: "PATCH",
-  //     url: url,
-  //     data:  myData,
-  //     success: function(data) {
-  //       clearDivs();
-  //       $("#update-book-btn").removeAttr('disabled');
-  //       $('.notice').html(data.msg);
-  //     },
-  //     error : function() {
-  //       console.log("Sumpin broke!");
-  //     }
-  //   });
-  //   e.stopImmediatePropagation();
-  //     return false;
-  // });
+    var searchTerm = $('#search-field').val();
 
-
+    var url = "http://localhost:3000/books.json?search=" + searchTerm;
+    clearDivs();
+    $.ajax({
+      dataType: "json",
+      url: url,
+      success: function(data) {
+        $("#json-search-btn").removeAttr('disabled');
+        var allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
+          books: data.books
+        });
+        $('#display-area').html(allBooksHtml);
+      },
+      error: function() {
+        console.log("Sumpin broke");
+      }
+    });
+    e.stopImmediatePropagation();
+    return false;
+  });
 
 
   // Load More Books

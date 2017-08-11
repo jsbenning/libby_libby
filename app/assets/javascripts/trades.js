@@ -34,6 +34,7 @@ $(document).ready(function(){
 
 
   // Request a New Trade, create trade action
+  //
   // $(document.body).on('click', '#request-trade-btn', function(e){
   //   $('#request-trade-btn').attr('disabled', 'disabled');
   //   clearDivs();

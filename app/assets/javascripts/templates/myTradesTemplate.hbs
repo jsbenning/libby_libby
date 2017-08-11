@@ -1,12 +1,7 @@
-
-<h2>Your Trades (if any):</h2>
-
-
-
 <h2>Your Trades (if any):</h2>
 </br >
 
-<div class="list-group">
+<div class="list-group corners1" >
   <h4 class="list-group-item-heading">Trades Awaiting Your Response:</h4>
   <% @my_trades.each do |trade| %>
     <% if trade.second_trader == @user && trade.status == "new" %>
@@ -17,7 +12,7 @@
   <% end %>
 </div>
 
-<div class="list-group">
+<div class="list-group corners2">
 <h4 class="list-group-item-heading">Trades You Requested Which Aren't Complete:</h4>
 <% @my_trades.each do |trade| %>
   <% if trade.first_trader == @user && trade.status == "new" %>
@@ -28,7 +23,7 @@
 <% end %>
 </div>
 
-<div class="list-group">
+<div class="list-group corners1">
 <h4 class="list-group-item-heading">Completed Trades:</h4>
 
 <% @my_trades.each do |trade| %>
