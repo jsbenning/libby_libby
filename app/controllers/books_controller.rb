@@ -7,9 +7,9 @@ class BooksController < ApplicationController
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
     search = params[:search]
     if params[:lastid]
-      @books = Book.search(search, current_user).where('id > ?', params[:lastid]).limit(10)
+      @books = Book.search(search, current_user).where('id > ?', params[:lastid]).limit(5)
     else
-      @books = Book.search(search, current_user).limit(10)
+      @books = Book.search(search, current_user).limit(5)
     end
     respond_to do |f|
       f.html { render :index }
@@ -44,7 +44,7 @@ class BooksController < ApplicationController
     @book = Book.new
     respond_to do |f|
       f.html { render :new }
-      f.json { render :json => { :book => @book, :user => @user, :genres => @genres } }
+      f.json { render :json => { :book => @book, :user => @user, :genres => @genres.to_json, :only => [:id, :name] } }
     end
   end
 

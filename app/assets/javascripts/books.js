@@ -13,8 +13,9 @@ $(document).ready(function(){
       dataType: "json",
       url: url,
       success: function(data) {
-        var newBookButton = "<button type='button' class='btn btn-primary' data-user=" + data.user.id + "id='new-book-btn'>Add a New Book</button>";
+        var newBookButton = "<button type='button' class='btn btn-primary' data-user='" + data.user.id + "'id='new-book-btn'>Add a New Book</button>";
         $("#my-books-btn").removeAttr('disabled');
+        // the following conditional determines whether current_user has any books
         if (data.books[0].id) {
           var myBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
             books :data.books
@@ -36,7 +37,7 @@ $(document).ready(function(){
   });
 
 
-  //All Books
+  // All Books (not including current_user's own)
 
   $(document.body).on('click', '#all-books-btn', function(e) {
     clearDivs();
@@ -84,9 +85,7 @@ $(document).ready(function(){
           other_trader_rating: other_trader_rating
         });
       $('#display-area').html(showBookHtml);
-      $('.notice').html(data.msg);
       },
-
       error: function() {
         console.log("sumpin broke");
       }
@@ -138,10 +137,11 @@ $(document).ready(function(){
           $("#edit-book-btn").removeAttr('disabled');
           var editBookForm = HandlebarsTemplates['editBookForm'] ({
             book: JSON.parse(data.book),
-            genres: JSON.parse(data.genres)
+
+            //genres: JSON.parse(data.genres)
           });
           var allGenres = findAllGenres(data);
-
+          var bookGenres = JSON.parse(data.book).genres;
           $('#display-area').html(editBookForm);
           assignRadio(data);
 
@@ -162,8 +162,8 @@ $(document).ready(function(){
 
     // Update Book
 
-  $(document.body).on('click', '#update-json', function(e) { 
-    $('#update-json').attr('disabled', 'disabled');
+  $(document.body).on('click', '#update-book-btn', function(e) { 
+    $('#update-book-btn').attr('disabled', 'disabled');
     var genres = []    
     var title = ($('#book_title').val());
     var last_name = ($('#book_author_last_name').val());
@@ -186,6 +186,7 @@ $(document).ready(function(){
       data:  myData,
       success: function(data) {
         clearDivs();
+        $("#update-book-btn").removeAttr('disabled');
         $('.notice').html(data.msg);
       },
       error : function() {
@@ -198,31 +199,109 @@ $(document).ready(function(){
 
 
 
-  // Create a Book
+  // Get New Book Form 
 
   $(document.body).on('click', '#new-book-btn', function(e) {
-    clearDivs();
-    var userId = $(this).attr('data-user');
-    console.log(userId);
-    // $("#new-book-btn").attr('disabled', 'disabled');
-    // var url = "http://localhost:3000/users/" + userId + "/books/" + "new.json"
-    // $.ajax({
-    // dataType: "json",
-    //   url: url,
-    //   success: function(data) {
-    //     $("#new-book-btn").removeAttr('disabled');
-    //     newBookHtml = HandlebarsTemplates['newBookForm'] ({
-    //     data: data
-    //   });
-    //   $('#display-area').html(newBookForm);
-    // },
-    // error: function() {
-    //     console.log("Sumpin broke");
-    //   }
-    // });
-    // e.stopImmediatePropagation();
-    // return false;
+    $("#new-book-btn").attr('disabled', 'disabled');
+    
+    //var userId = $(this).attr('data-user');
+    var userId = $(this).data('user');
+    var url = "http://localhost:3000/users/" + userId + "/books/" + "new.json"
+    $.ajax({
+      dataType: "json",
+      url: url,
+      success: function(data) {
+        clearDivs();
+        $("#new-book-btn").removeAttr('disabled');
+        newBookForm = HandlebarsTemplates['newBookForm'] ({
+        data: data
+        });
+        var allGenres = findAllGenres(data);
+        $('#display-area').html(newBookForm);  
+        $('#all-genres').html(allGenres);
+      },
+      error: function() {
+        console.log("Sumpin broke");
+        }
+      });
+      e.stopImmediatePropagation();
+      return false;
+    });
+
+  // Create a New Book
+
+    $(document.body).on('click', '#create-book-btn', function(e) { 
+    $('#create-book-btn').attr('disabled', 'disabled');
+    var genres = []    
+    var title = ($('#book_title').val());
+    var last_name = ($('#book_author_last_name').val());
+    var first_name = ($('#book_author_first_name').val());
+    var isbn = ($('#book_isbn').val());
+    var description = ($('#book_description').val());
+    var condition = $(document.querySelector('input[name=book_condition]:checked')).val();
+    $('input[name="book[genre_ids][]"]:checked').each(function() {
+      genres.push(this.value);
+    });
+    var userId = $(this).data('user'); 
+    var url = "http://localhost:3000" + "/users/" + userId + "/books.json";
+    var myData = { book: { title: title, author_last_name: last_name, author_first_name: first_name, isbn: isbn, condition: condition, description: description, genre_ids: genres } };
+    $.ajax({
+      dataType: "json",
+      type: "POST",
+      url: url,
+      data:  myData,
+      success: function(data) {
+        $('#create-book-btn').removeAttr('disabled');
+        clearDivs();
+        $('.notice').html(data.msg);
+      },
+      error : function() {
+        clearDivs();
+        console.log("Sumpin broke!");
+      }
+    });
+    e.stopImmediatePropagation();
+      return false;
   });
+
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%
+  // $(document.body).on('click', '#update-book-btn', function(e) { 
+  //   $('#update-book-btn').attr('disabled', 'disabled');
+  //   var genres = []    
+  //   var title = ($('#book_title').val());
+  //   var last_name = ($('#book_author_last_name').val());
+  //   var first_name = ($('#book_author_first_name').val());
+  //   var isbn = ($('#book_isbn').val());
+  //   var description = ($('#book_description').val());
+  //   var condition = $(document.querySelector('input[name=book_condition]:checked')).val();
+  //   $('input[name="book[genre_ids][]"]:checked').each(function() {
+  //     genres.push(this.value);
+  //   });
+  //   var userId = $(this).data('user'); 
+  //   var bookId = $(this).data('book');
+  //   var url = "http://localhost:3000" + "/users/" + userId + "/books/" + bookId + ".json";
+  //   var myData = { book: { title: title, author_last_name: last_name, author_first_name: first_name, isbn: isbn, condition: condition, description: description, genre_ids: genres } };
+    
+  //   $.ajax({
+  //     dataType: "json",
+  //     type: "PATCH",
+  //     url: url,
+  //     data:  myData,
+  //     success: function(data) {
+  //       clearDivs();
+  //       $("#update-book-btn").removeAttr('disabled');
+  //       $('.notice').html(data.msg);
+  //     },
+  //     error : function() {
+  //       console.log("Sumpin broke!");
+  //     }
+  //   });
+  //   e.stopImmediatePropagation();
+  //     return false;
+  // });
+
+
 
 
   // Load More Books
@@ -248,23 +327,5 @@ $(document).ready(function(){
     e.stopImmediatePropagation();
     return false; 
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 });
