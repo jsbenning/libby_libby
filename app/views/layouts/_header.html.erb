@@ -1,5 +1,7 @@
 <header>
-      <p class="navbar-text pull-right">
+      
+<div class="container"
+      <div class="navbar-text">
 
   <% if user_signed_in? %>
     Signed in as <strong><%= current_user.email %></strong> |
@@ -8,7 +10,9 @@
     <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
     <%= link_to "Sign in", new_user_session_path, :class => 'navbar-link'  %> |
     <%= link_to image_tag('fb-favicon.ico'), user_facebook_omniauth_authorize_path, :class => 'navbar-link' %>
-  <% end %><br>
+  <% end %>
+</div>
+</div>
 
   <% if current_user && current_user.admin? %>
   <nav class="admin_nav">
@@ -26,12 +30,17 @@
   <% end %>
 
   <% if current_user %>
+
   <hr>
-  <input type="image" class="col-xs-12 col-md-3" id="all-books-btn" <%= image_tag "all-books-btn.png" %>
-  <input type="image" class="col-xs-12 col-md-3" id="my-profile-btn" data-id="<%= current_user.id %>" <%= image_tag "my-profile-btn.png" %>
-  <input type="image" class="col-xs-12 col-md-3"id="my-books-btn" data-id="<%= current_user.id %>" <%= image_tag "my-books-btn.png" %>
-  <input type="image" class="col-xs-12 col-md-3"id="my-trades-btn" data-id="<%= current_user.id %>" <%= image_tag "my-trades-btn.png" %>
-  
+  <div class="container-fluid centered">
+  <input type="image" class="col-md-3 click-btn" id="all-books-btn" <%= image_tag "all-books-btn.png" %>
+  <input type="image" class="col-md-3 click-btn" id="my-profile-btn" data-id="<%= current_user.id %>" <%= image_tag "my-profile-btn.png" %>
+  <input type="image" class="col-md-3 click-btn"id="my-books-btn" data-id="<%= current_user.id %>" <%= image_tag "my-books-btn.png" %>
+  <input type="image" class="col-md-3 click-btn"id="my-trades-btn" data-id="<%= current_user.id %>" <%= image_tag "my-trades-btn.png" %>
+  </div>
+
+
+
     <nav class="logged_in_nav">
         <ul>
           <li> <%= link_to "See My Profile", user_path(current_user) %> </li>
@@ -41,6 +50,7 @@
       </ul>
     </nav> 
   <% end %>
+
 </header>
 <hr>
 
