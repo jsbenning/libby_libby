@@ -93,7 +93,6 @@ $(document).ready(function(){
   });
 
 
-
   // Render Edit Book Form
 
     $(document.body).on('click', '#edit-book-btn', function(e) {
@@ -134,8 +133,8 @@ $(document).ready(function(){
     $('#update-book-btn').attr('disabled', 'disabled');
     var genres = []    
     var title = ($('#book_title').val());
-    var last_name = ($('#book_author_last_name').val());
-    var first_name = ($('#book_author_first_name').val());
+    var lastName = ($('#book_author_last_name').val());
+    var firstName = ($('#book_author_first_name').val());
     var isbn = ($('#book_isbn').val());
     var description = ($('#book_description').val());
     var condition = $(document.querySelector('input[name=book_condition]:checked')).val();
@@ -145,7 +144,7 @@ $(document).ready(function(){
     var userId = $(this).data('user'); 
     var bookId = $(this).data('book');
     var url = "http://localhost:3000" + "/users/" + userId + "/books/" + bookId + ".json";
-    var myData = { book: { title: title, author_last_name: last_name, author_first_name: first_name, isbn: isbn, condition: condition, description: description, genre_ids: genres } };
+    var myData = { book: { title: title, author_last_name: lastName, author_first_name: firstName, isbn: isbn, condition: condition, description: description, genre_ids: genres } };
     
     $.ajax({
       dataType: "json",

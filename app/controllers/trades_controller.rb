@@ -1,4 +1,5 @@
 class TradesController < ApplicationController
+  require 'pry'
 
   def index
     @my_initiated_trades =[]
@@ -33,6 +34,7 @@ class TradesController < ApplicationController
   def create # This is created with first_trader_id, second_trader_id and book_first_trader_wants_id attributes, status "new"; 
     # also there is no 'new' action, as a trade is instantiated through the book show form by current user as first trader
     @trade = Trade.create(trade_params)
+    binding.pry
     if @trade.save && @trade.first_trader.shipworthy? && !(@trade.first_trader.books.empty?)
       setup_a_trade(@trade)
       @my_trades = Trade.my_trades(current_user)
@@ -98,7 +100,8 @@ class TradesController < ApplicationController
   private
 
   def setup_a_trade(trade)
-    book_first_trader_wants = Book.find(trade.book_first_trader_wants_id)
+    book_id = trade.book_first_trader_wants_id
+    book_first_trader_wants = Book.find(book_id)
     book_first_trader_wants.status = 'traded'
     book_first_trader_wants.save
     #trade.status = 'new', this is the default
@@ -107,18 +110,21 @@ class TradesController < ApplicationController
 
 
   def complete_a_trade(trade)
-    book_second_trader_wants = Book.find(trade.book_second_trader_wants_id)
+    book_id = trade.book_second_trader_wants_id
+    book_second_trader_wants = Book.find(book_id)
     book_second_trader_wants.status = 'traded'
     trade.status = 'complete'
     trade.save
   end
 
   def destroy_a_trade(trade)
-    book_first_trader_wants = Book.find(trade.book_first_trader_wants_id)
+    book1_id = trade.book_first_trader_wants_id
+    book_first_trader_wants = Book.find(book1_id)
     book_first_trader_wants.status = 'at_home'
     book_first_trader_wants.save
     if trade.book_second_trader_wants_id
-      book_second_trader_wants = Book.find(trade.book_second_trader_wants_id)
+      book2_id = trade.book_second_trader_wants_id
+      book_second_trader_wants = Book.find(book2_id)
       book_second_trader_wants.status = 'at_home'
       book_second_trader_wants.save
     end

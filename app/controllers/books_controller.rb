@@ -77,6 +77,7 @@ class BooksController < ApplicationController
       @other_trader_rating = Trade.user_rating(@user)
     elsif @user != current_user
       @trade = Trade.new #this gives the option of initiating a trade in book show view
+      @trade.first_trader = current_user
       @other_trader_rating = Trade.user_rating(@user)
     else 
       @trade = nil #in this case the current_user is viewing his/her own title
