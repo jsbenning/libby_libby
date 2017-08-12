@@ -16,7 +16,7 @@ $(document).ready(function(){
         $("#my-trades-btn").removeAttr('disabled');
         myTradesHtml = HandlebarsTemplates['myTradesTemplate'] ({
           mustRespond: data.my_must_respond_trades,
-          initiated: data.my_initiated_trades
+          initiated: data.my_initiated_trades,
           completed: data.my_completed_trades
         });
         $('#display-area').html(myTradesHtml);
@@ -65,77 +65,39 @@ $(document).ready(function(){
 
 
 
-var x = $(document.querySelector('input[name=user_review]:checked')).val();
-var rating = parseInt(x);
-
+// var x = $(document.querySelector('input[name=user_review]:checked')).val();
+// var rating = parseInt(x);
+// <button type="button" class="btn btn-primary btn-xs" {data-trader1={{trade.first_trader_id}} data-trader2={{book.user_id}} 
+// data-trade={{trade.id}} data-book={{book.id}} id="request-trade-btn">Request a Trade</button>
 
   // Request a New Trade, create trade action
-  //
-  // $(document.body).on('click', '#request-trade-btn', function(e){
-  //   $('#request-trade-btn').attr('disabled', 'disabled');
-  //   clearDivs();
-  //   var bookFirstTraderWantsId = $(this).data('book');
-  //   var secondTraderId = $(this).data('user');
-  //   var url = "http://localhost:3000/trades";
-  //   var myData = 
 
-
-
-
-
-
-  // <div class='boxframe-subj' id='trader1-rating'>Trader's Rating: {{other_trader_rating}} out of 3 (3 is best)
-  // </div><br>
-  //   <button type="button" class="btn btn-primary btn-xs" data-user={{book.user_id}} data-book={{book.id}} id="complete-trade-btn">Complete a Trade</button>
-  
-
-
-
-  // {{else if trade.status}}
-  // <div class='boxframe-subj' id='trader1-rating'>Trader's Rating: {{other_trader_rating}} out of 3 (3 is best)
-  // </div><br>
-  //   <button type="button" class="btn btn-primary btn-xs" data-user={{book.user_id}} data-book={{book.id}} id="request-trade-btn">Request a Trade</button>
-  
-
-
-
-
-  // {{else}} 
-  //   <button type="button" class="btn btn-primary btn-xs" data-user={{book.user_id}} data-book={{book.id}} id="edit-book-btn">Edit This Book</button>
-  //   <button type="button" class="btn btn-primary btn-xs" data-user={{book.user_id}} data-book={{book.id}} id="delete-book-btn" onclick = "return confirm('are you sure?')">Delete This Book</button>
-  // {{/if}}
-
-
-
-  // id="request-trade-btn">
-
-  // complete-trade-btn"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  $(document.body).on('click', '#request-trade-btn', function(e){
+    $('#request-trade-btn').attr('disabled', 'disabled');
+    clearDivs();
+    var bookFirstTraderWantsId = $(this).data('book');
+    var firstTraderId = $(this).data('trader1'); 
+    var secondTraderId = $(this).data('trader2');
+    var url = "http://localhost:3000/trades";
+    //console.log(bookId);
+    var myData = { trade: { book_first_trader_wants_id: bookFirstTraderWantsId, first_trader_id: firstTraderId, second_trader_id: secondTraderId }};
+      $.ajax({
+        dataType: "json",
+        type: "POST",
+        url: url,
+        data:  myData,
+        success: function(data) {
+          clearDivs();
+          $("#request-trade-btn").removeAttr('disabled');
+          $('.notice').html(data.msg);
+        },
+        error : function() {
+          console.log("Sumpin broke!");
+        }
+      });
+      e.stopImmediatePropagation();
+        return false;
+    });
 
 
 
