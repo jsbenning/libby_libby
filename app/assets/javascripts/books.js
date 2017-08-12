@@ -1,5 +1,3 @@
-//wanted to revisit Handlebars, so I avoided the (mush easier) serialize method for my forms
-
 $(document).ready(function(){ 
 
   // My Books

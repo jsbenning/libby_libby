@@ -13,14 +13,13 @@ class TradesController < ApplicationController
     end
     @my_trades.each do |trade|
       if trade.first_trader == current_user && trade.book_second_trader_wants_id.nil?
-        this_trade = build_initiated_trade_object(trade)
+        this_trade = build_initiated_trade_object(trade).to_json #added to_json, test
         @my_initiated_trades << this_trade  
       elsif trade.second_trader == current_user && book_second_trader_wants_id.nil?
-        this_trade = build_must_respond_object(trade)
+        this_trade = build_must_respond_object(trade).to_json
         @my_must_respond_trades << this_trade
       elsif trade.status == "complete"
-        if trade.first_user == current_user
-        this_trade = build_initiated_trade_object(trade)
+        this_trade = build_completed_trade_object(trade).to_json
         @my_completed_trades << this_trade
       end
     end
@@ -37,7 +36,7 @@ class TradesController < ApplicationController
     if @trade.save && @trade.first_trader.shipworthy? && !(@trade.first_trader.books.empty?)
       setup_a_trade(@trade)
       @my_trades = Trade.my_trades(current_user)
-      @msg = "You just created a trade! Well done #{curent_user.real_name}!"
+      @msg = "You just created a trade! Well done #{current_user.real_name}!"
       respond_to do |f|
         f.html { redirect_to trades_path_url, notice: @msg }
         f.json { render :json => { :my_trades => @my_trades, :msg => @msg }}
@@ -52,7 +51,7 @@ class TradesController < ApplicationController
     end
   end
 
-  def update #this completes a trade by adding a second book, which also allows trade users i.e. traders, to be rated
+  def update # This completes a trade by adding a second book, which also allows trade users i.e. traders, to be rated
     @trade = Trade.find(params[:id])
     if @trade.update(trade_params)
       complete_a_trade(@trade)
@@ -77,7 +76,7 @@ class TradesController < ApplicationController
     end
   end
 
-  def destroy #this cancels a trade
+  def destroy # This cancels a trade
     @trade = Trade.find(params[:id])
     if @trade.second_trader_id == current_user.id || @trade.first_trader_id == current_user.id
       destroy_a_trade(@trade) 
@@ -129,25 +128,41 @@ class TradesController < ApplicationController
   def build_initiated_trade_object(trade)
     trade_hash = {}
     trade_hash["me"] = current_user
-    trade_hash["second_trader"] = trade.second_trader
+    trade_hash["id"] = trade.id
+    trade_hash["other_trader"] = trade.second_trader
     trade["book_I_want"] = trade.book_first_trader_wants
     trade["created_date"] = trade.created_at.strftime("%b %d %Y")
     trade_hash
   end
 
-
-
   def build_must_respond_object(trade)
     trade_hash = {}
     trade_hash["me"] = current_user
-    trade_hash["first_trader"] = trade.first_trader
+    trade_hash["id"] = trade.id
+    trade_hash["other_trader"] = trade.first_trader
     trade_hash["book_they_want"] = trade.book_first_trader_wants
     trade_hash["created_date"] = trade.created_at.strftime("%b %d %Y")
     trade_hash
   end 
 
-
-
+  def build_completed_trade_object(trade)
+    trade_hash = {}
+    trade_hash["me"] = current_user
+    trade_hash["id"] = trade.id
+    trade_hash["completed_date"] = trade.updated_at.strftime("%b %d %Y")
+    if trade.first_trader = current_user
+      trade_hash["book_I_want"] = trade.book_first_trader_wants
+      trade_hash["other_trader"] = trade.second_trader
+      trade_hash["book_they_want"] = trade.book_second_trader_wants
+      trade_hash["needs_second_trader_rating"] = true
+    else
+      trade_hash["book_I_want"] = trade.book_second_trader_wants
+      trade_hash["other_trader"] = trade.first_trader
+      trade_hash["book_they_want"] = trade.book_first_trader_wants
+      trade_hash["needs_first_trader_rating"] = true
+    end
+    trade_hash
+  end 
 
 
   def trade_params
