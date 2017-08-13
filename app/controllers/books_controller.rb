@@ -22,14 +22,14 @@ class BooksController < ApplicationController
     if @user == current_user
       the_name = "You don't have "
     else
-      the_name = "#{@user.first_name.capitalize} hasn't got "
+      the_name = "#{@user.real_name.capitalize} hasn't got "
     end
     @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
     if @books.empty?
       @books = nil
       @msg = "#{the_name} any books yet!"
     else
-    @msg = "Here are #{@user.first_name}'s books..." 
+    @msg = "Here are #{@user.real_name}'s books..." 
     end
     respond_to do |f|   
       flash.now[:notice] = @msg

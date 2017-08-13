@@ -36,18 +36,18 @@ input[type='checkbox'] {
 
 .corners1 {
     border-radius: 25px;
-    background: #73AD21;
+    background: #FF8025;
     padding: 20px; 
-    width: 200px;
-    height: 150px;    
+    width: 80%;
+    
 }
 
 .corners2 {
     border-radius: 25px;
     border: 2px solid #73AD21;
     padding: 20px; 
-    width: 200px;
-    height: 150px;    
+    width: 80%;
+   
 }
 
 .centerbox {
@@ -75,7 +75,7 @@ p.notice {
 
 p.alert {
   color: #D8000C;
-  background-color: #FFBABA;
+  background-color: #FF8025;
   padding: 10px 0px 10px 20px;
   font-size: 120%;
 }

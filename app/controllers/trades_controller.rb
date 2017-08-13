@@ -2,25 +2,28 @@ class TradesController < ApplicationController
   require 'pry'
 
   def index
-    @my_initiated_trades =[]
-    @my_must_respond_trades = []
-    @my_completed_trades = []
-
     @my_trades = Trade.my_trades(current_user)
+    @user = current_user
     if @my_trades.empty?
       @msg = "You don't have any trades yet!"
     else
       @msg = "Check out your trades below..."
     end
+
+    # json stuff below
+
+    @my_initiated_trades =[]
+    @my_must_respond_trades = []
+    @my_completed_trades = []
     @my_trades.each do |trade|
       if trade.first_trader == current_user && trade.book_second_trader_wants_id.nil?
-        this_trade = build_initiated_trade_object(trade).to_json #added to_json, test
+        this_trade = build_initiated_trade_object(trade) 
         @my_initiated_trades << this_trade  
-      elsif trade.second_trader == current_user && book_second_trader_wants_id.nil?
-        this_trade = build_must_respond_object(trade).to_json
+      elsif trade.second_trader == current_user && trade.book_second_trader_wants_id.nil?
+        this_trade = build_must_respond_object(trade)
         @my_must_respond_trades << this_trade
       elsif trade.status == "complete"
-        this_trade = build_completed_trade_object(trade).to_json
+        this_trade = build_completed_trade_object(trade)
         @my_completed_trades << this_trade
       end
     end
@@ -34,7 +37,6 @@ class TradesController < ApplicationController
   def create # This is created with first_trader_id, second_trader_id and book_first_trader_wants_id attributes, status "new"; 
     # also there is no 'new' action, as a trade is instantiated through the book show form by current user as first trader
     @trade = Trade.create(trade_params)
-    binding.pry
     if @trade.save && @trade.first_trader.shipworthy? && !(@trade.first_trader.books.empty?)
       setup_a_trade(@trade)
       @my_trades = Trade.my_trades(current_user)
@@ -136,8 +138,8 @@ class TradesController < ApplicationController
     trade_hash["me"] = current_user
     trade_hash["id"] = trade.id
     trade_hash["other_trader"] = trade.second_trader
-    trade["book_I_want"] = trade.book_first_trader_wants
-    trade["created_date"] = trade.created_at.strftime("%b %d %Y")
+    trade_hash["book_I_want"] = trade.book_first_trader_wants
+    trade_hash["created_date"] = trade.created_at.strftime("%b %d %Y")
     trade_hash
   end
 
