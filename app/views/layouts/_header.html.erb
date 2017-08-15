@@ -33,11 +33,15 @@
   <% if current_user %>
 
   <hr>
-  <div class="container-fluid centered">
-  <input type="image" class="col-md-3 click-btn" id="all-books-btn" <%= image_tag "all-books-btn.png" %>
-  <input type="image" class="col-md-3 click-btn" id="my-profile-btn" data-id="<%= current_user.id %>" <%= image_tag "my-profile-btn.png" %>
-  <input type="image" class="col-md-3 click-btn"id="my-books-btn" data-id="<%= current_user.id %>" <%= image_tag "my-books-btn.png" %>
-  <input type="image" class="col-md-3 click-btn"id="my-trades-btn" data-id="<%= current_user.id %>" <%= image_tag "my-trades-btn.png" %>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="center">
+        <input class="col-sm-3 click-btn image-responsive" id="all-books-btn" type="image" value=" "> 
+        <input class="col-sm-3 click-btn image-responsive" data-id="<%= current_user.id %>" id="my-profile-btn" type="image" value=" "> 
+        <input class="col-sm-3 click-btn image-responsive" data-id="<%= current_user.id %>" id="my-books-btn" type="image" value=" "> 
+        <input class="col-sm-3 click-btn image-responsive" data-id="<%= current_user.id %>" id="my-trades-btn" type="image" value=" ">
+      </div>
+    </div>
   </div>
 
 

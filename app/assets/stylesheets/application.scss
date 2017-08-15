@@ -17,151 +17,186 @@
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.ttf"
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.svg"
  */
+
 @import "bootstrap";
+
 /* Some Style from the Bootstrap Default Theme */
 
 body {
-
   padding: 50px;
 }
-
 input[type='checkbox'] {
-   margin-left: 20px;
-   margin-right: 5px !important;
+  margin-left: 20px;
+  margin-right: 5px !important;
 }
-
 .field, .text_area, .radio_field, .checkboxes {
   padding-bottom: 20px;
 }
-
 .corners1 {
-    border-radius: 25px;
-    background: #FF8025;
-    padding: 20px; 
-    width: 80%;
-    
+  border-radius: 25px;
+  background: #FF8025;
+  padding: 20px;
+  width: 80%;
 }
-
 .corners2 {
-    border-radius: 25px;
-    border: 2px solid #73AD21;
-    padding: 20px; 
-    width: 80%;
-   
+  border-radius: 25px;
+  border: 2px solid #73AD21;
+  padding: 20px;
+  width: 80%;
 }
-
 .centerbox {
   background-color: #74cef1;
   padding: 20px;
-
 }
-
+.row {}
+#all-books-btn {
+  background-image: url('all_books1.png');
+  width: 210px;
+  height: 210px;
+  margin-left: 30px;
+}
+#all-books-btn:hover {
+  background-image: url('all_books2.png');
+  width: 210px;
+  height: 210px;
+  margin-left: 30px;
+}
+#my-profile-btn {
+  background-image: url('my_profile1.png');
+  width: 210px;
+  height: 210px;
+  margin-left: 30px;
+}
+#my-profile-btn:hover {
+  background-image: url('my_profile2.png');
+  width: 210px;
+  height: 210px;
+  margin-left: 30px;
+}
+#my-books-btn {
+  background-image: url('my_books1.png');
+  width: 210px;
+  height: 210px;
+  margin-left: 30px;
+  margin-left: 30px;
+}
+#my-books-btn:hover {
+  background-image: url('my_books2.png');
+  width: 210px;
+  height: 210px;
+  margin-left: 30px;
+}
+#my-trades-btn {
+  background-image: url('my_trades1.png');
+  width: 210px;
+  height: 210px;
+  margin-left: 30px;
+}
+#my-trades-btn:hover {
+  background-image: url('my_trades2.png');
+  width: 210px;
+  height: 210px;
+  margin-left: 30px;
+}
+.center {
+  margin: 0 auto;
+  width: 80%;
+  ;
+}
 hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #00BFFF;
-    margin: 1em 0;
-    padding: 0; 
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #00BFFF;
+  margin: 1em 0;
+  padding: 0;
 }
-
 p.notice {
-    color: #00529B;
-    background-color: #BDE5F8;
-    padding: 10px 0px 10px 20px;
-    font-size: 120%;
-
+  color: #00529B;
+  background-color: #BDE5F8;
+  padding: 10px 0px 10px 20px;
+  font-size: 120%;
 }
-
 p.alert {
-  color: #D8000C;
+  color: white;
   background-color: #FF8025;
   padding: 10px 0px 10px 20px;
   font-size: 120%;
 }
-
-
 .indent {
   margin-left: 30px;
 }
-
-
 img {
-    border-radius: 3px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.9); 
+  border-radius: 3px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.9);
 }
-
 .theme-dropdown .dropdown-menu {
   position: static;
   display: block;
   margin-bottom: 20px;
 }
-
-.theme-showcase > p > .btn {
+.theme-showcase>p>.btn {
   margin: 5px 0;
 }
-
 .little-text {
   text: 50%;
   text-align: center;
 }
-
 .click-btn {
   padding: 20px;
 }
-
-
 #banner-img {
-    width: 90%;
-    height: auto;
-    margin-left: 4%;
-    margin-right: 0;
-    margin-bottom: 20px;
+  width: 90%;
+  height: auto;
+  margin-left: 4%;
+  margin-right: 0;
+  margin-bottom: 20px;
 }
-
 img[src=""] {
-    display: none;
+  display: none;
 }
-
 .remember {
   font-style: italic;
   color: orange;
 }
-
 .centered {
   width: 100%;
   text-align: center;
+  height: auto;
+  margin: 0 auto;
 }
-
+.address {
+  margin-left: 10%;
+  font-size: 125%;
+  font-weight: bold;
+}
+.rating {
+  margin-left: 10%;
+}
+p .small {
+  line-height: 50%;
+}
 #load-more-books-btn {
   display: inline-block;
 }
-
 .boxframe {
   background-color: Azure;
-  border: 10px solid #74cef1; 
+  border: 10px solid #74cef1;
   padding: 20px;
   margin-left: 15%;
   margin-right: 15%;
   margin-top: 20px;
   margin-bottom: 20px;
-  color: darkblue; 
+  color: darkblue;
 }
-
 .boxframe-title {
-    text: 200%;
+  text: 200%;
 }
-
 .boxframe-subj {
-    font-weight: bold;
-    margin-left: 10px;  
+  font-weight: bold;
+  margin-left: 10px;
 }
-
-
 .boxframe-desc {
-    font-weight: normal;
-    margin-left: 20px; 
+  font-weight: normal;
+  margin-left: 20px;
 }
-
-
-
