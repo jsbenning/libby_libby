@@ -14,9 +14,11 @@ $(document).ready(function(){
         var newBookButton = "<button type='button' class='btn btn-primary' data-user='" + data.user.id + "'id='new-book-btn'>Add a New Book</button>";
         $("#my-books-btn").removeAttr('disabled');
         // the following conditional determines whether current_user has any books
+        console.log(data.mine);
         if (data.books) {
           var myBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
-            books :data.books
+            books :data.books,
+            mine :data.mine
           });  
           $('#display-area').html(myBooksHtml);
           $('.notice').html(data.msg);
@@ -48,7 +50,7 @@ $(document).ready(function(){
       success: function(data) {
         $("#all-books-btn").removeAttr('disabled');
         var allBooksHtml = HandlebarsTemplates['allBooksTemplate'] ({
-          books: data.books  
+          books: data.books, 
         });
         $('#display-area').html(inputField);
         $('#display-area').append(allBooksHtml);
@@ -276,7 +278,6 @@ $(document).ready(function(){
           books: data.books  
         });
       $('#display-area').append(allBooksHtml);
-      console.log(lastId);
       },
       error: function() {
         console.log("Sumpin broke");
