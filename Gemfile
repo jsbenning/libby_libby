@@ -21,6 +21,7 @@ gem 'sass-rails', '>= 3.2'
 gem 'handlebars_assets'
 
 
+
 gem 'omniauth-facebook'
 
 gem 'record_tag_helper', '~> 1.0'

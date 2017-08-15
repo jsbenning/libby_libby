@@ -18,12 +18,21 @@
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.svg"
  */
 
+
 @import "bootstrap";
+@import url(https://fonts.googleapis.com/css?family=Oxygen);
+
+$oxygen: 'Oxygen', sans-serif; 
+
 
 /* Some Style from the Bootstrap Default Theme */
 
 body {
   padding: 50px;
+  background: #FFEEAD;
+  font-family: $oxygen;
+  font-size: 14px;
+  color: #555555;
 }
 input[type='checkbox'] {
   margin-left: 20px;
@@ -36,71 +45,59 @@ input[type='checkbox'] {
   border-radius: 25px;
   background: #FF8025;
   padding: 20px;
-  width: 80%;
+  width: 50%;
 }
 .corners2 {
+  border-width: 2px;
+  border-color: white;
+  border-style: solid;
   border-radius: 25px;
-  border: 2px solid #73AD21;
-  padding: 20px;
-  width: 80%;
+  padding-top: 5px;
+  padding-bottom: 20px;
+  background: #96CEB4;
+  color: FF6F69;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  width: 300px;;
 }
+
+
 .centerbox {
   background-color: #74cef1;
   padding: 20px;
 }
-.row {}
+
 #all-books-btn {
-  background-image: url('all_books1.png');
-  width: 210px;
-  height: 210px;
-  margin-left: 30px;
-}
-#all-books-btn:hover {
-  background-image: url('all_books2.png');
+  background-image: url('all-books-1.png');
   width: 210px;
   height: 210px;
   margin-left: 30px;
 }
 #my-profile-btn {
-  background-image: url('my_profile1.png');
-  width: 210px;
-  height: 210px;
-  margin-left: 30px;
-}
-#my-profile-btn:hover {
-  background-image: url('my_profile2.png');
+  background-image: url('my-profile-1.png');
   width: 210px;
   height: 210px;
   margin-left: 30px;
 }
 #my-books-btn {
-  background-image: url('my_books1.png');
+  background-image: url('my-books-1.png');
   width: 210px;
   height: 210px;
   margin-left: 30px;
-  margin-left: 30px;
-}
-#my-books-btn:hover {
-  background-image: url('my_books2.png');
-  width: 210px;
-  height: 210px;
   margin-left: 30px;
 }
 #my-trades-btn {
-  background-image: url('my_trades1.png');
-  width: 210px;
-  height: 210px;
-  margin-left: 30px;
-}
-#my-trades-btn:hover {
-  background-image: url('my_trades2.png');
+  background-image: url('my-trades-1.png');
   width: 210px;
   height: 210px;
   margin-left: 30px;
 }
 .center {
-  margin: 0 auto;
-  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 20px;
+  margin-bottom: 20px;
   ;
 }
 hr {
