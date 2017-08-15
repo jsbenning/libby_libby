@@ -1,6 +1,4 @@
 class BooksController < ApplicationController
-  before_action :confirm_user_shipworthy, except: [:index_all, :index_users]
-  before_action :confirm_user_visible, except: [:index_all]
   require 'pry'
   
   
@@ -42,9 +40,18 @@ class BooksController < ApplicationController
     @genres = Genre.all
     @user = User.find(params[:user_id])
     @book = Book.new
-    respond_to do |f|
-      f.html { render :new }
-      f.json { render :json => { :book => @book, :user => @user, :genres => @genres.to_json, :only => [:id, :name] } }
+    if @user == current_user && @user.visible? && @user.shipworthy?
+      respond_to do |f|
+        f.html { render :new }
+        f.json { render :json => { :book => @book, :user => @user, :genres => @genres.to_json, :only => [:id, :name] } }
+      end
+    else
+      @msg = "You must complete your profile before creating books"
+      flash.now[:alert] = @msg
+      respond_to do |f|
+        f.html { render :edit }
+        f.json { render :json => { :msg => @msg }}
+      end 
     end
   end
 
@@ -59,7 +66,7 @@ class BooksController < ApplicationController
         f.json { render :json => { :msg => @msg }}
       end
     else
-      @msg = "Some necessary field is missing.  Well don't look at me, I don't understand computers!"  
+      @msg = "Book not created! Make sure 'Title' and 'Condition' fields are completed..."  
       flash.now[:alert] = @msg
       respond_to do |f|
         f.html { render :edit }
@@ -71,6 +78,7 @@ class BooksController < ApplicationController
   def show #/users/1/books/5
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
+
     if @user != current_user && Trade.shared_trade(current_user, @user) #in other words, if someone else initiated a trade with the current user, 
     #and the current user is now looking at that person's book, considering completing the trade...
       @trade = Trade.shared_trade(current_user, @user) #...this then gives the option of completing the trade in book show view
@@ -149,23 +157,6 @@ class BooksController < ApplicationController
   end
 
   private
-
-  def confirm_user_visible
-    @user = User.find(params[:user_id])
-    unless @user.visible
-      flash[:notice] = "The requested user is not currently active. They're hiding or ... they've been hidden(shudder)!"
-      render :root
-    end
-  end
-
-
-  def confirm_user_shipworthy
-    @user = User.find(params[:user_id])
-    unless @user.shipworthy?
-      flash[:notice] = "Make sure your profile is complete before adding books!"
-      render template: 'users/edit'
-    end
-  end
 
   def book_params
     params.require(:book).permit(:user_id, :title, :author_last_name, :author_first_name, :isbn, :condition, :description, :status, genre_ids:[], genres_attributes: [:name])

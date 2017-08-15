@@ -3,6 +3,7 @@ class Book < ApplicationRecord
   scope :by_date, -> { order('created_at DESC, id DESC') }
   
   belongs_to :user, dependent: :destroy
+  belongs_to :trade
   validates_presence_of :user
   has_and_belongs_to_many :genres 
   accepts_nested_attributes_for :genres
