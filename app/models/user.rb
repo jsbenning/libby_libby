@@ -37,6 +37,10 @@ class User < ApplicationRecord
     first_name 
   end
 
+  def visible?
+    self.visible == true
+  end
+
   def shipworthy? # Has the user entered all shipping info?
     x = true
     self.attributes.first(6).each do |attr|
