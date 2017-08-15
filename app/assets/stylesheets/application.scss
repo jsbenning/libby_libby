@@ -20,7 +20,7 @@
 
 
 @import "bootstrap";
-@import url(https://fonts.googleapis.com/css?family=Oxygen);
+@import url(https://fonts.googleapis.com/css?family=Oxygen:400,700);
 
 $oxygen: 'Oxygen', sans-serif; 
 
@@ -28,7 +28,7 @@ $oxygen: 'Oxygen', sans-serif;
 /* Some Style from the Bootstrap Default Theme */
 
 body {
-  padding: 50px;
+  padding: 10px;
   background: #FFEEAD;
   font-family: $oxygen;
   font-size: 14px;
@@ -57,15 +57,28 @@ input[type='checkbox'] {
   background: #96CEB4;
   color: FF6F69;
   text-align: center;
+  margin-left: 50px;
   margin-top: 20px;
   margin-bottom: 30px;
   width: 300px;;
 }
-
+#change-pass-btn, #edit-profile-btn, #delete-account-btn {
+  margin-left: 50px;
+  background-color: lightgreen;
+  color: #555555;
+}
 
 .centerbox {
   background-color: #74cef1;
   padding: 20px;
+}
+#account-buttons {
+  padding-left: 50px;
+  margin-top: 30px;
+}
+#new-book-btn {
+  margin-left: 50px;
+  margin-top: 10px;
 }
 
 #all-books-btn {
@@ -109,12 +122,14 @@ hr {
   padding: 0;
 }
 p.notice {
+  border-radius: 25px;
   color: #00529B;
   background-color: #BDE5F8;
   padding: 10px 0px 10px 20px;
   font-size: 120%;
 }
 p.alert {
+  border-radius: 25px;
   color: white;
   background-color: #FF8025;
   padding: 10px 0px 10px 20px;
@@ -127,6 +142,11 @@ img {
   border-radius: 3px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.9);
 }
+#homepage-header {
+  padding-left: 50px;
+  padding-top: 20px;
+  padding-bottom: 30px;
+} 
 .theme-dropdown .dropdown-menu {
   position: static;
   display: block;
@@ -190,7 +210,7 @@ p .small {
   text: 200%;
 }
 .boxframe-subj {
-  font-weight: bold;
+  font-weight: 700;
   margin-left: 10px;
 }
 .boxframe-desc {

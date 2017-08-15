@@ -24,7 +24,7 @@ class TradesController < ApplicationController
       elsif trade.second_trader == current_user && trade.book_second_trader_wants_id.nil?
         # this_trade = build_must_respond_object(trade)
         # @my_must_respond_trades << this_trade
-        #@my_must_respond_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader])
+        @my_must_respond_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader])
         #@my_must_respond_trades << { trade: trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader])}
       elsif trade.status == "complete"
         # this_trade = build_completed_trade_object(trade)

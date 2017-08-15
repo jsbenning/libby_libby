@@ -6,9 +6,13 @@
 <p>Author: {{this.author_first_name}} {{this.author_last_name}}</p></br>
 <button type='button' class='btn btn-primary btn-xs show-book-btn' value= "hey" data-user='{{this.user_id}}' data-book='{{this.id}}'>Click for More</button>
 </div>
-{{/each}} 
-<div class="centered">
-<button type='button' class='btn btn-primary btn-xs load-more-books-btn'>Load More Books</button>
-<div>
+{{/each}}
+
+{{#unless mine}}
+  <div class='centered'><button type='button' class='btn btn-primary btn-xs load-more-books-btn'>Load More Books</button><div>
+{{/unless}}    
+
+
+
 
 

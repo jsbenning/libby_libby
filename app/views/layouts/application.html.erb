@@ -32,16 +32,17 @@
   </body>
   <footer>
   <hr>
-   
+<div id="account-buttons">   
 <% if current_user && !(current_user.uid) %>
-<p><%= button_to "Change My Password", edit_user_registration_path(current_user), :method => 'get', :class => 'btn btn-primary' %></p>
+<p><%= button_to "Change My Password", edit_user_registration_path(current_user), :method => 'get', :class => 'btn', :id => 'change-pass-btn' %></p>
 <% end %>
 
 <% if current_user %>
-<p><%= button_to "Edit My Profile", edit_user_path(current_user), :method => 'get', :class => 'btn btn-primary' %></p>
+<p><%= button_to "Edit My Profile", edit_user_path(current_user), :method => 'get', :class => 'btn', :id => 'edit-profile-btn' %></p>
 
-<p><%= button_to "Delete My Account", registration_path(:user, as: :accounts), :class => 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :delete %></p>
- <% end %>   
+<p><%= button_to "Delete My Account", registration_path(:user, as: :accounts), :class => 'btn', :id => 'delete-account-btn', method: :delete %></p>
+ <% end %> 
+ </div>  
 
     <div class='little-text'>
     </br >

@@ -18,21 +18,23 @@ class BooksController < ApplicationController
   def index_users # localhost:3000/users/5/books
     @user = User.find(params[:user_id])
     if @user == current_user
+      @mine = current_user.real_name
       the_name = "You don't have "
     else
+      @mine = nil
       the_name = "#{@user.real_name.capitalize} hasn't got "
     end
     @books = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
     if @books.empty?
       @books = nil
       @msg = "#{the_name} any books yet!"
-    else
+    else  
     @msg = "Here are #{@user.real_name}'s books..." 
     end
     respond_to do |f|   
       flash.now[:notice] = @msg
       f.html { render :index }
-      f.json { render :json => { :books => @books, :user => @user, :msg => @msg }}
+      f.json { render :json => { :books => @books, :user => @user, :msg => @msg, :mine => @mine }}
     end
   end
 
