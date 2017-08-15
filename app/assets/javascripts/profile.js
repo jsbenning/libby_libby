@@ -5,7 +5,7 @@ $(document).ready(function(){
     $("#my-profile-btn").attr('disabled', 'disabled');
     clearDivs();
 
-    var personId = this.getAttribute('data-id');
+    var personId = $(this).data('id');
     var url = "http://localhost:3000/users/" + personId + ".json";
     
     $.ajax({
