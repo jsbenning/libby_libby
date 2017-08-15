@@ -16,15 +16,18 @@
 </div>
 
   <% if current_user && current_user.admin? %>
-  <nav class="admin_nav">
-    <h2>***ADMIN***</h2>
+  <div class="corners2">
+    <h3>*** ADMINISTRATOR ***</h3>
+  </div>
     <ul>
       <li><%= link_to "View/Edit Users", users_path %> </li>
     </ul>
+    
 
   <% elsif current_user && current_user.mod? %>
-  <nav class="mod_nav">
-    <h2>***MOD***</h2>
+  <div class="corners2">
+    <h3>*** MODERATOR ***</h3>
+  </div>  
     <ul>
       <li><%= link_to "View Users", users_path %> </li>
     </ul>
@@ -33,7 +36,7 @@
   <% if current_user %>
 
   <hr>
-  <div class="container-fluid">
+  <div class="container-fluid" id="nav-buttons">
     <div class="row">
       <div class="center">
         <input class="col-sm-3 click-btn image-responsive" id="all-books-btn" type="image" value=" "> 
@@ -44,16 +47,6 @@
     </div>
   </div>
 
-
-
-    <nav class="logged_in_nav">
-        <ul>
-          <li> <%= link_to "See My Profile", user_path(current_user) %> </li>
-          <li> <%= link_to "Browse All Books", books_path %> </li>
-          <li> <%= link_to "See My Books", user_books_path(current_user.id) %> </li>
-          <li> <%= link_to "See My Trades", trades_path %> </li>
-      </ul>
-    </nav> 
   <% end %>
 
 </header>
