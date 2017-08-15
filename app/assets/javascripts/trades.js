@@ -11,18 +11,39 @@ $(document).ready(function(){
       url: url,
       success: function(data) {
         $("#my-trades-btn").removeAttr('disabled');
+        // var init = data.my_initiated_trades;
+        // var must = data.my_must_respond_trades;
+        // var comp = data.my_completed_trades
+
+        
+        //console.log(JSON.parse(y[0]).id);
+
+        var mustRespond = aggregate(data.my_must_respond_trades);
+        var initiated = aggregate(data.my_initiated_trades);
+        var completed = aggregate(data.my_completed_trades);
+
+        function aggregate(myArr) {
+          var x = [];
+          for (i=0; i < myArr.length; i++) {
+            var item = JSON.parse(myArr[i]);
+            x.push(item)
+          }
+          return x;
+        };
+         console.log(initiated);
+
         myTradesHtml = HandlebarsTemplates['myTradesTemplate'] ({
-          mustRespond: data.my_must_respond_trades,
-          initiated: data.my_initiated_trades,
-          completed: data.my_completed_trades
+          mustRespond: mustRespond,
+          initiated: initiated,
+          completed: completed
         });
         $('#display-area').html(myTradesHtml);
         $('.notice').html(data.msg);
-      },
-      error: function() {
-        console.log("sumpin broke");
-      }
-    });
+        },
+        error: function() {
+          console.log("sumpin broke");
+        }
+      });
     e.stopImmediatePropagation();
     return false;
   });
@@ -75,7 +96,7 @@ $(document).ready(function(){
     var firstTraderId = $(this).data('trader1'); 
     var secondTraderId = $(this).data('trader2');
     var url = "http://localhost:3000/trades";
-    console.log(firstTraderId);
+    console.log(bookFirstTraderWantsId);
     var myData = { trade: { book_first_trader_wants_id: bookFirstTraderWantsId, first_trader_id: firstTraderId, second_trader_id: secondTraderId }};
       $.ajax({
         dataType: "json",
@@ -178,6 +199,8 @@ $(document).ready(function(){
       e.stopImmediatePropagation();
         return false;
     });
+
+
 
     $(document.body).on('click', '.cancel-trade-btn', function(e){
     $('.cancel-trade-btn').attr('disabled', 'disabled');
