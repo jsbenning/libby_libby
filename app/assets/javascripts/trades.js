@@ -13,10 +13,12 @@ $(document).ready(function(){
         $("#my-trades-btn").removeAttr('disabled');
         // var init = data.my_initiated_trades;
         // var must = data.my_must_respond_trades;
-        // var comp = data.my_completed_trades
+        // var comp = data.my_completed_trades;
+
+        // console.log(init);
 
         
-        //console.log(JSON.parse(y[0]).id);
+    //     //console.log(JSON.parse(y[0]).id);
 
         var mustRespond = aggregate(data.my_must_respond_trades);
         var initiated = aggregate(data.my_initiated_trades);
@@ -30,20 +32,19 @@ $(document).ready(function(){
           }
           return x;
         };
-         console.log(initiated);
+    console.log(initiated);
 
         myTradesHtml = HandlebarsTemplates['myTradesTemplate'] ({
-          mustRespond: mustRespond,
-          initiated: initiated,
-          completed: completed
-        });
+        //   mustRespond: mustRespond,
+            initiated: initiated
+        //   completed: completed
+    });
         $('#display-area').html(myTradesHtml);
-        $('.notice').html(data.msg);
-        },
+    },
         error: function() {
           console.log("sumpin broke");
-        }
-      });
+       }
+     });
     e.stopImmediatePropagation();
     return false;
   });

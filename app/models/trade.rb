@@ -31,16 +31,6 @@ class Trade < ApplicationRecord
     end
     rating.round
   end
-
-  # def book_first_trader_wants
-  #   Book.find(book_first_trader_wants_id)
-  # end
-
-  # def book_second_trader_wants
-  #   Book.find(book_second_trader_wants_id)
-  # end
-
-
 end
            
 
