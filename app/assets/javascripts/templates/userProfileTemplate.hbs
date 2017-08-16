@@ -1,0 +1,14 @@
+<div class='boxframe'><h2>User's Profile: </h2>
+  <p><strong>Real Name:</strong> {{data.user.real_name}}</p>
+  <p><strong>Street Address:</strong> {{data.user.street}}</p>
+  <p><strong>City:</strong> {{data.user.city}}</p>
+  <p><strong>State:</strong> {{data.user.state}}</p>
+  <p><strong>Zipcode:</strong> {{data.user.zipcode}}</p>
+  <p><strong>Role:</strong> {{data.user.role}}</p>
+  <p><strong>Books:</strong></p>
+  {{#data.books}}
+   <p class="indent">{{title}}</p>
+  {{/data.books}}
+  <p><strong>email:</strong> {{data.user.email}}</p>
+  <p><strong>Current Rating:</strong><span> {{data.rating}} out of 3 (3 is best)</p>
+</div>

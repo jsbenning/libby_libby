@@ -17,6 +17,14 @@ class BooksController < ApplicationController
 
   def index_users # localhost:3000/users/5/books
     @user = User.find(params[:user_id])
+    unless @user.visible?
+      @msg = "This user is not currently available!"
+      flash[:alert] = @msg
+      respond_to do |f|
+        f.html { redirect_to root_path }
+        f.json { render :json => { :msg => @msg }}
+      end
+    end
     if @user == current_user
       @mine = current_user.real_name
       the_name = "You don't have "
@@ -81,11 +89,11 @@ class BooksController < ApplicationController
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
 
-    if @user != current_user && Trade.shared_trade(current_user, @user) #in other words, if someone else initiated a trade with the current user, 
+    if @user != current_user && Trade.shared_trade(current_user, @user) && @user.visible? #in other words, if someone else initiated a trade with the current user, 
     #and the current user is now looking at that person's book, considering completing the trade...
       @trade = Trade.shared_trade(current_user, @user) #...this then gives the option of completing the trade in book show view
       @other_trader_rating = Trade.user_rating(@user)
-    elsif @user != current_user
+    elsif @user != current_user && @user.visible? 
       @trade = Trade.new #this gives the option of initiating a trade in book show view
       @trade.first_trader = current_user
       @other_trader_rating = Trade.user_rating(@user)
@@ -131,7 +139,7 @@ class BooksController < ApplicationController
       @msg = "The book wasn't updated, sorry!"
       flash.now[:notice] = @msg
       respond_to do |f|
-        f.html { render :books }
+        f.html { render 'home/logged_in' }
         f.json { render :json => { :msg => @msg }}
       end
     end

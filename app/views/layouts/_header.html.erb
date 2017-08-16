@@ -18,19 +18,16 @@
   <% if current_user && current_user.admin? %>
   <div class="corners2">
     <h3>*** ADMINISTRATOR ***</h3>
+    <button id="view-users-btn" data-id="<% current_user.id %>" >View All Users</button>
   </div>
-    <ul>
-      <li><%= link_to "View/Edit Users", users_path %> </li>
-    </ul>
     
 
   <% elsif current_user && current_user.mod? %>
   <div class="corners2">
     <h3>*** MODERATOR ***</h3>
+    <button id="view-users-btn" data-id="<% current_user.id %>" >View All Users</button>
   </div>  
-    <ul>
-      <li><%= link_to "View Users", users_path %> </li>
-    </ul>
+
   <% end %>
 
   <% if current_user %>

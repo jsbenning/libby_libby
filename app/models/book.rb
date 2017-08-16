@@ -32,6 +32,8 @@ class Book < ApplicationRecord
     write_attribute(:description, s.split(". ").each{|w| w.capitalize!()}.join(". "))
   end
 
+  
+
 
 
 
