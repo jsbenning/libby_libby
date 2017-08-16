@@ -11,33 +11,33 @@ $(document).ready(function(){
       url: url,
       success: function(data) {
         $("#my-trades-btn").removeAttr('disabled');
-        // var init = data.my_initiated_trades;
-        // var must = data.my_must_respond_trades;
-        // var comp = data.my_completed_trades;
+        var init = data.my_initiated_trades;
+        var must = data.my_must_respond_trades;
+        var comp = data.my_completed_trades;
 
         // console.log(init);
 
         
     //     //console.log(JSON.parse(y[0]).id);
 
-        var mustRespond = aggregate(data.my_must_respond_trades);
-        var initiated = aggregate(data.my_initiated_trades);
-        var completed = aggregate(data.my_completed_trades);
+        // var mustRespond = aggregate(data.my_must_respond_trades);
+        // var initiated = aggregate(data.my_initiated_trades);
+        // var completed = aggregate(data.my_completed_trades);
 
-        function aggregate(myArr) {
-          var x = [];
-          for (i=0; i < myArr.length; i++) {
-            var item = JSON.parse(myArr[i]);
-            x.push(item)
-          }
-          return x;
-        };
-    console.log(initiated);
+        // function aggregate(myArr) {
+        //   var x = [];
+        //   for (i=0; i < myArr.length; i++) {
+        //     var item = JSON.parse(myArr[i]);
+        //     x.push(item)
+        //   }
+        //   return x;
+        // };
+
 
         myTradesHtml = HandlebarsTemplates['myTradesTemplate'] ({
-        //   mustRespond: mustRespond,
-            initiated: initiated
-        //   completed: completed
+          mustRespond: init,
+          initiated: must,
+          completed: comp
     });
         $('#display-area').html(myTradesHtml);
     },

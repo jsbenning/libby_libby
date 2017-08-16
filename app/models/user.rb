@@ -10,12 +10,13 @@ class User < ApplicationRecord
     "VA","Virginia", "VI","Virgin Islands",  "VT","Vermont", "WA","Washington", "WI","Wisconsin", "WV","West Virginia", "WY","Wyoming"],\
      message: "%{value} is not a valid state" }, on: :update
 
-  enum role: [ :reader, :mod, :admin ]# admins can make users invisible, mods can view all users
+  enum role: [ :reader, :mod, :admin ]# admins can make users invisible, mods can only view all users
   has_many :books, :dependent => :destroy
   accepts_nested_attributes_for :books
   has_many :genres, through: :books
 
-  has_many :trades
+  has_many :trades, foreign_key: "first_trader_id", class_name: "Trade"
+  has_many :trades, foreign_key: "second_trader_id", class_name: "Trade"
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]

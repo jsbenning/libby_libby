@@ -17,19 +17,17 @@ class TradesController < ApplicationController
     @my_completed_trades = []
     @my_trades.each do |trade|
       if trade.first_trader == current_user && trade.book_second_trader_wants_id.nil?
-        # this_trade = build_initiated_trade_object(trade) 
-        # @my_initiated_trades << this_trade 
+        this_trade = build_initiated_trade_object(trade) 
+        @my_initiated_trades << this_trade 
 
-        @my_initiated_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader])
+        #@my_initiated_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader]) (One of many failed attempts)
       elsif trade.second_trader == current_user && trade.book_second_trader_wants_id.nil?
-        # this_trade = build_must_respond_object(trade)
-        # @my_must_respond_trades << this_trade
-        @my_must_respond_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader])
-        #@my_must_respond_trades << { trade: trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader])}
+        this_trade = build_must_respond_object(trade)
+        @my_must_respond_trades << this_trade
       elsif trade.status == "complete"
-        # this_trade = build_completed_trade_object(trade)
-        # @my_completed_trades << this_trade
-        @my_completed_trades << trade.to_json
+        this_trade = build_completed_trade_object(trade)
+        @my_completed_trades << this_trade
+        #@my_completed_trades << trade.to_json
       end
     end
     respond_to do |f|

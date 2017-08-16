@@ -20,7 +20,6 @@
     <p>You don't currently have any initiated trades</p>
     {{else}}
       {{#each initiated}}
-      <h1>Help!</h1>
       <p class="list-group-item-text">You requested <b>{{this.title}}</b> from <a href="mailto:{{other_trader.email}}?subject=LibbyLibby Trade">{{other_trader.real_name}}</a> on {{created_date}}, and you're still waiting for a response.</p><br><button class="btn btn-primary btn-xs cancel-trade-btn" data-trade={{id}}>Cancel This Trade</button><hr>
       {{/each}}
     {{/unless}}
