@@ -29,7 +29,7 @@ $oxygen: 'Oxygen', sans-serif;
 
 body {
   padding: 10px;
-  background: #FFEEAD;
+  background: #FFEEAC;
   font-family: $oxygen;
   font-size: 14px;
   color: #555555;
@@ -67,6 +67,17 @@ input[type='checkbox'] {
   background-color: lightgreen;
   color: #555555;
 }
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
 
 .centerbox {
   background-color: #74cef1;
@@ -85,26 +96,30 @@ input[type='checkbox'] {
   background-image: url('all-books-1.png');
   width: 210px;
   height: 210px;
-  margin-left: 30px;
+  margin: 20px;
+
 }
 #my-profile-btn {
   background-image: url('my-profile-1.png');
   width: 210px;
   height: 210px;
-  margin-left: 30px;
+  margin: 20px;
+
 }
 #my-books-btn {
   background-image: url('my-books-1.png');
   width: 210px;
   height: 210px;
-  margin-left: 30px;
-  margin-left: 30px;
+  margin: 20px;
+
+
 }
 #my-trades-btn {
   background-image: url('my-trades-1.png');
   width: 210px;
   height: 210px;
-  margin-left: 30px;
+  margin: 20px;
+
 }
 .center {
   margin-left: 10%;
@@ -138,30 +153,47 @@ p.alert {
 .indent {
   margin-left: 30px;
 }
+
+
+
 img {
   border-radius: 3px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.9);
 }
 #homepage-header {
-  padding-left: 50px;
+  margin-left: 50px;
   padding-top: 20px;
   padding-bottom: 30px;
 } 
+#input-area {
+  margin-left: 50px;
+  margin-bottom: 10px;
+
+}
+#search-btn-area {
+  margin-left: 50px;
+}
 .theme-dropdown .dropdown-menu {
   position: static;
   display: block;
   margin-bottom: 20px;
 }
-.theme-showcase>p>.btn {
+.theme-showcase> p> .btn {
   margin: 5px 0;
 }
 .little-text {
   text: 50%;
   text-align: center;
 }
-.click-btn {
-  padding: 20px;
+
+.section-title {
+  margin-left: 50px; 
 }
+
+.section-info {
+  margin-left: 80px;
+}
+
 #banner-img {
   width: 90%;
   height: auto;

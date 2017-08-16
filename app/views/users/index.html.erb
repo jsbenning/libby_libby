@@ -1,6 +1,10 @@
-<h1>All of LibbyLibby's Users:</h1>
+<div class="section-title">
+  <h1>All of LibbyLibby's Users:</h1>
+</div>
+<div class="section-info">
 <% @users.each do |user| %>
   <%= user.email %><br />
   <%= link_to "See More", user_path(user) %><br />
   <hr>
 <% end %>
+</div>

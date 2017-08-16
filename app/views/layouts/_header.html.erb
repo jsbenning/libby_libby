@@ -36,14 +36,12 @@
   <% if current_user %>
 
   <hr>
-  <div class="container-fluid" id="nav-buttons">
-    <div class="row">
-      <div class="center">
-        <input class="col-sm-3 click-btn image-responsive" id="all-books-btn" type="image" value=" "> 
-        <input class="col-sm-3 click-btn image-responsive" data-id="<%= current_user.id %>" id="my-profile-btn" type="image" value=" "> 
-        <input class="col-sm-3 click-btn image-responsive" data-id="<%= current_user.id %>" id="my-books-btn" type="image" value=" "> 
-        <input class="col-sm-3 click-btn image-responsive" data-id="<%= current_user.id %>" id="my-trades-btn" type="image" value=" ">
-      </div>
+  <div class="container" id="nav-buttons">
+    <div class="row row-centered">
+      <input class="col-md-4 col-centered click-btn" id="all-books-btn" type="image" value=" "> 
+      <input class="col-md-4 col-centered click-btn" data-id="<%= current_user.id %>" id="my-profile-btn" type="image" value=" "> 
+      <input class="col-md-4 col-centered click-btn" data-id="<%= current_user.id %>" id="my-books-btn" type="image" value=" "> 
+      <input class="col-md-4 col-centered click-btn" data-id="<%= current_user.id %>" id="my-trades-btn" type="image" value=" ">
     </div>
   </div>
 

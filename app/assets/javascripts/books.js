@@ -42,7 +42,7 @@ $(document).ready(function(){
   $(document.body).on('click', '#all-books-btn', function(e) {
     clearDivs();
     $("#all-books-btn").attr('disabled', 'disabled');
-    var inputField = "<input name='search' id='search-field' type='text' size='50' placeholder='Enter keyword (title, author, ISBN) here to search'/><br><br><button id='json-search-btn' class='btn btn-primary'>Search</button></div>" 
+    var inputField = "<div id='input-area'><input name='search' id='search-field' type='text' size='50' placeholder='Enter keyword (title, author, ISBN) here to search'/></div><div id='search-btn-area'><button id='json-search-btn' class='btn btn-primary'>Search</button></div>" 
     var url = "http://localhost:3000/books.json";
     $.ajax({
       dataType: "json",
