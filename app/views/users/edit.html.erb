@@ -1,43 +1,34 @@
 <div class="boxframe">
   <h2>Edit Shipping Info</h2>
-
-  <div class="remember">Remember, if any of the fields below are blank, you must update them to add or trade books</div><br>
-
+  <div class="remember">
+    Remember, if any of the fields below are blank, you must update them to add or trade books
+  </div><br>
   <%= form_for @user do |f| %>
-    <div class="field" >
-      <%= f.label :real_name %><br />
-      <%= f.text_field :real_name  %>
-    </div> 
-
-    <div class="field" > 
-      <%= f.label :street %><br /> 
-      <%= f.text_field :street %>
-    </div> 
-
-    <div class="field" >
-      <%= f.label :city %><br />
-      <%= f.text_field :city %>
-    </div> 
-
-    <div class="field" >
-      <%= f.label :state %><br />
-      <%= f.text_field :state %>
-    </div> 
-
-    <div class="field" >
-      <%= f.label :zipcode %><br />
-      <%= f.text_field :zipcode %><br />
-    </div> 
-
-    <div class="dropdown" >
-      <%= f.label :role %><br />
-
+  <div class="field">
+    <%= f.label :real_name %><br>
+    <%= f.text_field :real_name  %>
+  </div>
+  <div class="field">
+    <%= f.label :street %><br>
+    <%= f.text_field :street %>
+  </div>
+  <div class="field">
+    <%= f.label :city %><br>
+    <%= f.text_field :city %>
+  </div>
+  <div class="field">
+    <%= f.label :state %><br>
+    <%= f.text_field :state %>
+  </div>
+  <div class="field">
+    <%= f.label :zipcode %><br>
+    <%= f.text_field :zipcode %><br>
+  </div>
+  <div class="dropdown">
+    <%= f.label :role %><br>
     <%= f.select(:role, User.roles.keys.map { |role| [role.titleize, role] }) %>
-    </div><br>
-
-    <div class="actions">
-      <%= f.submit "Update Info" %>
-    </div>
-
+  </div><br>
+  <div class="actions">
+    <%= f.submit "Update Info" %>
+  </div><% end %>
 </div>
-<% end %>

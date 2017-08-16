@@ -82,18 +82,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # def destroy # let devise handle this? I say yass!
-  #   @user = User.find(params[:id])
-  #   if (current_user.admin || current_user == @user)  
-  #     @user.destroy
-  #     flash[:notice] = "User Deleted!"
-  #     redirect_to root_url
-  #   else
-  #     flash[:notice] = "User Not Deleted!"
-  #     render 'home/logged_out'
-  #   end
-  # end
-
   private
  
 

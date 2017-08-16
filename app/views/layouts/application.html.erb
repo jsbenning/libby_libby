@@ -1,53 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>LibbyLibby</title>
-  <%= stylesheet_link_tag    'application', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
-  <%= csrf_meta_tags %>
-
- 
-
-  <%= analytics_init if Rails.env.production? %>
-
-        <div id="container">
-                <img id="banner-img" <%= image_tag "bannertest.png" %>
-        </div>
-
-
-
-    <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <p class="notice"><%= notice %></p>
-       <p class="alert"><%= alert %></p>
-
-  </head>
-
-  <%= render 'layouts/header' %>
-
-
-  <body> 
-    <%= yield %>
-  </body>
+<head>
+  <title>LibbyLibby</title><%= stylesheet_link_tag    'application', media: 'all' %><%= javascript_include_tag 'application' %><%= csrf_meta_tags %><%= analytics_init if Rails.env.production? %>
+</head>
+<body>
+  <div id="container"><img id="banner-img"></div><%= csrf_meta_tags %><%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %><%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p><%= render 'layouts/header' %><%= yield %>
   <footer>
-  <hr>
-<div id="account-buttons">   
-<% if current_user && !(current_user.uid) %>
-<p><%= button_to "Change My Password", edit_user_registration_path(current_user), :method => 'get', :class => 'btn', :id => 'change-pass-btn' %></p>
-<% end %>
-
-<% if current_user %>
-<p><%= button_to "Edit My Profile", edit_user_path(current_user), :method => 'get', :class => 'btn', :id => 'edit-profile-btn' %></p>
-
-<p><%= button_to "Delete My Account", registration_path(:user, as: :accounts), :class => 'btn', :id => 'delete-account-btn', method: :delete %></p>
- <% end %> 
- </div>  
-
-    <div class='little-text'>
-    </br >
     <hr>
-      Images Provided by <a href="http://www.openlibrary.org">The Open Library Project</a> 
+    <div id="account-buttons">
+      <%if current_user && !(current_user.uid) %>
+      <p><%= button_to "Change My Password", edit_user_registration_path(current_user), :method => 'get', :class => 'btn', :id => 'change-pass-btn' %></p><%end %><%if current_user %>
+      <p><%= button_to "Edit My Profile", edit_user_path(current_user), :method => 'get', :class => 'btn', :id => 'edit-profile-btn' %></p>
+      <p><%= button_to "Delete My Account", registration_path(:user, as: :accounts), :class => 'btn', :id => 'delete-account-btn', method: :delete %></p><%end %>
+    </div>
+    <div class='little-text'>
+      <br>
+      <hr>
+      Images Provided by <a href="http://www.openlibrary.org">The Open Library Project</a>
     </div>
   </footer>
+</body>
 </html>

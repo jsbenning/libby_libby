@@ -18,12 +18,9 @@
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.svg"
  */
 
-
 @import "bootstrap";
 @import url(https://fonts.googleapis.com/css?family=Oxygen:400,700);
-
-$oxygen: 'Oxygen', sans-serif; 
-
+$oxygen: 'Oxygen', sans-serif;
 
 /* Some Style from the Bootstrap Default Theme */
 
@@ -49,9 +46,7 @@ input[type='checkbox'] {
   border-radius: 25px;
   background: #FF8025;
   padding: 20px;
-  
 }
-
 .corners2 {
   border-width: 2px;
   border-color: white;
@@ -65,7 +60,8 @@ input[type='checkbox'] {
   margin-left: 50px;
   margin-top: 20px;
   margin-bottom: 30px;
-  width: 300px;;
+  width: 300px;
+  ;
 }
 #change-pass-btn, #edit-profile-btn, #delete-account-btn {
   margin-left: 50px;
@@ -73,21 +69,19 @@ input[type='checkbox'] {
   color: #555555;
 }
 .row-centered {
-    text-align: center;
+  text-align: center;
 }
 .col-centered {
-    display:inline-block;
-    float:none;
-    /* reset the text-align */
-    text-align:left;
-    /* inline-block space fix */
-    margin-right:-4px;
+  display: inline-block;
+  float: none;
+  /* reset the text-align */
+  text-align: left;
+  /* inline-block space fix */
+  margin-right: -4px;
 }
-
 #trades-header {
   text-align: center;
 }
-
 .centerbox {
   background-color: #74cef1;
   padding: 20px;
@@ -100,35 +94,29 @@ input[type='checkbox'] {
   margin-left: 50px;
   margin-top: 10px;
 }
-
 #all-books-btn {
   background-image: url('all-books-1.png');
   width: 210px;
   height: 210px;
   margin: 20px;
-
 }
 #my-profile-btn {
   background-image: url('my-profile-1.png');
   width: 210px;
   height: 210px;
   margin: 20px;
-
 }
 #my-books-btn {
   background-image: url('my-books-1.png');
   width: 210px;
   height: 210px;
   margin: 20px;
-
-
 }
 #my-trades-btn {
   background-image: url('my-trades-1.png');
   width: 210px;
   height: 210px;
   margin: 20px;
-
 }
 .center {
   margin-left: 10%;
@@ -162,9 +150,6 @@ p.alert {
 .indent {
   margin-left: 30px;
 }
-
-
-
 img {
   border-radius: 3px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.9);
@@ -173,11 +158,10 @@ img {
   margin-left: 50px;
   padding-top: 20px;
   padding-bottom: 30px;
-} 
+}
 #input-area {
   margin-left: 50px;
   margin-bottom: 10px;
-
 }
 #search-btn-area {
   margin-left: 50px;
@@ -187,22 +171,19 @@ img {
   display: block;
   margin-bottom: 20px;
 }
-.theme-showcase> p> .btn {
+.theme-showcase>p>.btn {
   margin: 5px 0;
 }
 .little-text {
   text: 50%;
   text-align: center;
 }
-
 .section-title {
-  margin-left: 50px; 
+  margin-left: 50px;
 }
-
 .section-info {
   margin-left: 80px;
 }
-
 #banner-img {
   width: 90%;
   height: auto;

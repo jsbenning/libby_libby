@@ -3,7 +3,9 @@ class Book < ApplicationRecord
   scope :by_date, -> { order('created_at DESC, id DESC') }
   
   belongs_to :user, dependent: :destroy
-  #belongs_to :trade
+  belongs_to :trade
+ 
+
   validates_presence_of :user
   has_and_belongs_to_many :genres 
   accepts_nested_attributes_for :genres
@@ -31,10 +33,6 @@ class Book < ApplicationRecord
   def description=(s)
     write_attribute(:description, s.split(". ").each{|w| w.capitalize!()}.join(". "))
   end
-
-  
-
-
 
 
   def self.search(search, user) #checks if book 'at_home', and that it isn't the searcher's title

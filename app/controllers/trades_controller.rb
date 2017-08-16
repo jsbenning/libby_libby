@@ -27,14 +27,11 @@ class TradesController < ApplicationController
       elsif trade.status == "complete"
         this_trade = build_completed_trade_object(trade)
         @my_completed_trades << this_trade
-        #@my_completed_trades << trade.to_json
       end
     end
     respond_to do |f|
       flash.now[:notice] = @msg
       f.html { render :index }
-
-      #f.json { render :json => @my_trades }
       f.json { render :json => { :my_initiated_trades => @my_initiated_trades, :my_must_respond_trades => @my_must_respond_trades, :my_completed_trades => @my_completed_trades, :msg => @msg }}
     end
   end
