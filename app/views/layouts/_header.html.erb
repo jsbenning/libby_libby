@@ -18,14 +18,14 @@
   <% if current_user && current_user.admin? %>
   <div class="corners2">
     <h3>*** ADMINISTRATOR ***</h3>
-    <button id="view-users-btn" data-id="<% current_user.id %>" >View All Users</button>
+    <button id="view-users-btn" >View All Users</button>
   </div>
     
 
   <% elsif current_user && current_user.mod? %>
   <div class="corners2">
     <h3>*** MODERATOR ***</h3>
-    <button id="view-users-btn" data-id="<% current_user.id %>" >View All Users</button>
+    <button id="view-users-btn" >View All Users</button>
   </div>  
 
   <% end %>

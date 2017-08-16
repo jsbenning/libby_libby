@@ -74,18 +74,23 @@ $(document).ready(function(){
       dataType: "json",
       url: url,
       success: function(data) {
-        var book = JSON.parse(data.book);
-        var trade = JSON.parse(data.trade);
-        var other_trader_rating = JSON.parse(data.other_trader_rating)
-        extend(book);
-        book.authorFullName = book.authorFullName();
-        var showBookHtml = HandlebarsTemplates['showBookTemplate'] ({
-          book: book,
-          trade: trade,
-          other_trader_rating: other_trader_rating
-        });
-      $('#display-area').html(showBookHtml);
-      },
+        if (data.msg) {
+          clearDivs();
+          $('.alert').html(data.msg);
+        } else {
+          var book = JSON.parse(data.book);
+          var trade = JSON.parse(data.trade);
+          var other_trader_rating = JSON.parse(data.other_trader_rating)
+          extend(book);
+          book.authorFullName = book.authorFullName();
+          var showBookHtml = HandlebarsTemplates['showBookTemplate'] ({
+            book: book,
+            trade: trade,
+            other_trader_rating: other_trader_rating
+          });
+        $('#display-area').html(showBookHtml);
+        }
+       }, 
       error: function() {
         console.log("sumpin broke");
       }

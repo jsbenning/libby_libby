@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   require 'pry'
-  
+ 
   
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
     search = params[:search]
@@ -17,14 +17,6 @@ class BooksController < ApplicationController
 
   def index_users # localhost:3000/users/5/books
     @user = User.find(params[:user_id])
-    unless @user.visible?
-      @msg = "This user is not currently available!"
-      flash[:alert] = @msg
-      respond_to do |f|
-        f.html { redirect_to root_path }
-        f.json { render :json => { :msg => @msg }}
-      end
-    end
     if @user == current_user
       @mine = current_user.real_name
       the_name = "You don't have "
@@ -88,21 +80,29 @@ class BooksController < ApplicationController
   def show #/users/1/books/5
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-
-    if @user != current_user && Trade.shared_trade(current_user, @user) && @user.visible? #in other words, if someone else initiated a trade with the current user, 
-    #and the current user is now looking at that person's book, considering completing the trade...
-      @trade = Trade.shared_trade(current_user, @user) #...this then gives the option of completing the trade in book show view
-      @other_trader_rating = Trade.user_rating(@user)
-    elsif @user != current_user && @user.visible? 
-      @trade = Trade.new #this gives the option of initiating a trade in book show view
-      @trade.first_trader = current_user
-      @other_trader_rating = Trade.user_rating(@user)
-    else 
-      @trade = nil #in this case the current_user is viewing his/her own title
-    end
-    respond_to do |f|
-      f.html { render :show }
-      f.json { render :json => { :book => @book.to_json(include: :genres), :trade => @trade.to_json, :other_trader_rating => @other_trader_rating.to_json }}
+    if @user.visible?
+      if @user != current_user && Trade.shared_trade(current_user, @user) && @user.visible? #in other words, if someone else initiated a trade with the current user, 
+      #and the current user is now looking at that person's book, considering completing the trade...
+        @trade = Trade.shared_trade(current_user, @user) #...this then gives the option of completing the trade in book show view
+        @other_trader_rating = Trade.user_rating(@user)
+      elsif @user != current_user && @user.visible? 
+        @trade = Trade.new #this gives the option of initiating a trade in book show view
+        @trade.first_trader = current_user
+        @other_trader_rating = Trade.user_rating(@user)
+      else 
+        @trade = nil #in this case the current_user is viewing his/her own title
+      end
+      respond_to do |f|
+        f.html { render :show }
+        f.json { render :json => { :book => @book.to_json(include: :genres), :trade => @trade.to_json, :other_trader_rating => @other_trader_rating.to_json }}
+      end
+    else
+      flash.now[:notice] = "This user is not currently active, sorry..."
+      @msg = "This user is not currently active, sorry..."
+      respond_to do |f|
+        f.html { render :index }
+        f.json { render :json => { :msg => @msg }}
+      end 
     end
   end
 
@@ -119,7 +119,7 @@ class BooksController < ApplicationController
       flash.now[:notice] = "You don't have permission to edit this book!"
       @msg = "You don't have permission to edit this book!"
       respond_to do |f|
-        f.html { render :index }
+        f.html { render 'home/logged_in' }
         f.json { render :json => { :msg => @msg }}
       end 
     end

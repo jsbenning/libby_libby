@@ -42,11 +42,16 @@ input[type='checkbox'] {
   padding-bottom: 20px;
 }
 .corners1 {
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-top: 20px;
+  margin-bottom: 20px;
   border-radius: 25px;
   background: #FF8025;
   padding: 20px;
-  width: 50%;
+  
 }
+
 .corners2 {
   border-width: 2px;
   border-color: white;
@@ -68,7 +73,7 @@ input[type='checkbox'] {
   color: #555555;
 }
 .row-centered {
-    text-align:center;
+    text-align: center;
 }
 .col-centered {
     display:inline-block;
@@ -77,6 +82,10 @@ input[type='checkbox'] {
     text-align:left;
     /* inline-block space fix */
     margin-right:-4px;
+}
+
+#trades-header {
+  text-align: center;
 }
 
 .centerbox {

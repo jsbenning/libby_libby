@@ -2,9 +2,14 @@
   <h1>All of LibbyLibby's Users:</h1>
 </div>
 <div class="section-info">
-{{#each users}}
+{{#each data.users}}
+  {{#unless visible}}
+  <div class="remember">
+  This user is currently invisible.
+  </div>
+  {{/unless}}
   {{email}}<br />
-  <button id="see-user-btn" data-id={{id}}>See More</button>
+  <button class="btn btn-primary btn-xs" id="see-user-btn" data-id={{id}}>See More</button>
   <hr>
 {{/each}}
 </div>

@@ -73,7 +73,8 @@ class UsersController < ApplicationController
         end
       end
     else
-      flash.now[:alert] = "You're not allowed to edit that account, ya weirdo." 
+      @msg = "You're not allowed to edit that account, ya weirdo." 
+      flash.now[:alert] = @msg
       respond_to do |f|
         f.html { redirect_to 'home/logged_in' }
         f.json { render :json => {:msg => @msg }}
