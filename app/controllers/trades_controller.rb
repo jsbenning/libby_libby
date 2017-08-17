@@ -9,29 +9,19 @@ class TradesController < ApplicationController
     else
       @msg = "Check out your trades below..."
     end
-
-    # json stuff below
-
     @my_initiated_trades =[]
     @my_must_respond_trades = []
     @my_completed_initiated_trades = []
     @my_completed_responded_trades = []
     @my_trades.each do |trade|
       if trade.first_trader == current_user && trade.book_second_trader_wants_id.nil?
-        # this_trade = build_initiated_trade_object(trade) 
-        # @my_initiated_trades << this_trade 
-
-        @my_initiated_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader]) #(One of many failed attempts)
+        @my_initiated_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader]) 
       elsif trade.second_trader == current_user && trade.book_second_trader_wants_id.nil?
         this_trade = build_must_respond_object(trade)
         @my_must_respond_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants])
       elsif trade.status == "complete" && trade.first_trader == current_user
-        #this_trade = build_completed_trade_object(trade)
-        # @my_completed_trades << this_trade
         @my_completed_initiated_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader, :book_second_trader_wants])
-      else #trade.status == "complete" && trade.second_trader == current_user # too explicit/unnecessary?
-        #this_trade = build_completed_trade_object(trade)
-        # @my_completed_trades << this_trade
+      else 
         @my_completed_responded_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader, :book_second_trader_wants])
       end
     end
@@ -112,14 +102,12 @@ class TradesController < ApplicationController
   private
 
   def setup_a_trade(trade)
-
     book_id = trade.book_first_trader_wants_id
     book_first_trader_wants = Book.find(book_id)
     book_first_trader_wants.status = 'traded'
     trade.save
     book_first_trader_wants.trade_id = trade.id 
     book_first_trader_wants.save
-    #trade.status = 'new', this is the default
   end
 
 
@@ -147,47 +135,6 @@ class TradesController < ApplicationController
       book_second_trader_wants.save
     end
     trade.destroy
-  end 
-
-  def build_initiated_trade_object(trade)
-    trade_hash = {}
-    trade_hash["me"] = current_user
-    trade_hash["id"] = trade.id
-    trade_hash["other_trader"] = trade.second_trader
-    trade_hash["book_I_want"] = trade.book_first_trader_wants
-    trade_hash["created_date"] = trade.created_at.strftime("%b %d %Y")
-    trade_hash
-  end
-
-  def build_must_respond_object(trade)
-    trade_hash = {}
-    trade_hash["me"] = current_user
-    trade_hash["id"] = trade.id
-    trade_hash["other_trader"] = trade.first_trader
-    trade_hash["book_they_want"] = trade.book_first_trader_wants
-    trade_hash["created_date"] = trade.created_at.strftime("%b %d %Y")
-    trade_hash
-  end 
-
-  def build_completed_trade_object(trade)
-    trade_hash = {}
-    trade_hash["me"] = current_user
-    trade_hash["id"] = trade.id
-    trade_hash["completed_date"] = trade.updated_at.strftime("%b %d %Y")
-    if trade.first_trader = current_user
-      trade_hash["book_I_want"] = trade.book_first_trader_wants
-      trade_hash["other_trader"] = trade.second_trader
-      trade_hash["book_they_want"] = trade.book_second_trader_wants
-      trade_hash["second_trader_rating"] = trade.second_trader_rating
-      trade_hash["needs_second_trader_rating"] = true
-    else
-      trade_hash["book_I_want"] = trade.book_second_trader_wants
-      trade_hash["other_trader"] = trade.first_trader
-      trade_hash["book_they_want"] = trade.book_first_trader_wants
-      trade_hash["first_trader_rating"] = trade.first_trader_rating
-      trade_hash["needs_first_trader_rating"] = true
-    end
-    trade_hash
   end 
 
 
