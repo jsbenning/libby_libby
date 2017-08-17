@@ -24,7 +24,7 @@
 
   <% elsif current_user && current_user.mod? %>
   <div class="corners2">
-    <h3>** MODERATOR **</h3>
+    <h3>*** MODERATOR ***</h3>
     <button id="view-users-btn" >View All Users</button>
   </div>  
 
@@ -35,10 +35,10 @@
   <hr>
   <div class="container" id="nav-buttons">
     <div class="row row-centered">
-      <input class="col-md-4 col-centered click-btn" id="all-books-btn" type="image" value=" "> 
-      <input class="col-md-4 col-centered click-btn" data-id="<%= current_user.id %>" id="my-profile-btn" type="image" value=" "> 
-      <input class="col-md-4 col-centered click-btn" data-id="<%= current_user.id %>" id="my-books-btn" type="image" value=" "> 
-      <input class="col-md-4 col-centered click-btn" data-id="<%= current_user.id %>" id="my-trades-btn" type="image" value=" ">
+      <input class="col-md-4 col-centered click-btn" src='/assets/all-books-1.png' id="all-books-btn" type="image" value=" "> 
+      <input class="col-md-4 col-centered click-btn" src='/assets/my-profile-1.png' data-id="<%= current_user.id %>" id="my-profile-btn" type="image" value=" "> 
+      <input class="col-md-4 col-centered click-btn" src='/assets/my-books-1.png' data-id="<%= current_user.id %>" id="my-books-btn" type="image" value=" "> 
+      <input class="col-md-4 col-centered click-btn" src='/assets/my-trades-1.png' data-id="<%= current_user.id %>" id="my-trades-btn" type="image" value=" ">
     </div>
   </div>
 
