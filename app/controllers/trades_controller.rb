@@ -75,7 +75,7 @@ class TradesController < ApplicationController
         @my_book = @trade.book_first_trader_wants
       end
       @my_trades = Trade.my_trades(current_user)
-      @msg = "You just completed a trade.  See the info below and send out your book! Weeeeeeee!"
+      @msg = "Trade info updated!"
       respond_to do |f|
         f.html { redirect_to 'trades/index', notice: @msg }
         f.json { render :json => { :my_trades => @my_trades, :my_book => @my_book, :msg => @msg }}

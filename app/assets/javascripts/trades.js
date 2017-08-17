@@ -17,7 +17,6 @@ $(document).ready(function() {
         dateFormatter(must);
         dateFormatter(compInit);
         dateFormatter(compResp);
-        console.log(compInit);
         myTradesHtml = HandlebarsTemplates['myTradesTemplate']({
           init: init,
           must: must,
@@ -155,6 +154,7 @@ $(document).ready(function() {
         book_second_trader_wants_id: bookSecondTraderWantsId
       }
     };
+    console.log(tradeId);
     $.ajax({
       dataType: "json",
       type: "PATCH",
@@ -175,16 +175,22 @@ $(document).ready(function() {
   // Rate trader 1, if current_user is trader 2
   $(document.body).on('click', '.rate-trader1-btn', function(e) {
     $('.rate-trader1-btn').attr('disabled', 'disabled');
-    clearDivs();
+    
+
     var tradeId = $(this).data('trade');
-    var x = $(document.querySelector('input[name=user_review]:checked')).val();
-    var rating = parseInt(x);
+    if (document.querySelector('input[name="user_review"]:checked')) {
+      var x = document.querySelector('input[name="user_review"]:checked').value;
+      rating = parseInt(x);      
+    } else {
+      rating = 3
+    }
     var url = "http://localhost:3000/trades/" + tradeId + ".json";
     var myData = {
       trade: {
         first_trader_rating: rating
       }
     };
+    clearDivs();
     $.ajax({
       dataType: "json",
       type: "PATCH",
@@ -204,17 +210,24 @@ $(document).ready(function() {
   });
   // Rate trader 2, if current_trader is trader 1
   $(document.body).on('click', '.rate-trader2-btn', function(e) {
-    $('.rate-trader2-btn').attr('disabled', 'disabled');
-    clearDivs();
+    var rating;
+    $('.rate-trader2-btn').attr('disabled', 'disabled'); 
     var tradeId = $(this).data('trade');
-    var x = $(document.querySelector('input[name=user_review]:checked')).val();
-    var rating = parseInt(x);
+    if (document.querySelector('input[name="user_review"]:checked')) {
+      var x = document.querySelector('input[name="user_review"]:checked').value;
+      rating = parseInt(x);      
+    } else {
+      rating = 3
+    }
+    
     var url = "http://localhost:3000/trades/" + tradeId + ".json";
     var myData = {
       trade: {
         second_trader_rating: rating
       }
     };
+    clearDivs();
+
     $.ajax({
       dataType: "json",
       type: "PATCH",

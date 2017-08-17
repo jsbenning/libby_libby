@@ -47,7 +47,7 @@ Genre.destroy_all
 
 
 
-20.times do |index|
+10.times do |index|
   # genre = Genre.first(offset: rand(Genre.count))
   
 
@@ -60,7 +60,7 @@ Genre.destroy_all
     
   end
 
-  20.times do |index|
+  10.times do |index|
 
     Book.create!(user_id: @user2.id, title: Faker::Book.title,
     author_last_name: Faker::Name.last_name,
@@ -71,7 +71,7 @@ Genre.destroy_all
     
   end
 
-  20.times do |index|
+  10.times do |index|
 
     Book.create!(user_id: @user3.id, title: Faker::Book.title,
     author_last_name: Faker::Name.last_name,
@@ -83,6 +83,17 @@ Genre.destroy_all
   end
 
 
+  BASE_GENRES.each do |genre|
+    Genre.create!(name: genre)
+  end
+
+
+  # Book.all.each do |book|
+  #   genre_arr = BASE_GENRES.first(rand(BASE_GENRES.count))
+  #   genre_arr.each do |gen|
+  #     book.genres_attributes=({"index": genre_arr.index(gen)})
+  #   end
+  # end
 
 
 
