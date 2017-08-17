@@ -1,7 +1,9 @@
 <h2>Sign up</h2>
 
+<div class="indent">
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
+
 
   <h3>This is the Sign up page</h3>
 
@@ -29,3 +31,4 @@
 <% end %>
 
 <%= render "devise/shared/links" %>
+</div>

@@ -17,6 +17,7 @@ $(document).ready(function() {
         dateFormatter(must);
         dateFormatter(compInit);
         dateFormatter(compResp);
+        console.log(compInit);
         myTradesHtml = HandlebarsTemplates['myTradesTemplate']({
           init: init,
           must: must,

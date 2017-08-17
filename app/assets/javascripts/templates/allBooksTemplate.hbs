@@ -4,12 +4,12 @@
   <h3>{{this.title}}</h3>
   <p>Author: {{this.author_first_name}} {{this.author_last_name}}</p><br>
   <button class='btn btn-primary btn-xs show-book-btn' data-book='{{this.id}}' data-user='{{this.user_id}}' type='button' value="hey">Click for More</button>
-</div>{{/each}} {{#unless mine}}
-<div class='centered'>
+</div>{{/each}} 
+{{#unless mine}}
+  <div class='centered'>
   <button class='btn btn-primary btn-xs load-more-books-btn' type='button'>Load More Books</button>
-  <div>
-    {{/unless}}
   </div>
+{{/unless}}
 </div> 
 
 

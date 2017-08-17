@@ -3,7 +3,8 @@ class Book < ApplicationRecord
   scope :by_date, -> { order('created_at DESC, id DESC') }
   
   belongs_to :user, dependent: :destroy
-  belongs_to :trade, optional: true
+  #belongs_to :trade, optional: true
+  has_one :trade
  
 
   validates_presence_of :user
