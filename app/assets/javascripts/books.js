@@ -32,6 +32,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+
   // All Books (not including current_user's own)
   $(document.body).on('click', '#all-books-btn', function(e) {
     clearDivs();
@@ -57,6 +59,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+
   // Show Book
   $(document.body).on('click', '.show-book-btn', function(e) {
     clearDivs;
@@ -92,6 +96,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+
   // Render Edit Book Form
   $(document.body).on('click', '#edit-book-btn', function(e) {
     clearDivs();
@@ -122,6 +128,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+
   // Update Book (submit edit book form)
   $(document.body).on('click', '#update-book-btn', function(e) {
     $('#update-book-btn').attr('disabled', 'disabled');
@@ -166,6 +174,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+
   // Render New Book Form 
   $(document.body).on('click', '#new-book-btn', function(e) {
     $("#new-book-btn").attr('disabled', 'disabled');
@@ -195,6 +205,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+
   // Create a New Book (submit new book form)
   $(document.body).on('click', '#create-book-btn', function(e) {
     $('#create-book-btn').attr('disabled', 'disabled');
@@ -239,6 +251,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+
   // Search Function
   $(document.body).on('click', '#json-search-btn', function(e) {
     $("#json-search-btn").attr('disabled', 'disabled');
@@ -262,6 +276,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+  
   // Load More Books
   $(document.body).on('click', '.load-more-books-btn', function(e) {
     $(".load-more-books-btn").hide();

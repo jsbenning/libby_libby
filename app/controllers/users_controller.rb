@@ -20,7 +20,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    #binding.pry
     @books = @user.books
     @rating = @user.rating
     if current_user.mod_or_admin? || @user == current_user

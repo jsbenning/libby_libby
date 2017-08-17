@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
   // My trades
   $(document.body).on('click', '#my-trades-btn', function(e) {
     $("#my-trades-btn").attr('disabled', 'disabled');
@@ -32,48 +33,6 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
-
-
-// book_first_trader_wants
-// :
-// {id: 3, user_id: 4, title: "Have His Carcase", author_last_name: "Funk", author_first_name: "Garry", …}
-// book_first_trader_wants_id
-// :
-// 3
-// book_second_trader_wants_id
-// :
-// null
-// created_at
-// :
-// "2017-08-17T03:11:46.022Z"
-// first_trader
-// :
-// {id: 7, real_name: "Frank Gomes", street: "33 Michigan Way", city: "Bermuda", state: "MT", …}
-// first_trader_id
-// :
-// 7
-// first_trader_rating
-// :
-// null
-// id
-// :
-// 11
-// second_trader
-// :
-// {id: 4, real_name: "Crystal Cremin", street: "555 Macie Harbors", city: "North Pablostad", state: "NC", …}
-// second_trader_id
-// :
-// 4
-// second_trader_rating
-// :
-// null
-// status
-// :
-// "new"
-// updated_at
-// :
-// "2017-08-17T03:11:46.022Z"
-
 
   // View other trader's books to possibly complete a trade
   $(document.body).on('click', '.see-books-btn', function(e) {
@@ -141,7 +100,6 @@ $(document).ready(function() {
   });
 
 
-
   // Complete a trade, current_user chooses second book as second trader, update action
   $(document.body).on('click', '.complete-trade-btn', function(e) {
     $('.complete-trade-btn').attr('disabled', 'disabled');
@@ -172,6 +130,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+
   // Rate trader 1, if current_user is trader 2
   $(document.body).on('click', '.rate-trader1-btn', function(e) {
     $('.rate-trader1-btn').attr('disabled', 'disabled');
@@ -208,6 +168,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+
   // Rate trader 2, if current_trader is trader 1
   $(document.body).on('click', '.rate-trader2-btn', function(e) {
     var rating;
@@ -219,7 +181,6 @@ $(document).ready(function() {
     } else {
       rating = 3
     }
-    
     var url = "http://localhost:3000/trades/" + tradeId + ".json";
     var myData = {
       trade: {
@@ -227,7 +188,6 @@ $(document).ready(function() {
       }
     };
     clearDivs();
-
     $.ajax({
       dataType: "json",
       type: "PATCH",
@@ -245,6 +205,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+  // Cancel a trade
   $(document.body).on('click', '.cancel-trade-btn', function(e) {
     $('.cancel-trade-btn').attr('disabled', 'disabled');
     clearDivs();

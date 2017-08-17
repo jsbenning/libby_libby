@@ -102,12 +102,14 @@ class TradesController < ApplicationController
   private
 
   def setup_a_trade(trade)
+    
     book_id = trade.book_first_trader_wants_id
     book_first_trader_wants = Book.find(book_id)
     book_first_trader_wants.status = 'traded'
     trade.save
-    book_first_trader_wants.trade_id = trade.id 
+    book_first_trader_wants.request_id = trade.id 
     book_first_trader_wants.save
+    binding.pry
   end
 
 
@@ -117,7 +119,7 @@ class TradesController < ApplicationController
     book_second_trader_wants.status = 'traded' 
     trade.status = 'complete'
     trade.save
-    book_second_trader_wants.trade_id = trade.id
+    book_second_trader_wants.response_id = trade.id
     book_second_trader_wants.save
   end
 
@@ -125,13 +127,13 @@ class TradesController < ApplicationController
     book1_id = trade.book_first_trader_wants_id
     book_first_trader_wants = Book.find(book1_id)
     book_first_trader_wants.status = 'at_home'
-    book_first_trader_wants.trade_id = nil
+    book_first_trader_wants.request_id = nil
     book_first_trader_wants.save
     if trade.book_second_trader_wants_id
       book2_id = trade.book_second_trader_wants_id
       book_second_trader_wants = Book.find(book2_id)
       book_second_trader_wants.status = 'at_home'
-      book_second_trader_wants.trade_id = nil
+      book_second_trader_wants.response_id = nil
       book_second_trader_wants.save
     end
     trade.destroy

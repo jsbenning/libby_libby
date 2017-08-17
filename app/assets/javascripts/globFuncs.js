@@ -23,6 +23,7 @@ function dateFormatter(arr) {
     var cdate = arr[i].created_at;
     var cslice = cdate.slice(0, 10).split("-");
     var cscramble = cslice[1] + " " + cslice[2] + ", " + cslice[0];
+
     arr[i].created_at = cscramble;
     var udate = arr[i].updated_at;
     var uslice = udate.slice(0, 10).split("-");

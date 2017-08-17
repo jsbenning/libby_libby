@@ -21,6 +21,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+
   // View User Profile
   $(document.body).on('click', '#see-user-btn', function(e) {
     $("#see-user-btn").attr('disabled', 'disabled');
@@ -44,6 +46,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+  
+
   // Make profile invisible
   $(document.body).on('click', '#invisible-btn', function(e) {
     $('#invisible-btn').attr('disabled', 'disabled');
@@ -72,6 +76,8 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+
   // Make profile visible
   $(document.body).on('click', '#visible-btn', function(e) {
     $('#visible-btn').attr('disabled', 'disabled');

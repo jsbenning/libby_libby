@@ -3,8 +3,9 @@ class Book < ApplicationRecord
   scope :by_date, -> { order('created_at DESC, id DESC') }
   
   belongs_to :user, dependent: :destroy
-  #belongs_to :trade, optional: true
-  has_one :trade
+  belongs_to :trade, class_name: 'Trade', foreign_key: 'request_id', optional: true
+  belongs_to :trade, class_name: 'Trade', foreign_key: 'response_id', optional: true
+  #has_one :trade
  
 
   validates_presence_of :user

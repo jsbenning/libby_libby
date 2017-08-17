@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170813022219) do
+ActiveRecord::Schema.define(version: 20170817214503) do
 
   create_table "books", force: :cascade do |t|
     t.integer  "user_id"
@@ -23,7 +23,8 @@ ActiveRecord::Schema.define(version: 20170813022219) do
     t.string   "status",            default: "at_home"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
-    t.integer  "trade_id"
+    t.integer  "request_id"
+    t.integer  "response_id"
   end
 
   create_table "books_genres", id: false, force: :cascade do |t|
