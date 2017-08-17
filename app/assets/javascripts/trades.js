@@ -11,22 +11,17 @@ $(document).ready(function() {
         $("#my-trades-btn").removeAttr('disabled');
         var init = parser(data.my_initiated_trades);
         var must = parser(data.my_must_respond_trades);
-        var comp = parser(data.my_completed_trades);
-
-        function parser(arr) {
-          var newArr = []
-          for (var i=0; i< arr.length; i++) {
-            newArr.push(JSON.parse(arr[i]));
-          }
-        return newArr;
-        }
-
-        // var x = JSON.parse(init[0]);
-      console.log(init[0]);
+        var compInit = parser(data.my_completed_initiated_trades);
+        var compResp = parser(data.my_completed_responded_trades);
+        dateFormatter(init);
+        dateFormatter(must);
+        dateFormatter(compInit);
+        dateFormatter(compResp);
         myTradesHtml = HandlebarsTemplates['myTradesTemplate']({
-          mustRespond: init,
-          initiated: must,
-          completed: comp
+          init: init,
+          must: must,
+          compInit: compInit,
+          compResp: compResp
         });
         $('#display-area').html(myTradesHtml);
       },
@@ -38,14 +33,46 @@ $(document).ready(function() {
     return false;
   });
 
-  //{"id":1,"first_trader_id":7,"second_trader_id":4,"book_first_trader_wants_id":2,"book_second_trader_wants_id":null,\
-  // "status":"new","first_trader_rating":null,"second_trader_rating":null,"created_at":"2017-08-16T07:26:01.988Z",\
-  // "updated_at":"2017-08-16T07:26:01.988Z","first_trader":{"id":7,"real_name":"Frank Gomes","street":"33 Michigan Way",\
-  // "city":"Bermuda","state":"MT","zipcode":"89788","visible":true,"role":"reader","email":"user1@user1.com","provider":null,\
-  // "uid":null,"created_at":"2017-08-16T06:11:07.828Z","updated_at":"2017-08-16T07:05:23.140Z"},"second_trader":{"id":4,"\
-  // real_name":"Crystal Cremin","street":"555 Macie Harbors","city":"North Pablostad","state":"NC","zipcode":"68527",\
-  // "visible":true,"role":"reader","email":"damaris@becker.io","provider":null,"uid":null,\
-  // "created_at":"2017-08-16T06:01:09.608Z","updated_at":"2017-08-16T07:04:34.628Z"}}
+
+// book_first_trader_wants
+// :
+// {id: 3, user_id: 4, title: "Have His Carcase", author_last_name: "Funk", author_first_name: "Garry", …}
+// book_first_trader_wants_id
+// :
+// 3
+// book_second_trader_wants_id
+// :
+// null
+// created_at
+// :
+// "2017-08-17T03:11:46.022Z"
+// first_trader
+// :
+// {id: 7, real_name: "Frank Gomes", street: "33 Michigan Way", city: "Bermuda", state: "MT", …}
+// first_trader_id
+// :
+// 7
+// first_trader_rating
+// :
+// null
+// id
+// :
+// 11
+// second_trader
+// :
+// {id: 4, real_name: "Crystal Cremin", street: "555 Macie Harbors", city: "North Pablostad", state: "NC", …}
+// second_trader_id
+// :
+// 4
+// second_trader_rating
+// :
+// null
+// status
+// :
+// "new"
+// updated_at
+// :
+// "2017-08-17T03:11:46.022Z"
 
 
   // View other trader's books to possibly complete a trade

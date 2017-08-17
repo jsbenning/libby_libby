@@ -14,7 +14,8 @@ class TradesController < ApplicationController
 
     @my_initiated_trades =[]
     @my_must_respond_trades = []
-    @my_completed_trades = []
+    @my_completed_initiated_trades = []
+    @my_completed_responded_trades = []
     @my_trades.each do |trade|
       if trade.first_trader == current_user && trade.book_second_trader_wants_id.nil?
         # this_trade = build_initiated_trade_object(trade) 
@@ -23,24 +24,28 @@ class TradesController < ApplicationController
         @my_initiated_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader]) #(One of many failed attempts)
       elsif trade.second_trader == current_user && trade.book_second_trader_wants_id.nil?
         this_trade = build_must_respond_object(trade)
-        @my_must_respond_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader, :book_second_trader_wants])
-      elsif trade.status == "complete"
-        this_trade = build_completed_trade_object(trade)
+        @my_must_respond_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants])
+      elsif trade.status == "complete" && trade.first_trader == current_user
+        #this_trade = build_completed_trade_object(trade)
         # @my_completed_trades << this_trade
-        @my_completed_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader, :book_second_trader_wants])
+        @my_completed_initiated_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader, :book_second_trader_wants])
+      else #trade.status == "complete" && trade.second_trader == current_user # too explicit/unnecessary?
+        #this_trade = build_completed_trade_object(trade)
+        # @my_completed_trades << this_trade
+        @my_completed_responded_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader, :book_second_trader_wants])
       end
     end
     respond_to do |f|
       flash.now[:notice] = @msg
       f.html { render :index }
-      f.json { render :json => { :my_initiated_trades => @my_initiated_trades, :my_must_respond_trades => @my_must_respond_trades, :my_completed_trades => @my_completed_trades, :msg => @msg }}
+      f.json { render :json => { :my_initiated_trades => @my_initiated_trades, :my_must_respond_trades => @my_must_respond_trades, \
+      :my_completed_initiated_trades => @my_completed_initiated_trades, :my_completed_responded_trades => @my_completed_responded_trades, :msg => @msg }}
     end
   end
   
   def create # This is created with first_trader_id, second_trader_id and book_first_trader_wants_id attributes, status "new"; 
     # also there is no 'new' action, as a trade is instantiated through the book show form by current user as first trader
     @trade = Trade.new(trade_params)
-    binding.pry
     if @trade.first_trader.shipworthy? && !(@trade.first_trader.books.empty?)
       setup_a_trade(@trade)
       @my_trades = Trade.my_trades(current_user)
@@ -111,10 +116,9 @@ class TradesController < ApplicationController
     book_id = trade.book_first_trader_wants_id
     book_first_trader_wants = Book.find(book_id)
     book_first_trader_wants.status = 'traded'
-    book_first_trader_wants.trade_id = trade.id # not working?
-    book_first_trader_wants.save
     trade.save
-    #binding.pry
+    book_first_trader_wants.trade_id = trade.id 
+    book_first_trader_wants.save
     #trade.status = 'new', this is the default
   end
 
@@ -122,11 +126,11 @@ class TradesController < ApplicationController
   def complete_a_trade(trade)
     book_id = trade.book_second_trader_wants_id
     book_second_trader_wants = Book.find(book_id)
-    book_second_trader_wants.status = 'traded'
-    book_second_trader_wants.trade_id = trade.id
-    book_second_trader_wants.save
+    book_second_trader_wants.status = 'traded' 
     trade.status = 'complete'
     trade.save
+    book_second_trader_wants.trade_id = trade.id
+    book_second_trader_wants.save
   end
 
   def destroy_a_trade(trade)

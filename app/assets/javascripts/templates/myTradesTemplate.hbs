@@ -5,99 +5,108 @@
   </br >
   <div class="list-group corners1" >
     <h4 class="list-group-item-heading">Trades Awaiting Your Response:</h4>
-    {{#unless mustRespond.length}}
+    {{#unless must.length}}
     <p>You don't currently have any trades awaiting your response</p>    
     {{else}}
-      {{#each mustRespond}}
-      <p class="list-group-item-text"><a href="mailto:{{first_trader.email}}?subject=LibbyLibby Trade">{{first_trader.real_name}}</a> requested <b>{{book_first_trader_wanted.title}}</b> from you on {{created_date}}, and is still waiting for a response.</p><br><button class="btn btn-primary btn-xs see-books-btn" data-user={{other_trader.id}}>See User's Books</button><br><br><button class="btn btn-primary btn-xs cancel-trade-btn" data-trade={{id}}>Cancel This Trade</button><hr>
+      {{#each must}}
+      <p class="list-group-item-text"><a href="mailto:{{first_trader.email}}subject=LibbyLibby Trade">{{first_trader.real_name}}</a> requested <b>{{book_first_trader_wanted.title}}</b> from you on {{created_at}}, and is still waiting for a response.</p><br><button class="btn btn-primary btn-xs see-books-btn" data-user={{first_trader.id}}>See User's Books</button><br><br><button class="btn btn-primary btn-xs cancel-trade-btn" data-trade={{id}}>Cancel This Trade</button><hr>
       {{/each}}
     {{/unless}}
   </div>
 
 <div class="list-group corners1" >
     <h4 class="list-group-item-heading">Trades You Requested Which Aren't Complete:</h4>
-    {{#unless initiated.length}}
+    {{#unless init.length}}
     <p>You don't currently have any initiated trades</p>
     {{else}}
-      {{#each initiated}}
-      <p class="list-group-item-text">You requested <b>{{this.title}}</b> from <a href="mailto:{{other_trader.email}}?subject=LibbyLibby Trade">{{other_trader.real_name}}</a> on {{created_date}}, and you're still waiting for a response.</p><br><button class="btn btn-primary btn-xs cancel-trade-btn" data-trade={{id}}>Cancel This Trade</button><hr>
+      {{#each init}}
+      <p class="list-group-item-text">You requested <b>{{book_first_trader_wants.title}}</b> from <a href="mailto:{{second_trader.email}}subject=LibbyLibby Trade">{{second_trader.real_name}}</a> on {{created_at}}, and you're still waiting for a response.</p><br><button class="btn btn-primary btn-xs cancel-trade-btn" data-trade={{id}}>Cancel This Trade</button><hr>
       {{/each}}
     {{/unless}}
   </div>
 
-    <div class="list-group corners1" >
-    <h4 class="list-group-item-heading">Completed Trades:</h4>
-    {{#unless completed.length}}
-    <p>You don't currently have any completed trades</p>
-    {{else}}
 
-      {{#each completed}}
-        {{#if needs_first_trader_rating}}
-          <p class="list-group-item-text"><a href="mailto:{{other_trader.email}}?subject=LibbyLibby Trade">{{other_trader.real_name}}</a> requested <strong>{{book_they_want.title}}</strong> from you, and you traded <strong>{{book_I_want.title}}</strong> for it on {{completed_date}}.</p><br />
+  <div class="list-group corners1" >
+  <h4 class="list-group-item-heading">Completed Trades:</h4>
+  {{#unless compInit.length}}
+    <p>You don't currently have any completed trades initiated by you</p>
+  {{else}}
+    <p>Here are some completed trades you initiated:</p>
 
-          <h4>Be sure you mail the book to: </h4>
-          <div class="address">
-            <p class="small">
-              {{other_trader.real_name}}</br>
-              {{other_trader.street}}</br>
-              {{other_trader.city}}</br>
-              {{other_trader.state}}</br>
-              {{other_trader.zipcode}}</br>
-            </p>
-          </div>
+    {{#each compInit}}
+    <p class="list-group-item-text">You requested {{book_first_trader_wants}} on {{updated_at}}, and <a href="mailto:{{second_trader.email}}subject=LibbyLibby Trade">{{second_trader.real_name}}</a> requested <strong>{{book_second_trader_wants.title}}</strong> from you on {{completed_at}}.</p>
 
-          <div class="rating">
-            {{#unless first_trader_rating}}    
-            <h4>You can rate the user below, based on the book condition, shipping time, etc., once you get your book:</h4>
-            <div class="radio_field rating">
-              <p><strong>Other User Rating</strong></p>
-              <label for="user_rating_3">The book arrived in a reasonable amount of time and as described</label>
-              <input type="radio" value="3" name="user_review" id="user_review_3" /><br />
-              <label for="user_rating_2">There were some problems which were eventually resolved</label>
-              <input type="radio" value="2" name="user_review" id="user_review_2" /><br />
-              <label for="user_rating_1">The book never arrived/was in awful condition</label>
-              <input type="radio" value="1" name="user_review" id="user_review_1" /><br />
-              <button class="rate-trader1-btn btn btn-primary btn-xs data-trade={{id}}">Rate This Trader</button> 
-            </div>
-            {{/unless}} 
-          </div>
-
-
-
-        {{else}}
-          <p class="list-group-item-text">You requested <strong>{{book_I_want.title}}</strong> from <a href="mailto:{{other_trader.email}}?subject=LibbyLibby Trade">{{other_trader.real_name}}</a>, and you should have sent them <strong>{{book_they_want.title}}</strong> within three days of {{completed_date}}.</p><br />
+      <h4>Be sure you mail the book to: </h4>
+      <div class="address">
+        <p class="small">
+          {{second_trader.real_name}}</br>
+          {{second_trader.street}}</br>
+          {{second_trader.city}}</br>
+          {{second_trader.state}}</br>
+          {{second_trader.zipcode}}</br>
+        </p>
+      </div>
+      {{#unless second_trader_rating}}
+        <div class="rating">    
+        <h4>You can rate the user below, based on the book condition, shipping time, etc., once you get your book:</h4>
+        <div class="radio_field rating">
+          <p><strong>Other User Rating</strong></p>
+          <label for="user_rating_3">The book arrived in a reasonable amount of time and as described</label>
+          <input type="radio" value="3" name="user_review" id="user_review_3" /><br />
+          <label for="user_rating_2">There were some problems which were eventually resolved</label>
+          <input type="radio" value="2" name="user_review" id="user_review_2" /><br />
+          <label for="user_rating_1">The book never arrived/was in awful condition</label>
+          <input type="radio" value="1" name="user_review" id="user_review_1" /><br />
+          <button class="rate-trader2-btn btn btn-primary btn-xs data-trade={{id}}">Rate This Trader</button> 
+        </div>
+        {{/unless}} 
+      </div>
+    {{/each}}
+  {{/unless}}
+ 
 
 
-          
-          <h4>Be sure you mail the book to: </h4>
-          <div class="address">
-            <p class="small">
-              {{other_trader.real_name}}</br>
-              {{other_trader.street}}</br>
-              {{other_trader.city}}</br>
-              {{other_trader.state}}</br>
-              {{other_trader.zipcode}}</br>
-            </p>
-          </div>
-          <div class="rating">
-            {{#unless second_trader_rating}} 
-              <h4>You can rate the user below, based on the book condition, shipping time, etc., once you get your book:</h4>
-              <div class="radio_field rating">
-                <p><strong>Other User Rating</strong></p>
-                <label for="user_rating_3">The book arrived in a reasonable amount of time and as described</label>
-                <input type="radio" value="3" name="user_review" id="user_review_3" /><br />
-                <label for="user_rating_2">There were some problems which were eventually resolved</label>
-                <input type="radio" value="2" name="user_review" id="user_review_2" /><br />
-                <label for="user_rating_1">The book never arrived/was in awful condition</label>
-                <input type="radio" value="1" name="user_review" id="user_review_1" /><br />
-                <button class="rate-trader2-btn btn btn-primary btn-xs" data-trade={{id}} >Rate This Trader</button> 
-              </div>
-            {{/unless}} 
-          </div>
+  <div class="list-group corners1" >
+  {{#unless compResp.length}}
+    <p>You don't currently have any completed trades someone else initiated</p>
+  {{else}}
+    <p>Here are some completed trades someone else initiated:</p>
+
+    {{#each compResp}}
+    <p class="list-group-item-text"><a href="mailto:{{first_trader.email}}subject=LibbyLibby Trade">{{firsttrader.real_name}}</a> requested <strong>{{book_first_trader_wants.title}}</strong> from you on {{updated_at}}, and you requested <strong>{{book_second_trader_wants.title}}</strong> for it on {{completed_at}}.</p><br />
+
+      <h4>Be sure you mail the book to: </h4>
+      <div class="address">
+        <p class="small">
+          {{first_trader.real_name}}</br>
+          {{first_trader.street}}</br>
+          {{first_trader.city}}</br>
+          {{first_trader.state}}</br>
+          {{first_trader.zipcode}}</br>
+        </p>
+      </div>
+  
+      {{#unless first_trader_rating}}
+        <div class="rating">    
+        <h4>You can rate the user below, based on the book condition, shipping time, etc., once you get your book:</h4>
+        <div class="radio_field rating">
+          <p><strong>Other User Rating</strong></p>
+          <label for="user_rating_3">The book arrived in a reasonable amount of time and as described</label>
+          <input type="radio" value="3" name="user_review" id="user_review_3" /><br />
+          <label for="user_rating_2">There were some problems which were eventually resolved</label>
+          <input type="radio" value="2" name="user_review" id="user_review_2" /><br />
+          <label for="user_rating_1">The book never arrived/was in awful condition</label>
+          <input type="radio" value="1" name="user_review" id="user_review_1" /><br />
+          <button class="rate-trader1-btn btn btn-primary btn-xs data-trade={{id}}">Rate This Trader</button> 
+        </div>
+        {{/unless}} 
+      </div>
+    {{/each}}
+  {{/unless}}
 
 
-        {{/if}}
-      {{/each}}
-    {{/unless}}
-  </div>
-</div>
+
+
+
+
+

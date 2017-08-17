@@ -10,6 +10,27 @@ function extend(obj) {
   }
 }
 
+function parser(arr) {
+  var newArr = []
+  for (var i=0; i< arr.length; i++) {
+    newArr.push(JSON.parse(arr[i]));
+  }
+return newArr;
+}
+
+function dateFormatter(arr) {
+  for (var i=0; i < arr.length; i++) {
+    var date = arr[i].created_at;
+    var slice = date.slice(0, 10).split("-");
+    var scramble = slice[1] + " " + slice[2] + ", " + slice[0];
+    arr[i].created_at = scramble;
+    var date = arr[i].updated_at;
+    var slice = date.slice(0, 10).split("-");
+    var scramble = slice[1] + " " + slice[2] + ", " + slice[0];
+    arr[i].updated_at = scramble;
+  }
+}
+
 function assignRadio(data) {
   var bookCondition = JSON.parse(data.book).condition
   var newCond = document.getElementById('book_condition_like_new');
