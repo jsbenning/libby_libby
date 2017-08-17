@@ -55,7 +55,7 @@ input[type='checkbox'] {
   padding-top: 5px;
   padding-bottom: 20px;
   background: #96CEB4;
-  color: FF6F69;
+
   text-align: center;
   margin-left: 50px;
   margin-top: 20px;
@@ -82,9 +82,18 @@ input[type='checkbox'] {
 #trades-header {
   text-align: center;
 }
+
+.form-title {
+  margin-left: 50px;
+
+}
 .centerbox {
   background-color: #74cef1;
   padding: 20px;
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 #account-buttons {
   padding-left: 50px;
@@ -94,29 +103,30 @@ input[type='checkbox'] {
   margin-left: 50px;
   margin-top: 10px;
 }
-#all-books-btn {
-  background-image: url('all-books-1.png');
-  width: 210px;
+#all-books-btn { 
+  width: 250px;
   height: 210px;
-  margin: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-#my-profile-btn {
-  background-image: url('my-profile-1.png');
-  width: 210px;
+#my-profile-btn { 
+  width: 250px;
   height: 210px;
-  margin: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-#my-books-btn {
-  background-image: url('my-books-1.png');
-  width: 210px;
+#my-books-btn { 
+  width: 250px;
   height: 210px;
-  margin: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-#my-trades-btn {
-  background-image: url('my-trades-1.png');
-  width: 210px;
+#my-trades-btn { 
+  width: 250px;
   height: 210px;
-  margin: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
 }
 .center {
   margin-left: 10%;
