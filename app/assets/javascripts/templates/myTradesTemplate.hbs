@@ -9,7 +9,7 @@
     <p>You don't currently have any trades awaiting your response</p>    
     {{else}}
       {{#each mustRespond}}
-      <p class="list-group-item-text"><a href="mailto:{{other_trader.email}}?subject=LibbyLibby Trade">{{other_trader.real_name}}</a> requested <b>{{book_they_want.title}}</b> from you on {{created_date}}, and is still waiting for a response.</p><br><button class="btn btn-primary btn-xs see-books-btn" data-user={{other_trader.id}}>See User's Books</button><br><br><button class="btn btn-primary btn-xs cancel-trade-btn" data-trade={{id}}>Cancel This Trade</button><hr>
+      <p class="list-group-item-text"><a href="mailto:{{first_trader.email}}?subject=LibbyLibby Trade">{{first_trader.real_name}}</a> requested <b>{{book_first_trader_wanted.title}}</b> from you on {{created_date}}, and is still waiting for a response.</p><br><button class="btn btn-primary btn-xs see-books-btn" data-user={{other_trader.id}}>See User's Books</button><br><br><button class="btn btn-primary btn-xs cancel-trade-btn" data-trade={{id}}>Cancel This Trade</button><hr>
       {{/each}}
     {{/unless}}
   </div>

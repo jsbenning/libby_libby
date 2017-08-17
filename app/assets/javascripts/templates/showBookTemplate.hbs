@@ -17,20 +17,19 @@
   <p class='boxframe-desc'>{{book.description}}</p>
 
 
-  {{#if trade.book_first_trader_wants_id}} <!-- if current_user needs to complete a trade with this user -->
-  <div class='boxframe-subj' id='trader1-rating'>Trader's Rating: {{other_trader_rating}} out of 3 (3 is best)
-  </div><br>
-    <button type="button" class="btn btn-primary btn-xs complete-trade-btn" data-trade={{trade.id}} data-book={{book.id}} >Complete a Trade</button>
-
-  {{else if trade.status}} <!-- if current_user wants to create a new trade with this user -->
-  <div class='boxframe-subj' id='trader1-rating'>Trader's Rating: {{other_trader_rating}} out of 3 (3 is best) 
-  </div><br>
-    <button type="button" class="btn btn-primary btn-xs" data-trader1={{trade.first_trader_id}} data-trader2={{book.user_id}}  data-book={{book.id}} data-title={{book.title}} id="request-trade-btn">Request a Trade</button>
-
-  {{else}} <!-- if this is the current_user's book -->
+  {{#unless trade}}
     <button type="button" class="btn btn-primary btn-xs" data-user={{book.user_id}} data-book={{book.id}} id="edit-book-btn">Edit This Book</button>
     <button type="button" class="btn btn-primary btn-xs" data-user={{book.user_id}} data-book={{book.id}} id="delete-book-btn" onclick = "return confirm('are you sure?')">Delete This Book</button>
-  {{/if}}
+  {{else if trade.id}}<!-- trade to be completed -->
+    <div class='boxframe-subj' id='trader1-rating'>Trader's Rating: {{other_trader_rating}} out of 3 (3 is best)
+    </div><br>
+    <button type="button" class="btn btn-primary btn-xs complete-trade-btn" data-trader2={{trade.d}} data-trade={{trade.id}} data-book={{book.id}} >Complete a Trade</button>
+  {{else}} <! trade to be initialized -->
+    <div class='boxframe-subj' id='trader2-rating'>Trader's Rating: {{other_trader_rating}} out of 3 (3 is best) 
+    </div><br>
+    <button type="button" class="btn btn-primary btn-xs" data-trader1={{trade.first_trader_id}} data-trader2={{book.user_id}}  data-book={{book.id}} data-title={{book.title}} id="request-trade-btn">Request a Trade</button>
+  {{/unless}}
+
 </div>
 <hr>
 

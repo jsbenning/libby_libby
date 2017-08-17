@@ -34,6 +34,12 @@ class Book < ApplicationRecord
     write_attribute(:description, s.split(". ").each{|w| w.capitalize!()}.join(". "))
   end
 
+  # def part_of_trade?
+  #   if self.trade.first_trader == current_user || self.trade.second_trader== current_user
+  #     true
+  #   end
+  # end
+
 
   def self.search(search, user) #checks if book 'at_home', and that it isn't the searcher's title
     wildcard_search = "%#{search}%"

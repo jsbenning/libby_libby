@@ -9,9 +9,20 @@ $(document).ready(function() {
       url: url,
       success: function(data) {
         $("#my-trades-btn").removeAttr('disabled');
-        var init = data.my_initiated_trades;
-        var must = data.my_must_respond_trades;
-        var comp = data.my_completed_trades;
+        var init = parser(data.my_initiated_trades);
+        var must = parser(data.my_must_respond_trades);
+        var comp = parser(data.my_completed_trades);
+
+        function parser(arr) {
+          var newArr = []
+          for (var i=0; i< arr.length; i++) {
+            newArr.push(JSON.parse(arr[i]));
+          }
+        return newArr;
+        }
+
+        // var x = JSON.parse(init[0]);
+      console.log(init[0]);
         myTradesHtml = HandlebarsTemplates['myTradesTemplate']({
           mustRespond: init,
           initiated: must,
@@ -26,6 +37,17 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+  //{"id":1,"first_trader_id":7,"second_trader_id":4,"book_first_trader_wants_id":2,"book_second_trader_wants_id":null,\
+  // "status":"new","first_trader_rating":null,"second_trader_rating":null,"created_at":"2017-08-16T07:26:01.988Z",\
+  // "updated_at":"2017-08-16T07:26:01.988Z","first_trader":{"id":7,"real_name":"Frank Gomes","street":"33 Michigan Way",\
+  // "city":"Bermuda","state":"MT","zipcode":"89788","visible":true,"role":"reader","email":"user1@user1.com","provider":null,\
+  // "uid":null,"created_at":"2017-08-16T06:11:07.828Z","updated_at":"2017-08-16T07:05:23.140Z"},"second_trader":{"id":4,"\
+  // real_name":"Crystal Cremin","street":"555 Macie Harbors","city":"North Pablostad","state":"NC","zipcode":"68527",\
+  // "visible":true,"role":"reader","email":"damaris@becker.io","provider":null,"uid":null,\
+  // "created_at":"2017-08-16T06:01:09.608Z","updated_at":"2017-08-16T07:04:34.628Z"}}
+
+
   // View other trader's books to possibly complete a trade
   $(document.body).on('click', '.see-books-btn', function(e) {
     $(".see-books-btn").attr('disabled', 'disabled');
@@ -55,11 +77,9 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
-  // var x = $(document.querySelector('input[name=user_review]:checked')).val();
-  // var rating = parseInt(x);
-  // <button type="button" class="btn btn-primary btn-xs" {data-trader1={{trade.first_trader_id}} data-trader2={{book.user_id}} 
-  // data-trade={{trade.id}} data-book={{book.id}} id="request-trade-btn">Request a Trade</button>
-  // Request a New Trade, create trade action
+
+
+  // Request a trade, create action in trades controller
   $(document.body).on('click', '#request-trade-btn', function(e) {
     $('#request-trade-btn').attr('disabled', 'disabled');
     clearDivs();
@@ -68,7 +88,6 @@ $(document).ready(function() {
     var firstTraderId = $(this).data('trader1');
     var secondTraderId = $(this).data('trader2');
     var url = "http://localhost:3000/trades";
-    console.log(bookFirstTraderWantsId);
     var myData = {
       trade: {
         book_first_trader_wants_id: bookFirstTraderWantsId,
@@ -93,7 +112,10 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
-  // Complete a trade, current_user chooses second book as second trader
+
+
+
+  // Complete a trade, current_user chooses second book as second trader, update action
   $(document.body).on('click', '.complete-trade-btn', function(e) {
     $('.complete-trade-btn').attr('disabled', 'disabled');
     clearDivs();

@@ -46,6 +46,7 @@ $(document).ready(function() {
         var allBooksHtml = HandlebarsTemplates['allBooksTemplate']({
           books: data.books,
         });
+
         $('#display-area').html(inputField);
         $('#display-area').append(allBooksHtml);
       },
@@ -70,6 +71,7 @@ $(document).ready(function() {
           clearDivs();
           $('.alert').html(data.msg);
         } else {
+          console.log(data);
           var book = JSON.parse(data.book);
           var trade = JSON.parse(data.trade);
           var other_trader_rating = JSON.parse(data.other_trader_rating)

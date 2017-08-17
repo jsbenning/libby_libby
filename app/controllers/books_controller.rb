@@ -81,11 +81,12 @@ class BooksController < ApplicationController
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
     if @user.visible?
-      if @user != current_user && Trade.shared_trade(current_user, @user) && @user.visible? #in other words, if someone else initiated a trade with the current user, 
+      if @user != current_user && Trade.shared_trade(@user, current_user) #in other words,\
+      # if someone else initiated a trade with the current user, 
       #and the current user is now looking at that person's book, considering completing the trade...
-        @trade = Trade.shared_trade(current_user, @user) #...this then gives the option of completing the trade in book show view
+        @trade = Trade.shared_trade(@user, current_user) #...this then gives the option of completing the trade in book show view
         @other_trader_rating = Trade.user_rating(@user)
-      elsif @user != current_user && @user.visible? 
+      elsif @user != current_user 
         @trade = Trade.new #this gives the option of initiating a trade in book show view
         @trade.first_trader = current_user
         @other_trader_rating = Trade.user_rating(@user)
@@ -97,8 +98,8 @@ class BooksController < ApplicationController
         f.json { render :json => { :book => @book.to_json(include: :genres), :trade => @trade.to_json, :other_trader_rating => @other_trader_rating.to_json }}
       end
     else
-      flash.now[:notice] = "This user is not currently active, sorry..."
       @msg = "This user is not currently active, sorry..."
+      flash.now[:notice] = @msg
       respond_to do |f|
         f.html { render :index }
         f.json { render :json => { :msg => @msg }}
@@ -128,7 +129,7 @@ class BooksController < ApplicationController
   def update
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    if @user.id == (current_user.id || @user.admin?) && @book.update_attributes(book_params)
+    if @user.id == (current_user.id || @user.admin?) && @book.update_attributes(book_params) #|| @book.part_of_trade?
       flash[:notice] = "The book was updated!"
       @msg = "The book was updated!"
       respond_to do |f|
