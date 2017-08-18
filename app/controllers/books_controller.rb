@@ -129,7 +129,8 @@ class BooksController < ApplicationController
   def update
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    if @user.id == (current_user.id || @user.admin?) && @book.update_attributes(book_params) #|| @book.part_of_trade?
+    if @book.update_attributes(book_params)
+      @book.save 
       flash[:notice] = "The book was updated!"
       @msg = "The book was updated!"
       respond_to do |f|
