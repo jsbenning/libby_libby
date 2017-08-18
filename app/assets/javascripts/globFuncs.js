@@ -20,6 +20,7 @@ function parser(arr) {
 return newArr;
 }
 
+
 function dateFormatter(arr) {
   for (var i=0; i < arr.length; i++) {
     var cdate = arr[i].created_at;
