@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  
   // My Books
   $(document.body).on('click', '#my-books-btn', function(e) {
     $("#my-books-btn").attr('disabled', 'disabled');
@@ -133,6 +134,8 @@ $(document).ready(function() {
   // Update Book (submit edit book form)
   $(document.body).on('click', '#update-book-btn', function(e) {
     $('#update-book-btn').attr('disabled', 'disabled');
+    e.preventDefault();
+    //var data = $('#edit-book').serialize(); = please note, could not get this to update, hence the hand built object
     var genres = []
     var title = ($('#book_title').val());
     var lastName = ($('#book_author_last_name').val());
