@@ -1,3 +1,5 @@
+// Functions that are called from various other js files, 'globally' yu might say...
+
 var clearDivs = function() {
   $("#display-area").html("");
   $(".notice").html("");

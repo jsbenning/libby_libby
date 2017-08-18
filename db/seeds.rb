@@ -83,9 +83,9 @@ Genre.destroy_all
   end
 
 
-  BASE_GENRES.each do |genre|
-    Genre.create!(name: genre)
-  end
+  # BASE_GENRES.each do |genre|
+  #   Genre.create!(name: genre)
+  # end
 
 
   # Book.all.each do |book|

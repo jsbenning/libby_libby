@@ -17,7 +17,6 @@ class TradesController < ApplicationController
       if trade.first_trader == current_user && trade.book_second_trader_wants_id.nil?
         @my_initiated_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader]) 
       elsif trade.second_trader == current_user && trade.book_second_trader_wants_id.nil?
-        this_trade = build_must_respond_object(trade)
         @my_must_respond_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants])
       elsif trade.status == "complete" && trade.first_trader == current_user
         @my_completed_initiated_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader, :book_second_trader_wants])
@@ -109,7 +108,6 @@ class TradesController < ApplicationController
     trade.save
     book_first_trader_wants.request_id = trade.id 
     book_first_trader_wants.save
-    binding.pry
   end
 
 

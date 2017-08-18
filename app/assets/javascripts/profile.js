@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  
   // Show Profile
   $(document.body).on('click', '#my-profile-btn', function(e) {
     $("#my-profile-btn").attr('disabled', 'disabled');

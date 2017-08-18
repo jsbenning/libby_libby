@@ -31,7 +31,7 @@
   {{#unless compInit.length}}
     <h4>You don't currently have any completed trades initiated by you</h4>
   {{else}}
-    <h4 class="indent">Here are some completed trades you initiated:</h4>
+    <h4>Here are some completed trades you initiated:</h4>
 
     {{#each compInit}}
     <p class="list-group-item-text indent">You requested <strong>{{book_first_trader_wants.title}}</strong> on {{created_at}}, and <a href="mailto:{{second_trader.email}}subject=LibbyLibby Trade">{{second_trader.real_name}}</a> requested <strong>{{book_second_trader_wants.title}}</strong> from you on {{updated_at}}.</p>
@@ -69,7 +69,7 @@
   {{#unless compResp.length}}
     <h4>You don't currently have any completed trades someone else initiated</h4>
   {{else}}
-    <h4 class="indent">Here are some completed trades someone else initiated:</h4>
+    <h4>Here are some completed trades someone else initiated:</h4>
 
     {{#each compResp}}
     <p class="list-group-item-text indent"><a href="mailto:{{first_trader.email}}subject=LibbyLibby Trade">{{first_trader.real_name}}</a> requested <strong>{{book_first_trader_wants.title}}</strong> from you on {{created_at}}, and you requested <strong>{{book_second_trader_wants.title}}</strong> for it on {{updated_at}}.</p><br />
@@ -89,7 +89,6 @@
         <div class="rating list-group-item-text indent">    
         <p>You can rate the user below, based on the book condition, shipping time, etc., once you get your book:</p>
         <div class="radio_field rating">
-          <p><strong>Other User Rating</strong></p>
           <label for="user_rating_3">The book arrived in a reasonable amount of time and as described</label>
           <input type="radio" value="3" name="user_review" id="user_review_3" /><br />
           <label for="user_rating_2">There were some problems which were eventually resolved</label>
