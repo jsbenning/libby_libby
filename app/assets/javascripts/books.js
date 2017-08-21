@@ -76,7 +76,6 @@ $(document).ready(function() {
           clearDivs();
           $('.alert').html(data.msg);
         } else {
-          console.log(data);
           var book = JSON.parse(data.book);
           var trade = JSON.parse(data.trade);
           var other_trader_rating = JSON.parse(data.other_trader_rating)
@@ -176,6 +175,38 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+// Delete Book
+  $(document.body).on('click', '#delete-book-btn', function(e) {
+    $('#delete-book-btn').attr('disabled', 'disabled');
+    var userId = $(this).data('user');
+    var bookId = $(this).data('book');
+    var url = "http://localhost:3000" + "/books/" + bookId + ".json";
+    var myData = {
+      book: {
+        id: bookId
+      }
+    };
+    $.ajax({
+      dataType: "json",
+      type: "DELETE",
+      url: url,
+      data: myData,
+      success: function(data) {
+        clearDivs();
+        $("#delete-book-btn").removeAttr('disabled');
+        $('.notice').html(data.msg);
+      },
+      error: function() {
+        console.log("Sumpin broke!");
+      }
+    });
+    e.stopImmediatePropagation();
+    return false;
+  });
+
+
+////////
 
 
   // Render New Book Form 
