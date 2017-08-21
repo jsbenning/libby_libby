@@ -25,14 +25,57 @@ function dateFormatter(arr) {
   for (var i=0; i < arr.length; i++) {
     var cdate = arr[i].created_at;
     var cslice = cdate.slice(0, 10).split("-");
-    var cscramble = cslice[1] + " " + cslice[2] + ", " + cslice[0];
-
+    var cscramble = assignMonth(cslice[1]) + " " + cslice[2] + ", " + cslice[0];
     arr[i].created_at = cscramble;
+
     var udate = arr[i].updated_at;
     var uslice = udate.slice(0, 10).split("-");
-    var uscramble = uslice[1] + " " + uslice[2] + ", " + uslice[0];
+    var uscramble = assignMonth(uslice[1]) + " " + uslice[2] + ", " + uslice[0];
     arr[i].updated_at = uscramble;
   }
+}
+
+function assignMonth(str) {
+  month = "";
+  switch(str) {
+    case "01":
+      month = "January";
+      break;
+    case "02":
+      month = "February";
+      break;
+    case "03":
+      month = "March";
+      break;
+    case "04":
+      month = "April";
+      break;
+    case "05":
+      month = "May";
+      break;
+    case "06":
+      month = "June";
+      break;
+    case "07":
+      month = "July";
+      break;
+    case "08":
+      month = "August";
+      break;
+    case "09":
+      month = "September";
+      break;
+    case "10":
+      month = "October";
+      break;
+    case "11":
+      month = "November";
+      break;
+    case "12":
+      month = "December";
+      break;
+  }
+  return month;
 }
 
 function assignRadio(data) {
