@@ -49,7 +49,11 @@ class User < ApplicationRecord
         x = false
       end
     end
-    x
+    all_books_traded = self.books.all? {|book| book.status == "traded" }
+    if all_books_traded || self.books.empty?
+      x = false
+    end
+    x 
   end
 
   def mod_or_admin?
