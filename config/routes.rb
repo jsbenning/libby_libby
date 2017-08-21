@@ -10,10 +10,13 @@ Rails.application.routes.draw do
     :omniauth_callbacks => 'users/omniauth_callbacks'
   }
 
-  resources :users, only: [:show, :index, :edit, :update, :destroy] do
+  resources :users, only: [:show, :index, :edit, :update] do #, :destroy
     resources :books, :except => [:index] do
       get :index, :on => :collection, :action => 'index_users'
     end
+  end
+
+  resources :books, only: [:destroy] do 
   end
 
   resources :books, only: [:index_all], :except => [:index] do

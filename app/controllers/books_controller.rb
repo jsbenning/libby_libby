@@ -117,8 +117,8 @@ class BooksController < ApplicationController
         f.json { render :json => {:book => @book.to_json(include: :genres), :genres => @genres.to_json, :only => [:id, :name] }}
       end 
     else
-      flash.now[:notice] = "You don't have permission to edit this book!"
       @msg = "You don't have permission to edit this book!"
+      flash.now[:notice] = @msg
       respond_to do |f|
         f.html { render 'home/logged_in' }
         f.json { render :json => { :msg => @msg }}
@@ -131,8 +131,8 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     if @book.update_attributes(book_params)
       @book.save 
-      flash[:notice] = "The book was updated!"
       @msg = "The book was updated!"
+      flash[:notice] = @msg
       respond_to do |f|
         f.html { redirect_to user_books_url }
         f.json { render :json => { :msg => @msg }}
@@ -148,9 +148,9 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
-    if @user.id == (current_user.id || @user.admin?)
+    user = @book.user
+    if (user.admin? || user == current_user) 
       @book.destroy
       @msg = "The book was deleted!"
       flash[:notice] = @msg
