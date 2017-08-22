@@ -320,10 +320,14 @@ $(document).ready(function() {
       dataType: "json",
       url: url,
       success: function(data) {
-        var allBooksHtml = HandlebarsTemplates['allBooksTemplate']({
+        if (data.books.length == 0) {
+          console.log("End of books array");
+        } else {
+          var allBooksHtml = HandlebarsTemplates['allBooksTemplate']({
           books: data.books
         });
         $('#display-area').append(allBooksHtml);
+        }   
       },
       error: function() {
         console.log("Sumpin broke");

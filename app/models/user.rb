@@ -42,7 +42,7 @@ class User < ApplicationRecord
     self.visible == true
   end
 
-  def shipworthy? # Has the user entered all shipping info?
+  def shipworthy? # Has the user entered all shipping info & has books, of which at least one is at home?
     x = true
     self.attributes.first(6).each do |attr|
       if attr[1].nil? || attr[1] == ""

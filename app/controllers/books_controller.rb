@@ -150,7 +150,7 @@ class BooksController < ApplicationController
   def destroy
     @book = Book.find(params[:id])
     user = @book.user
-    if (user.admin? || user == current_user) 
+    if user == current_user 
       @book.destroy
       @msg = "The book was deleted!"
       flash[:notice] = @msg
