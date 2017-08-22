@@ -42,8 +42,18 @@ class User < ApplicationRecord
     self.visible == true
   end
 
-  def shipworthy? # Has the user entered all shipping info & has books, of which at least one is at home?
+  def completed_profile?
     x = true
+    self.attributes.first(6).each do |attr|
+      if attr[1].nil? || attr[1] == ""
+        x = false
+      end
+    end
+    x 
+  end  
+
+  def shipworthy? # Has the user entered all shipping info & has books, of which at least one is at home?
+    x = self.completed_profile?
     self.attributes.first(6).each do |attr|
       if attr[1].nil? || attr[1] == ""
         x = false

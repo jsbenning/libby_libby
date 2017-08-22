@@ -42,7 +42,7 @@ class BooksController < ApplicationController
     @genres = Genre.all
     @user = User.find(params[:user_id])
     @book = Book.new
-    if @user == current_user && @user.visible? && @user.shipworthy?
+    if @user == current_user && @user.completed_profile?
       respond_to do |f|
         f.html { render :new }
         f.json { render :json => { :book => @book, :user => @user, :genres => @genres.to_json, :only => [:id, :name] } }
