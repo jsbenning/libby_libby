@@ -55,6 +55,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    binding.pry
     @user = User.find(params[:id])
     if @user == current_user || current_user.admin?
       if @user.update_attributes(user_params)

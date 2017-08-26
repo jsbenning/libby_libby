@@ -127,6 +127,7 @@ class BooksController < ApplicationController
   end
   
   def update
+    #binding.pry
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
     if @book.update_attributes(book_params)
@@ -135,7 +136,7 @@ class BooksController < ApplicationController
       flash[:notice] = @msg
       respond_to do |f|
         f.html { redirect_to user_books_url }
-        f.json { render :json => { :msg => @msg }}
+        f.json { render :json => { :book => @book.to_json(include: :genres), :msg => @msg }}
       end  
     else
       @msg = "The book wasn't updated, sorry!"

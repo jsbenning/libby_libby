@@ -63,6 +63,41 @@ $(document).ready(function() {
 
 
   // Show Book
+  // $(document.body).on('click', '.show-book-btn', function(e) {
+  //   clearDivs;
+  //   var userId = $(this).data('user');
+  //   var bookId = $(this).data('book');
+  //   var url = "http://localhost:3000/users/" + userId + "/books/" + bookId + ".json";
+  //   $.ajax({
+  //     dataType: "json",
+  //     url: url,
+  //     success: function(data) {
+  //       if (data.msg) {
+  //         clearDivs();
+  //         $('.alert').html(data.msg);
+  //       } else {
+  //         var book = JSON.parse(data.book);
+  //         var trade = JSON.parse(data.trade);
+  //         var other_trader_rating = JSON.parse(data.other_trader_rating)
+  //         extend(book);
+  //         book.authorFullName = book.authorFullName();
+  //         var showBookHtml = HandlebarsTemplates['showBookTemplate']({ 
+  //           book: book,
+  //           trade: trade,
+  //           other_trader_rating: other_trader_rating
+  //         });
+  //         $('#display-area').html(showBookHtml);
+  //       }
+  //     },
+  //     error: function() {
+  //       console.log("sumpin broke");
+  //     }
+  //   });
+  //   e.stopImmediatePropagation();
+  //   return false;
+  // });
+
+  // Show book
   $(document.body).on('click', '.show-book-btn', function(e) {
     clearDivs;
     var userId = $(this).data('user');
@@ -81,7 +116,7 @@ $(document).ready(function() {
           var other_trader_rating = JSON.parse(data.other_trader_rating)
           extend(book);
           book.authorFullName = book.authorFullName();
-          var showBookHtml = HandlebarsTemplates['showBookTemplate']({
+          var showBookHtml = HandlebarsTemplates['showBookTemplate']({ 
             book: book,
             trade: trade,
             other_trader_rating: other_trader_rating
@@ -97,8 +132,7 @@ $(document).ready(function() {
     return false;
   });
 
-
-  // Render Edit Book Form
+  // experiment for render edit form
   $(document.body).on('click', '#edit-book-btn', function(e) {
     clearDivs();
     var userId = $(this).data('user');
@@ -110,7 +144,7 @@ $(document).ready(function() {
       contentType: "application/javascript; charset=utf-8",
       success: function(data) {
         $("#edit-book-btn").removeAttr('disabled');
-        var editBookForm = HandlebarsTemplates['editBookForm']({
+        var editBookForm = HandlebarsTemplates['bookForm']({
           book: JSON.parse(data.book),
         });
         var allGenres = findAllGenres(data);
@@ -130,11 +164,12 @@ $(document).ready(function() {
   });
 
 
-  // Update Book (submit edit book form)
-  $(document.body).on('click', '#update-book-btn', function(e) {
+  //Experiment for update book
+    $(document.body).on('click', '#update-book-btn', function(e) {
+      e.preventDefault();
     $('#update-book-btn').attr('disabled', 'disabled');
-    //var data = $('#edit-book').serialize(); = please note, could not get this to update, hence the hand built object
-    var genres = []
+    //var myData = $('#book-form').serialize(); 
+        var genres = []
     var title = ($('#book_title').val());
     var lastName = ($('#book_author_last_name').val());
     var firstName = ($('#book_author_first_name').val());
@@ -147,7 +182,8 @@ $(document).ready(function() {
     var userId = $(this).data('user');
     var bookId = $(this).data('book');
     var url = "http://localhost:3000" + "/users/" + userId + "/books/" + bookId + ".json";
-    var myData = {
+
+        var myData = {
       book: {
         title: title,
         author_last_name: lastName,
@@ -158,15 +194,16 @@ $(document).ready(function() {
         genre_ids: genres
       }
     };
+        console.log(myData);
     $.ajax({
       dataType: "json",
       type: "PATCH",
       url: url,
       data: myData,
       success: function(data) {
-        clearDivs();
-        $("#update-book-btn").removeAttr('disabled');
-        $('.notice').html(data.msg);
+      $("#update-book-btn").removeAttr('disabled');
+        //$('.notice').html(data.msg);
+        alert(data.msg);
       },
       error: function() {
         console.log("Sumpin broke!");
@@ -175,6 +212,84 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+  // Render Edit Book Form
+  // $(document.body).on('click', '#edit-book-btn', function(e) {
+  //   clearDivs();
+  //   var userId = $(this).data('user');
+  //   var bookId = $(this).data('book');
+  //   var url = "http://localhost:3000/users/" + userId + "/books/" + bookId + "/edit.json";
+  //   $.ajax({
+  //     dataType: "json",
+  //     url: url,
+  //     contentType: "application/javascript; charset=utf-8",
+  //     success: function(data) {
+  //       $("#edit-book-btn").removeAttr('disabled');
+  //       var editBookForm = HandlebarsTemplates['editBookForm']({
+  //         book: JSON.parse(data.book),
+  //       });
+  //       var allGenres = findAllGenres(data);
+  //       var bookGenres = JSON.parse(data.book).genres;
+  //       $('#display-area').html(editBookForm);
+  //       assignRadio(data);
+  //       $('#all-genres').html(allGenres);
+  //       assignBookGenres(data);
+  //       $('.notice').html(data.msg);
+  //     },
+  //     error: function() {
+  //       console.log("Sumpin broke!");
+  //     }
+  //   });
+  //   e.stopImmediatePropagation();
+  //   return false;
+  // });
+
+
+  // Update Book (submit edit book form)
+  // $(document.body).on('click', '#update-book-btn', function(e) {
+  //   $('#update-book-btn').attr('disabled', 'disabled');
+  //   //var data = $('#edit-book').serialize(); = please note, could not get this to update, hence the hand built object
+  //   var genres = []
+  //   var title = ($('#book_title').val());
+  //   var lastName = ($('#book_author_last_name').val());
+  //   var firstName = ($('#book_author_first_name').val());
+  //   var isbn = ($('#book_isbn').val());
+  //   var description = ($('#book_description').val());
+  //   var condition = $(document.querySelector('input[name=book_condition]:checked')).val();
+  //   $('input[name="book[genre_ids][]"]:checked').each(function() {
+  //     genres.push(this.value);
+  //   });
+  //   var userId = $(this).data('user');
+  //   var bookId = $(this).data('book');
+  //   var url = "http://localhost:3000" + "/users/" + userId + "/books/" + bookId + ".json";
+  //   var myData = {
+  //     book: {
+  //       title: title,
+  //       author_last_name: lastName,
+  //       author_first_name: firstName,
+  //       isbn: isbn,
+  //       condition: condition,
+  //       description: description,
+  //       genre_ids: genres
+  //     }
+  //   };
+  //   $.ajax({
+  //     dataType: "json",
+  //     type: "PATCH",
+  //     url: url,
+  //     data: myData,
+  //     success: function(data) {
+  //       clearDivs();
+  //       $("#update-book-btn").removeAttr('disabled');
+  //       $('.notice').html(data.msg);
+  //     },
+  //     error: function() {
+  //       console.log("Sumpin broke!");
+  //     }
+  //   });
+  //   e.stopImmediatePropagation();
+  //   return false;
+  // });
 
 // Delete Book
   $(document.body).on('click', '#delete-book-btn', function(e) {
@@ -273,7 +388,7 @@ $(document).ready(function() {
       url: url,
       data: myData,
       success: function(data) {
-        clearDivs();
+        //clearDivs();
         $('.notice').html(data.msg);
       },
       error: function() {
@@ -284,6 +399,16 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
+
+// Submit Luke's suggestion
+// $(form).on('submit', function(e) {
+//   e.preventDefault 
+//   var body = JSON.strinify({
+//     user: {
+//       username: $('[input[name="username"]').vl
+//     }
+//   })
+// })
 
 
   // Search Function
