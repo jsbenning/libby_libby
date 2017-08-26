@@ -1,0 +1,38 @@
+<div class="boxframe">
+
+  <h2>Edit Shipping Info</h2>
+  <div class="remember">
+    Remember, if any of the fields below are blank, you must update them to add or trade books
+  </div><br>
+  <form id="profile-form" action="/" >
+  <div class="field">
+    <label for="user_real_name">Real name</label><br>
+    <input type="text" value="{{user.real_name}}" name="user[real_name]" id="user_real_name" />
+  </div>
+  <div class="field">
+    <label for="user_street">Street</label><br>
+    <input type="text" value="{{user.street}}" name="user[street]" id="user_street" />
+  </div>
+  <div class="field">
+    <label for="user_city">City</label><br>
+    <input type="text" value="{{user.city}}" name="user[city]" id="user_city" />
+  </div>
+  <div class="field">
+    <label for="user_state">State</label><br>
+    <input type="text" value="{{user.state}}" name="user[state]" id="user_state" />
+  </div>
+  <div class="field">
+    <label for="user_zipcode">Zipcode</label><br>
+    <input type="text" value="{{user.zipcode}}" name="user[zipcode]" id="user_zipcode" /><br>
+  </div>
+  <div class="dropdown">
+    <label for="user_role">Role</label><br>
+    <select name="user[role]" id="user_role"><option value="reader">Reader</option>
+<option value="mod">Mod</option>
+<option value="admin">Admin</option></select>
+  </div><br>
+  <button class="btn btn-primary btn-xs" data-user="{{user.id}}" id="update-profile-btn">Update Info</button>
+</form>
+</div>
+
+  

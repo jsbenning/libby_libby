@@ -1,0 +1,35 @@
+<h3>Edit a Book</h3>
+<!--<form  action="/" id="edit-book">-->
+<p class="remember">All fields but 'title' and 'condition' are optional, but the more fields added, the better the chance of trading a book</p><br>
+<div class="centerbox">
+  <div class="field">
+    <label for="book_title">Title</label><br>
+    <input id="book_title" placeholder="{{book.title}}" size="50" type="text" value="{{book.title}}"  name="book[title]">
+  </div>
+  <div class="field">
+    <label for="book_author_last_name">Author last name</label><br>
+    <input id="book_author_last_name" placeholder="{{book.author_last_name}}" type="text" value="{{book.author_last_name}}" name="book[author_last_name]">
+  </div>
+  <div class="field">
+    <label for="book_author_first_name">Author first name</label><br>
+    <input id="book_author_first_name" placeholder="{{book.author_first_name}}" type="text" name="book[author_first_name]" value="{{book.author_first_name}}">
+  </div>
+  <div class="field">
+    <label for="book_ISBN">Isbn</label><br>
+    <input id="book_isbn" placeholder="{{book.isbn}}" name="book[isbn]" type="text" value="{{book.isbn}}">
+  </div>
+  <div class="radio_field">
+    <p><strong>Condition</strong></p><label for="book_condition_like_new">Like New</label> <input id="book_condition_like_new" name="book_condition" type="radio" value="Like New"><br>
+    <label for="book_condition_good">Good</label> <input id="book_condition_good" name="book_condition" type="radio" value="Good"><br>
+    <label for="book_condition_fair">Fair</label> <input id="book_condition_fair" name="book_condition" type="radio" value="Fair"><br>
+  </div>
+  <div class="text_area">
+    <label for="book_description">Description</label><br>
+    <textarea cols="50" id="book_description" name="book[description]">{{book.description}}</textarea>
+  </div><b>Genre(s):</b>
+  <div class="checkboxes">
+    <div id="all-genres"></div>
+  </div><br>
+  <button class="btn btn-primary btn-xs" data-book="{{book.id}}" data-user="{{book.user_id}}" id="update-book-btn">Update This Book</button>
+</div>
+<!--</form>-->

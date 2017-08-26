@@ -12,9 +12,13 @@
   <p><strong>Your email:</strong> {{data.user.email}}</p>
   <p><strong>Your Current Rating:</strong><span> {{data.rating}} out of 3 (3 is best)</p>
 </div>
+<button class='btn btn-warning center' id='edit-profile-btn' data-user={{data.user.id}} >Edit Your Profile</button><br>
+
 {{#if data.user.visible}}
 <button class='btn btn-warning center' id='invisible-btn' data-id={{data.user.id}} >Make yourself invisible</button>
+
 {{else}}
 <button class='btn btn-warning center' id='visible-btn' data-id={{data.user.id}} >Make yourself visible</button>
 {{/if}}
 
+ 

@@ -169,7 +169,7 @@ $(document).ready(function() {
       e.preventDefault();
     $('#update-book-btn').attr('disabled', 'disabled');
     //var myData = $('#book-form').serialize(); 
-        var genres = []
+    var genres = []
     var title = ($('#book_title').val());
     var lastName = ($('#book_author_last_name').val());
     var firstName = ($('#book_author_first_name').val());
@@ -182,8 +182,7 @@ $(document).ready(function() {
     var userId = $(this).data('user');
     var bookId = $(this).data('book');
     var url = "http://localhost:3000" + "/users/" + userId + "/books/" + bookId + ".json";
-
-        var myData = {
+    var myData = {
       book: {
         title: title,
         author_last_name: lastName,
@@ -194,7 +193,6 @@ $(document).ready(function() {
         genre_ids: genres
       }
     };
-        console.log(myData);
     $.ajax({
       dataType: "json",
       type: "PATCH",
