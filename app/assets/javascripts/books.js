@@ -34,7 +34,6 @@ $(document).ready(function() {
     return false;
   });
 
-
   // All Books (not including current_user's own)
   $(document.body).on('click', '#all-books-btn', function(e) {
     clearDivs();
@@ -60,42 +59,6 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
-
-
-  // Show Book
-  // $(document.body).on('click', '.show-book-btn', function(e) {
-  //   clearDivs;
-  //   var userId = $(this).data('user');
-  //   var bookId = $(this).data('book');
-  //   var url = "http://localhost:3000/users/" + userId + "/books/" + bookId + ".json";
-  //   $.ajax({
-  //     dataType: "json",
-  //     url: url,
-  //     success: function(data) {
-  //       if (data.msg) {
-  //         clearDivs();
-  //         $('.alert').html(data.msg);
-  //       } else {
-  //         var book = JSON.parse(data.book);
-  //         var trade = JSON.parse(data.trade);
-  //         var other_trader_rating = JSON.parse(data.other_trader_rating)
-  //         extend(book);
-  //         book.authorFullName = book.authorFullName();
-  //         var showBookHtml = HandlebarsTemplates['showBookTemplate']({ 
-  //           book: book,
-  //           trade: trade,
-  //           other_trader_rating: other_trader_rating
-  //         });
-  //         $('#display-area').html(showBookHtml);
-  //       }
-  //     },
-  //     error: function() {
-  //       console.log("sumpin broke");
-  //     }
-  //   });
-  //   e.stopImmediatePropagation();
-  //   return false;
-  // });
 
   // Show book
   $(document.body).on('click', '.show-book-btn', function(e) {
@@ -132,7 +95,7 @@ $(document).ready(function() {
     return false;
   });
 
-  // experiment for render edit form
+  // Render edit form
   $(document.body).on('click', '#edit-book-btn', function(e) {
     clearDivs();
     var userId = $(this).data('user');
@@ -164,11 +127,11 @@ $(document).ready(function() {
   });
 
 
-  //Experiment for update book
+  // Update book
     $(document.body).on('click', '#update-book-btn', function(e) {
       e.preventDefault();
     $('#update-book-btn').attr('disabled', 'disabled');
-    //var myData = $('#book-form').serialize(); 
+    //var myData = $('#book-form').serialize(); --> does not work as planned
     var genres = []
     var title = ($('#book_title').val());
     var lastName = ($('#book_author_last_name').val());
@@ -193,6 +156,7 @@ $(document).ready(function() {
         genre_ids: genres
       }
     };
+    console.log($('#book-form').serialize())
     $.ajax({
       dataType: "json",
       type: "PATCH",
@@ -200,7 +164,6 @@ $(document).ready(function() {
       data: myData,
       success: function(data) {
       $("#update-book-btn").removeAttr('disabled');
-        //$('.notice').html(data.msg);
         alert(data.msg);
       },
       error: function() {
@@ -210,84 +173,6 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
-
-  // Render Edit Book Form
-  // $(document.body).on('click', '#edit-book-btn', function(e) {
-  //   clearDivs();
-  //   var userId = $(this).data('user');
-  //   var bookId = $(this).data('book');
-  //   var url = "http://localhost:3000/users/" + userId + "/books/" + bookId + "/edit.json";
-  //   $.ajax({
-  //     dataType: "json",
-  //     url: url,
-  //     contentType: "application/javascript; charset=utf-8",
-  //     success: function(data) {
-  //       $("#edit-book-btn").removeAttr('disabled');
-  //       var editBookForm = HandlebarsTemplates['editBookForm']({
-  //         book: JSON.parse(data.book),
-  //       });
-  //       var allGenres = findAllGenres(data);
-  //       var bookGenres = JSON.parse(data.book).genres;
-  //       $('#display-area').html(editBookForm);
-  //       assignRadio(data);
-  //       $('#all-genres').html(allGenres);
-  //       assignBookGenres(data);
-  //       $('.notice').html(data.msg);
-  //     },
-  //     error: function() {
-  //       console.log("Sumpin broke!");
-  //     }
-  //   });
-  //   e.stopImmediatePropagation();
-  //   return false;
-  // });
-
-
-  // Update Book (submit edit book form)
-  // $(document.body).on('click', '#update-book-btn', function(e) {
-  //   $('#update-book-btn').attr('disabled', 'disabled');
-  //   //var data = $('#edit-book').serialize(); = please note, could not get this to update, hence the hand built object
-  //   var genres = []
-  //   var title = ($('#book_title').val());
-  //   var lastName = ($('#book_author_last_name').val());
-  //   var firstName = ($('#book_author_first_name').val());
-  //   var isbn = ($('#book_isbn').val());
-  //   var description = ($('#book_description').val());
-  //   var condition = $(document.querySelector('input[name=book_condition]:checked')).val();
-  //   $('input[name="book[genre_ids][]"]:checked').each(function() {
-  //     genres.push(this.value);
-  //   });
-  //   var userId = $(this).data('user');
-  //   var bookId = $(this).data('book');
-  //   var url = "http://localhost:3000" + "/users/" + userId + "/books/" + bookId + ".json";
-  //   var myData = {
-  //     book: {
-  //       title: title,
-  //       author_last_name: lastName,
-  //       author_first_name: firstName,
-  //       isbn: isbn,
-  //       condition: condition,
-  //       description: description,
-  //       genre_ids: genres
-  //     }
-  //   };
-  //   $.ajax({
-  //     dataType: "json",
-  //     type: "PATCH",
-  //     url: url,
-  //     data: myData,
-  //     success: function(data) {
-  //       clearDivs();
-  //       $("#update-book-btn").removeAttr('disabled');
-  //       $('.notice').html(data.msg);
-  //     },
-  //     error: function() {
-  //       console.log("Sumpin broke!");
-  //     }
-  //   });
-  //   e.stopImmediatePropagation();
-  //   return false;
-  // });
 
 // Delete Book
   $(document.body).on('click', '#delete-book-btn', function(e) {
@@ -317,10 +202,6 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
-
-
-////////
-
 
   // Render New Book Form 
   $(document.body).on('click', '#new-book-btn', function(e) {
@@ -386,8 +267,8 @@ $(document).ready(function() {
       url: url,
       data: myData,
       success: function(data) {
-        //clearDivs();
-        $('.notice').html(data.msg);
+        clearDivs();
+        alert(data.msg);
       },
       error: function() {
         clearDivs();
@@ -397,16 +278,6 @@ $(document).ready(function() {
     e.stopImmediatePropagation();
     return false;
   });
-
-// Submit Luke's suggestion
-// $(form).on('submit', function(e) {
-//   e.preventDefault 
-//   var body = JSON.strinify({
-//     user: {
-//       username: $('[input[name="username"]').vl
-//     }
-//   })
-// })
 
 
   // Search Function

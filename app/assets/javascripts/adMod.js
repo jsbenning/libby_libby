@@ -1,4 +1,6 @@
 $(document).ready(function() {
+
+  
   // View All Users
   $(document.body).on('click', '#view-users-btn', function(e) {
     $("#view-users-btn").attr('disabled', 'disabled');

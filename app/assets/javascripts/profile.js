@@ -17,7 +17,7 @@ $(document).ready(function() {
         $('#display-area').html(myProfileHtml);
       },
       error: function() {
-        console.log("sumpin broke");
+        console.log("sumpin' broke");
       }
     });
     e.stopImmediatePropagation();
@@ -46,7 +46,7 @@ $(document).ready(function() {
         $('.notice').html(data.msg);
       },
       error: function() {
-        console.log("Sumpin broke!");
+        console.log("Sumpin' broke!");
       }
     });
     e.stopImmediatePropagation();
@@ -58,26 +58,9 @@ $(document).ready(function() {
     $(document.body).on('click', '#update-profile-btn', function(e) {
       e.preventDefault();
     $('#update-profile-btn').attr('disabled', 'disabled');
-    //var myData = $('#profile-form').serialize();
-    //console.log(myData); 
-    var real_name = ($('#user_real_name').val());
-    var street = ($('#user_street').val());
-    var city= ($('#book_author_first_name').val());
-    var state = ($('#user_state').val());
-    var zipcode = ($('#user_zipcode').val());
-    var role = ($('#user_role').val());
+    var myData = $('#profile-form').serialize();
     var userId = $(this).data('user');
     var url = "http://localhost:3000" + "/users/" + userId + ".json";
-    var myData = {
-      user: {
-        real_name: real_name,
-        street: street,
-        city: city,
-        state: state,
-        zipcode: zipcode,
-        role: role
-      }
-    };
     $.ajax({
       dataType: "json",
       type: "PATCH",
@@ -85,8 +68,7 @@ $(document).ready(function() {
       data: myData,
       success: function(data) {
       $("#update-profile-btn").removeAttr('disabled');
-        //$('.notice').html(data.msg);
-        alert(data.msg);
+        $('.notice').html(data.msg);
       },
       error: function() {
         console.log("Sumpin broke!");

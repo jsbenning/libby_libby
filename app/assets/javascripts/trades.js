@@ -27,7 +27,7 @@ $(document).ready(function() {
         $('#display-area').html(myTradesHtml);
       },
       error: function() {
-        console.log("sumpin broke");
+        console.log("Sumpin' broke");
       }
     });
     e.stopImmediatePropagation();
@@ -57,7 +57,7 @@ $(document).ready(function() {
         };
       },
       error: function() {
-        console.log("sumpin broke");
+        alert("Sumpin' broke");
       }
     });
     e.stopImmediatePropagation();
@@ -89,10 +89,10 @@ $(document).ready(function() {
       success: function(data) {
         clearDivs();
         $("#request-trade-btn").removeAttr('disabled');
-        $('.notice').html(data.msg);
+        alert(data.msg);
       },
       error: function() {
-        console.log("Sumpin broke!");
+        alert("Sumpin' broke!");
       }
     });
     e.stopImmediatePropagation();
@@ -124,7 +124,7 @@ $(document).ready(function() {
         $('.notice').html(data.msg);
       },
       error: function() {
-        console.log("Sumpin broke!");
+        console.log("Sumpin'' broke!");
       }
     });
     e.stopImmediatePropagation();
@@ -162,7 +162,7 @@ $(document).ready(function() {
         $('.notice').html(data.msg);
       },
       error: function() {
-        console.log("Sumpin broke!");
+        console.log("Sumpin' broke!");
       }
     });
     e.stopImmediatePropagation();
@@ -199,7 +199,7 @@ $(document).ready(function() {
         $('.notice').html(data.msg);
       },
       error: function() {
-        console.log("Sumpin broke!");
+        console.log("Sumpin' broke!");
       }
     });
     e.stopImmediatePropagation();
@@ -228,7 +228,7 @@ $(document).ready(function() {
         $('.notice').html(data.msg);
       },
       error: function() {
-        console.log("Sumpin broke!");
+        console.log("Sumpin' broke!");
       }
     });
     e.stopImmediatePropagation();
