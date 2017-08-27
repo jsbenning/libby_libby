@@ -15,21 +15,6 @@
   </div>
 </div>
 
-  <% if current_user && current_user.admin? %>
-  <div class="corners2">
-    <h3>*** ADMINISTRATOR ***</h3>
-    <button id="view-users-btn" >View All Users</button>
-  </div>
-    
-
-  <% elsif current_user && current_user.mod? %>
-  <div class="corners2 center">
-    <h3>*** MODERATOR ***</h3>
-    <button id="view-users-btn" >View All Users</button>
-  </div>  
-
-  <% end %>
-
   <% if current_user %>
 
   <hr>

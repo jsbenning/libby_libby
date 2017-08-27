@@ -8,11 +8,15 @@ $(document).ready(function() {
       dataType: "json",
       url: url,
       success: function(data) {
+        console.log(data);
         $("#view-users-btn").removeAttr('disabled');
         allUsersHtml = HandlebarsTemplates['allUsersTemplate']({
           data: data
         });
         $('#display-area').html(allUsersHtml);
+        if (data.msg) {
+          alert(data.msg);
+        }
       },
       error: function() {
         console.log("sumpin broke");

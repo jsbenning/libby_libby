@@ -23,10 +23,11 @@
   <hr>
 <div id="account-buttons">   
 <% if current_user && !(current_user.uid) %>
-  <p><%= button_to "Change My Password", edit_user_registration_path(current_user), :method => 'get', :class => 'btn', :id => 'change-pass-btn' %></p><br>
+  <p><%= button_to "Change My Password", edit_user_registration_path(current_user), :method => 'get', :class => 'btn', :id => 'change-pass-btn' %></p>
 <% end %>
 <% if current_user %>
   <p><%= button_to "Delete My Account", registration_path(:user, as: :accounts), :class => 'btn', :id => 'delete-account-btn', method: :delete %></p>
+  <p><%= button_to "See All Users", users_path, :class => 'btn', :id => 'view-users-btn' %></p>
  <% end %> 
  </div>  
 <div class='little-text'>

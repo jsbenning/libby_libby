@@ -9,7 +9,7 @@ class UsersController < ApplicationController
         f.json { render :json => {:users => @users}}
       end
     else
-      @msg = "You can't see all users, sorry about that..."
+      @msg = "You must be a mod or admin to see all users..."
       flash.now[:alert] = @msg
       respond_to do |f|
         f.html { redirect_to 'home/logged_in' }
