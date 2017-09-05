@@ -4,11 +4,13 @@ class BookSerializer < ActiveModel::Serializer
   belongs_to :trade, class_name: 'Trade', foreign_key: 'request_id', optional: true
   belongs_to :trade, class_name: 'Trade', foreign_key: 'response_id', optional: true
 
-  def genres
-    object.genres.map do |genre|
-      GenreSerializer.new(genre).attributes
-    end
-  end
+  has_many :genres
+
+  # def genres
+  #   object.genres.map do |genre|
+  #     GenreSerializer.new(genre).attributes
+  #   end
+  # end
 
 end
 
