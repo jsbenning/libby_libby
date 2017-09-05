@@ -68,7 +68,7 @@ $(document).ready(function() {
       data: myData,
       success: function(data) {
       $("#update-profile-btn").removeAttr('disabled');
-        $('.notice').html(data.msg);
+        alert(data.msg);
       },
       error: function() {
         console.log("Sumpin broke!");
