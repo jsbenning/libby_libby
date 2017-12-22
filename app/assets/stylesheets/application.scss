@@ -26,11 +26,15 @@ $oxygen: 'Oxygen', sans-serif;
 
 body {
   padding: 10px;
-  background: #FFEEAC;
+  //background: #FFEEAC;
   font-family: $oxygen;
   font-size: 14px;
   color: #2F4F4F;
 }
+
+// btn {
+//   cursor: pointer;
+// }
 input[type='checkbox'] {
   margin-left: 20px;
   margin-right: 5px !important;
@@ -109,30 +113,33 @@ input[type='checkbox'] {
   margin-left: 50px;
   margin-top: 10px;
 }
-#all-books-btn { 
-  width: 250px;
-  height: 210px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-#my-profile-btn { 
-  width: 250px;
-  height: 210px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-#my-books-btn { 
-  width: 250px;
-  height: 210px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-#my-trades-btn { 
-  width: 250px;
-  height: 210px;
-  margin-top: 10px;
-  margin-bottom: 10px;
 
+.click-btn {
+  cursor: pointer;
+}
+#all-books-btn {
+  width: 250px;
+  height: 210px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#my-profile-btn {
+  width: 250px;
+  height: 210px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#my-books-btn {
+  width: 250px;
+  height: 210px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#my-trades-btn {
+  width: 250px;
+  height: 210px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .center {
   margin-left: 10%;
