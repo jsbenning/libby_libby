@@ -18,6 +18,8 @@ Genre.destroy_all
     "Travel and Transportation", "Ethnic Studies", "Nature and the Environment", "Gender Studies", "Legal Studies", \
     "Sports, Crafts and Hobbies", "Health and Medicine", "TV, Media and Film", "Humor", "Manga & Graphic Novels"]
 
+  REAL_ISBNS = %w(9781617291692 9781593275990 9780786902033 9780520253971 9780060933760 9780553211757 9780374524524 9781597801584 9780679758945 9781439148952)
+
 
 @user1 = User.create!(email: Faker::Internet.email,
   password: "password123",
@@ -49,15 +51,15 @@ Genre.destroy_all
 
 10.times do |index|
   # genre = Genre.first(offset: rand(Genre.count))
-  
+
 
   Book.create!(user_id: @user1.id, title: Faker::Book.title,
     author_last_name: Faker::Name.last_name,
     author_first_name: Faker::Name.first_name,
-    isbn: Faker::Code.isbn,
+    isbn: REAL_ISBNS[(rand(10))],
     condition: "good",
     description: Faker::Lorem.paragraph)
-    
+
   end
 
   10.times do |index|
@@ -65,10 +67,10 @@ Genre.destroy_all
     Book.create!(user_id: @user2.id, title: Faker::Book.title,
     author_last_name: Faker::Name.last_name,
     author_first_name: Faker::Name.first_name,
-    isbn: Faker::Code.isbn,
+    isbn: REAL_ISBNS[(rand(10))],
     condition: "fair",
     description: Faker::Lorem.paragraph)
-    
+
   end
 
   10.times do |index|
@@ -76,10 +78,10 @@ Genre.destroy_all
     Book.create!(user_id: @user3.id, title: Faker::Book.title,
     author_last_name: Faker::Name.last_name,
     author_first_name: Faker::Name.first_name,
-    isbn: Faker::Code.isbn,
+    isbn: REAL_ISBNS[(rand(10))],
     condition: "like new",
     description: Faker::Lorem.paragraph)
-    
+
   end
 
 
@@ -94,12 +96,3 @@ Genre.destroy_all
   #     book.genres_attributes=({"index": genre_arr.index(gen)})
   #   end
   # end
-
-
-
-
-
-
-
-
-

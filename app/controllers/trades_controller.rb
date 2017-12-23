@@ -1,5 +1,4 @@
 class TradesController < ApplicationController
-  require 'pry'
 
   def index
     @my_trades = Trade.my_trades(current_user)
@@ -15,12 +14,12 @@ class TradesController < ApplicationController
     @my_completed_responded_trades = []
     @my_trades.each do |trade|
       if trade.first_trader == current_user && trade.book_second_trader_wants_id.nil?
-        @my_initiated_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader]) 
+        @my_initiated_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader])
       elsif trade.second_trader == current_user && trade.book_second_trader_wants_id.nil?
         @my_must_respond_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants])
       elsif trade.status == "complete" && trade.first_trader == current_user
         @my_completed_initiated_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader, :book_second_trader_wants])
-      else 
+      else
         @my_completed_responded_trades << trade.to_json(:include => [:first_trader, :book_first_trader_wants, :second_trader, :book_second_trader_wants])
       end
     end
@@ -31,8 +30,8 @@ class TradesController < ApplicationController
       :my_completed_initiated_trades => @my_completed_initiated_trades, :my_completed_responded_trades => @my_completed_responded_trades, :msg => @msg }}
     end
   end
-  
-  def create # This is created with first_trader_id, second_trader_id and book_first_trader_wants_id attributes, status "new"; 
+
+  def create # This is created with first_trader_id, second_trader_id and book_first_trader_wants_id attributes, status "new";
     # also there is no 'new' action, as a trade is instantiated through the book show form by current user as first trader
     @trade = Trade.new(trade_params)
     if @trade.first_trader.shipworthy? #&& !(@trade.first_trader.books.empty?)
@@ -49,7 +48,7 @@ class TradesController < ApplicationController
       flash.now[:alert] = @msg
       respond_to do |f|
         f.html { render 'home/logged_in' }
-        f.json { render :json => { :msg => @msg }} 
+        f.json { render :json => { :msg => @msg }}
       end
     end
   end
@@ -82,14 +81,14 @@ class TradesController < ApplicationController
   def destroy # This cancels a trade
     @trade = Trade.find(params[:id])
     if @trade.second_trader_id == current_user.id || @trade.first_trader_id == current_user.id
-      destroy_a_trade(@trade) 
+      destroy_a_trade(@trade)
       @msg = 'Trade deleted! And sent to Hell! (Actually, it was just deleted...)'
       respond_to do |f|
         f.html { redirect_to 'trades/index', notice: @msg }
         f.json { render :json => { :my_trades => @my_trades, :msg => @msg }}
       end
     else
-      @msg = "You don't have permission to delete that trade! Cut it out!" 
+      @msg = "You don't have permission to delete that trade! Cut it out!"
       flash.now[:alert] = @msg
       respond_to do |f|
         f.html { render 'home/logged_in' }
@@ -101,12 +100,12 @@ class TradesController < ApplicationController
   private
 
   def setup_a_trade(trade)
-    
+
     book_id = trade.book_first_trader_wants_id
     book_first_trader_wants = Book.find(book_id)
     book_first_trader_wants.status = 'traded'
     trade.save
-    book_first_trader_wants.request_id = trade.id 
+    book_first_trader_wants.request_id = trade.id
     book_first_trader_wants.save
   end
 
@@ -114,7 +113,7 @@ class TradesController < ApplicationController
   def complete_a_trade(trade)
     book_id = trade.book_second_trader_wants_id
     book_second_trader_wants = Book.find(book_id)
-    book_second_trader_wants.status = 'traded' 
+    book_second_trader_wants.status = 'traded'
     trade.status = 'complete'
     trade.save
     book_second_trader_wants.response_id = trade.id
@@ -135,7 +134,7 @@ class TradesController < ApplicationController
       book_second_trader_wants.save
     end
     trade.destroy
-  end 
+  end
 
 
   def trade_params
@@ -143,6 +142,3 @@ class TradesController < ApplicationController
   end
 
 end
-
-
- 
