@@ -26,15 +26,11 @@ $oxygen: 'Oxygen', sans-serif;
 
 body {
   padding: 10px;
-  //background: #FFEEAC;
   font-family: $oxygen;
   font-size: 14px;
   color: #2F4F4F;
 }
 
-// btn {
-//   cursor: pointer;
-// }
 input[type='checkbox'] {
   margin-left: 20px;
   margin-right: 5px !important;
@@ -48,7 +44,7 @@ input[type='checkbox'] {
   margin-top: 20px;
   margin-bottom: 20px;
   border-radius: 25px;
-  background: #FF8025;
+  background: #FFEEAD;
   padding: 20px;
 }
 .corners2 {
