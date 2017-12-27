@@ -11,18 +11,7 @@ class Trade < ApplicationRecord
     Trade.where("second_trader_id = ? OR first_trader_id = ?", user.id, user.id)
   end
 
-  # def self.trades_i_requested(user)
-  #   Trade.where("first_trader_id = ? AND status = ?", user.id, "new")
-  # end
-  #
-  # def self.trades_other_requested(user)
-  #   Trade.where("second_trader_id = ? AND status = ?", user.id, "new")
-  # end
-  #
-  # def self.my_completed_trades(user)
-  #   Trade.where("second_trader_id = ? OR first_trader_id = ?", user.id, user.id).where("status = ?", "completed")
-  # end
-  #
+
   def self.shared_trade(requester, responder)
     Trade.where("first_trader_id = ? AND second_trader_id = ?", requester.id, responder.id).first
   end
@@ -37,7 +26,7 @@ class Trade < ApplicationRecord
       end
     end
     if ratings.empty?
-      rating = 5
+      rating = 3
     else
       rating = (ratings.inject(0.0){|sum, x| sum + x})/ratings.length.round
     end

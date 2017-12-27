@@ -10,7 +10,7 @@ $(document).ready(function() {
       url: url,
       success: function(data) {
         $("#my-trades-btn").removeAttr('disabled');
-        var init = parser(data.my_initiated_trades);
+        var init = parser(data.my_initiated_trades);//testing dataformatter
         var must = parser(data.my_must_respond_trades);
         var compInit = parser(data.my_completed_initiated_trades);
         var compResp = parser(data.my_completed_responded_trades);
@@ -135,12 +135,12 @@ $(document).ready(function() {
   // Rate trader 1, if current_user is trader 2
   $(document.body).on('click', '.rate-trader1-btn', function(e) {
     $('.rate-trader1-btn').attr('disabled', 'disabled');
-    
+
 
     var tradeId = $(this).data('trade');
     if (document.querySelector('input[name="user_review"]:checked')) {
       var x = document.querySelector('input[name="user_review"]:checked').value;
-      rating = parseInt(x);      
+      rating = parseInt(x);
     } else {
       rating = 3
     }
@@ -173,11 +173,11 @@ $(document).ready(function() {
   // Rate trader 2, if current_trader is trader 1
   $(document.body).on('click', '.rate-trader2-btn', function(e) {
     var rating;
-    $('.rate-trader2-btn').attr('disabled', 'disabled'); 
+    $('.rate-trader2-btn').attr('disabled', 'disabled');
     var tradeId = $(this).data('trade');
     if (document.querySelector('input[name="user_review"]:checked')) {
       var x = document.querySelector('input[name="user_review"]:checked').value;
-      rating = parseInt(x);      
+      rating = parseInt(x);
     } else {
       rating = 3
     }
