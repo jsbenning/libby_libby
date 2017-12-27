@@ -10,7 +10,7 @@
    <p class="indent">{{title}}</p>
   {{/data.books}}
   <p><strong>Your email:</strong> {{data.user.email}}</p>
-  <p><strong>Your Current Rating:</strong><span> {{data.rating}} out of 5 (5 is best)</p>
+  <p><strong>Your Current Rating: </strong><span><img class="star-rating" src={{data.rating}}  alt="star_rating"></p>
 </div>
 <button class='btn btn-warning lefty' id='edit-profile-btn' data-user={{data.user.id}} >Edit Your Profile</button><br>
 

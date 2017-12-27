@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   require 'pry'
- 
-  
+
+
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
     search = params[:search]
     if params[:lastid]
@@ -28,10 +28,10 @@ class BooksController < ApplicationController
     if @books.empty?
       @books = nil
       @msg = "#{the_name} any books yet!"
-    else  
-    @msg = "Here are #{@user.real_name}'s books..." 
+    else
+    @msg = "Here are #{@user.real_name}'s books..."
     end
-    respond_to do |f|   
+    respond_to do |f|
       flash.now[:notice] = @msg
       f.html { render :index }
       f.json { render :json => { :books => @books, :user => @user, :msg => @msg, :mine => @mine }}
@@ -53,7 +53,7 @@ class BooksController < ApplicationController
       respond_to do |f|
         f.html { render :edit }
         f.json { render :json => { :msg => @msg }}
-      end 
+      end
     end
   end
 
@@ -61,19 +61,19 @@ class BooksController < ApplicationController
     @book = Book.new(book_params)
     @user = User.find(params[:user_id])
     @book.user = @user
-    if @book.save 
+    if @book.save
       @msg = "You successfully added a book! Let the nerdfest begin!"
-      respond_to do |f|   
+      respond_to do |f|
         f.html { redirect_to user_books_url, notice: @msg }
         f.json { render :json => { :msg => @msg }}
       end
     else
-      @msg = "Book not created! Make sure 'Title' and 'Condition' fields are completed..."  
+      @msg = "Book not created! Make sure 'Title' and 'Condition' fields are completed..."
       flash.now[:alert] = @msg
       respond_to do |f|
         f.html { render :edit }
-        f.json { render :json => { :msg => @msg }} 
-      end   
+        f.json { render :json => { :msg => @msg }}
+      end
     end
   end
 
@@ -82,15 +82,15 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     if @user.visible?
       if @user != current_user && Trade.shared_trade(@user, current_user) #in other words,\
-      # if someone else initiated a trade with the current user, 
+      # if someone else initiated a trade with the current user,
       #and the current user is now looking at that person's book, considering completing the trade...
         @trade = Trade.shared_trade(@user, current_user) #...this then gives the option of completing the trade in book show view
-        @other_trader_rating = Trade.user_rating(@user)
-      elsif @user != current_user 
+        @other_trader_rating = @user.rating
+      elsif @user != current_user
         @trade = Trade.new #this gives the option of initiating a trade in book show view
         @trade.first_trader = current_user
-        @other_trader_rating = Trade.user_rating(@user)
-      else 
+        @other_trader_rating = @user.rating ####################
+      else
         @trade = nil #in this case the current_user is viewing his/her own title
       end
       respond_to do |f|
@@ -103,7 +103,7 @@ class BooksController < ApplicationController
       respond_to do |f|
         f.html { render :index }
         f.json { render :json => { :msg => @msg }}
-      end 
+      end
     end
   end
 
@@ -115,29 +115,29 @@ class BooksController < ApplicationController
       respond_to do |f|
         f.html { render :edit }
         f.json { render :json => {:book => @book.to_json(include: :genres), :genres => @genres.to_json, :only => [:id, :name] }}
-      end 
+      end
     else
       @msg = "You don't have permission to edit this book!"
       flash.now[:notice] = @msg
       respond_to do |f|
         f.html { render 'home/logged_in' }
         f.json { render :json => { :msg => @msg }}
-      end 
+      end
     end
   end
-  
+
   def update
     #binding.pry
     @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
     if @book.update_attributes(book_params)
-      @book.save 
+      @book.save
       @msg = "The book was updated!"
       flash[:notice] = @msg
       respond_to do |f|
         f.html { redirect_to user_books_url }
         f.json { render :json => { :book => @book.to_json(include: :genres), :msg => @msg }}
-      end  
+      end
     else
       @msg = "The book wasn't updated, sorry!"
       flash.now[:notice] = @msg
@@ -151,22 +151,22 @@ class BooksController < ApplicationController
   def destroy
     @book = Book.find(params[:id])
     user = @book.user
-    if user == current_user 
+    if user == current_user
       @book.destroy
       @msg = "The book was deleted!"
       flash[:notice] = @msg
       respond_to do |f|
         f.html { redirect_to user_books_url }
         f.json { render :json => { :msg => @msg }}
-      end 
+      end
     else
       @msg = "You don't have permission to delete this title, what's wrong with you?!"
-      flash.now[:notice] = @msg  
+      flash.now[:notice] = @msg
       respond_to do |f|
         f.html { render :books }
         f.json { render :json => { :msg => @msg }}
       end
-    end   
+    end
   end
 
   private

@@ -13,12 +13,12 @@ Book.destroy_all
 Genre.destroy_all
 
   BASE_GENRES = [ "Religion", "Philosophy", "Paranormal and the Occult", "History", "Math, Science and Technology", "Literature/Poetry", \
-    "Literary Criticism", "Foreign Language", "Children's", "Young Adult", "Sci-Fi/Fantasy", "Reference", "Art and Design", \
+    "Literary Criticism and Essays", "Foreign Language", "Children's", "Young Adult", "Sci-Fi/Fantasy", "Reference", "Art and Design", \
     "Fashion and Appearance", "Psychology and Self-Help", "Social Science", "Horror", "Romance", "Music", "Biography and Memoir", \
     "Travel and Transportation", "Ethnic Studies", "Nature and the Environment", "Gender Studies", "Legal Studies", \
     "Sports, Crafts and Hobbies", "Health and Medicine", "TV, Media and Film", "Humor", "Manga & Graphic Novels"]
 
-  REAL_ISBNS = %w(9781617291692 9781593275990 9780786902033 9780520253971 9780060933760 9780553211757 9780374524524 9781597801584 9780679758945 9781439148952)
+  REAL_ISBNS = %w(9780226469409 9781593275990 9780786902033 9780520253971 9780060933760 9780553211757 9780374524524 9781597801584 9780679758945 9780786880706)
 
 
 @user1 = User.create!(email: Faker::Internet.email,

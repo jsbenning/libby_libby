@@ -30,12 +30,12 @@ class User < ApplicationRecord
   end
 
   def first_name
-    if self.real_name.nil? || self.real_name == ""
-      first_name = self.email  
+    if self.real_name.nil? #|| self.real_name == ""
+      first_name = self.email
     else
-      first_name = self.real_name.split(" ")[0].capitalize 
+      first_name = self.real_name.split(" ")[0].capitalize
     end
-    first_name 
+    first_name
   end
 
   def visible?
@@ -49,8 +49,8 @@ class User < ApplicationRecord
         x = false
       end
     end
-    x 
-  end  
+    x
+  end
 
   def shipworthy? # Has the user entered all shipping info & has books, of which at least one is at home?
     x = self.completed_profile?
@@ -63,7 +63,7 @@ class User < ApplicationRecord
     if all_books_traded || self.books.empty?
       x = false
     end
-    x 
+    x
   end
 
   def mod_or_admin?
@@ -89,10 +89,17 @@ class User < ApplicationRecord
       write_attribute(:state, s.to_s.titleize)
     end
   end
-   
+
   def rating
-    Trade.user_rating(self)
-  end          
+    user_rating = Trade.user_rating(self)
+    case user_rating
+    when 2.49...3.1
+      "/assets/3stars.png"
+    when 1.5...2.49
+      "/assets/2stars.png"
+    else
+      "/assets/1stars.png"
+    end
+  end
+
 end
-
-
