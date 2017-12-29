@@ -42,28 +42,29 @@ class User < ApplicationRecord
     self.visible == true
   end
 
-  def completed_profile?
-    x = true
+  def incomplete_profile?
+    x = false
     self.attributes.first(6).each do |attr|
       if attr[1].nil? || attr[1] == ""
-        x = false
+        x = true
       end
     end
     x
   end
 
   def shipworthy? # Has the user entered all shipping info & has books, of which at least one is at home?
-    x = self.completed_profile?
-    self.attributes.first(6).each do |attr|
-      if attr[1].nil? || attr[1] == ""
-        x = false
-      end
+    #y = self.incomplete_profile?
+    # self.attributes.first(6).each do |attr|
+    #   if attr[1].nil? || attr[1] == ""
+    #     x = false
+    #   end
+    # end
+    all_books_traded = self.books.all? {|book| book.status == "traded" }# this method doesn't work
+    if (self.books.empty? || all_books_traded || self.incomplete_profile?)
+      false
+    else
+      true
     end
-    all_books_traded = self.books.all? {|book| book.status == "traded" }
-    if all_books_traded || self.books.empty?
-      x = false
-    end
-    x
   end
 
   def mod_or_admin?

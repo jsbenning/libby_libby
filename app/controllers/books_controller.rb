@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  require 'pry'
+  before_action :set_user, only: [:index_users, :new, :create, :show, :edit, :update]
 
 
   def index_all # localhost:3000/books; if search not entered, returns Book.all where status == 'at home'(i.e. not traded), minus the current_user's books
@@ -16,7 +16,6 @@ class BooksController < ApplicationController
   end
 
   def index_users # localhost:3000/users/5/books
-    @user = User.find(params[:user_id])
     if @user == current_user
       @mine = current_user.real_name
       the_name = "You don't have "
@@ -40,7 +39,6 @@ class BooksController < ApplicationController
 
   def new
     @genres = Genre.all
-    @user = User.find(params[:user_id])
     @book = Book.new
     if @user == current_user && @user.completed_profile?
       respond_to do |f|
@@ -59,7 +57,6 @@ class BooksController < ApplicationController
 
   def create
     @book = Book.new(book_params)
-    @user = User.find(params[:user_id])
     @book.user = @user
     if @book.save
       @msg = "You successfully added a book! Let the nerdfest begin!"
@@ -78,7 +75,6 @@ class BooksController < ApplicationController
   end
 
   def show #/users/1/books/5
-    @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
     if @user.visible?
       if @user != current_user && Trade.shared_trade(@user, current_user) #in other words,\
@@ -108,7 +104,6 @@ class BooksController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
     @genres = Genre.all
     if @user.id == (current_user.id || @user.admin?)
@@ -127,8 +122,6 @@ class BooksController < ApplicationController
   end
 
   def update
-    #binding.pry
-    @user = User.find(params[:user_id])
     @book = Book.find(params[:id])
     if @book.update_attributes(book_params)
       @book.save
@@ -170,6 +163,10 @@ class BooksController < ApplicationController
   end
 
   private
+
+  def set_user
+    @user = User.find(params[:user_id])
+  end
 
   def book_params
     params.require(:book).permit(:user_id, :title, :author_last_name, :author_first_name, :isbn, :condition, :description, :status, :response_id, :request_id, genre_ids:[], genres_attributes: [:name])
