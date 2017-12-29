@@ -52,15 +52,17 @@ class User < ApplicationRecord
     x
   end
 
+  def has_tradeable_books?
+    available = Book.where(:user_id => (params[:user_id]), :status => 'at_home')
+    if available.length > 0
+      true
+    else
+      false
+    end
+  end
+
   def shipworthy? # Has the user entered all shipping info & has books, of which at least one is at home?
-    #y = self.incomplete_profile?
-    # self.attributes.first(6).each do |attr|
-    #   if attr[1].nil? || attr[1] == ""
-    #     x = false
-    #   end
-    # end
-    all_books_traded = self.books.all? {|book| book.status == "traded" }# this method doesn't work
-    if (self.books.empty? || all_books_traded || self.incomplete_profile?)
+    if (self.books.empty? || self.has_tradeable_books? || self.incomplete_profile?)
       false
     else
       true
