@@ -8,7 +8,11 @@ var clearDivs = function() {
 
 function extend(obj) {
   obj.authorFullName = function() {
-    return this.author_first_name + " " + this.author_last_name
+    if (this.author_first_name && this.author_last_name) {
+      return this.author_first_name + " " + this.author_last_name
+    } else {
+      return "author not provided"
+    }
   }
 }
 

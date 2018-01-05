@@ -41,7 +41,7 @@ class BooksController < ApplicationController
   def new
     @genres = Genre.all
     @book = Book.new
-    if @user == current_user && @user.completed_profile?
+    if @user == current_user && !(@user.incomplete_profile?)
       respond_to do |f|
         f.html { render :new }
         f.json { render :json => { :book => @book, :user => @user, :genres => @genres.to_json, :only => [:id, :name] } }
@@ -75,9 +75,41 @@ class BooksController < ApplicationController
     end
   end
 
-  def show #/users/1/books/5
-    @book = Book.find(params[:id])
-    if @user.visible && @user.shipworthy?
+  # def show #/users/1/books/5
+  #   @book = Book.find(params[:id])
+  #   if @user == current_user
+  #     @trade = nil
+  #     respond_to do |f|
+  #       f.html { render :show }
+  #       f.json { render :json => { :book => @book.to_json(include: :genres), :trade => @trade.to_json }}
+  #     end
+  #   elsif Trade.shared_trade(@user, current_user)
+  #     @trade = Trade.shared_trade(@user, current_user) #...this then gives the option of completing the trade in book show view
+  #     @other_trader_rating = @user.rating
+  #     respond_to do |f|
+  #       f.html { render :show }
+  #       f.json { render :json => { :book => @book.to_json(include: :genres), :trade => @trade.to_json, :other_trader_rating => @other_trader_rating.to_json }}
+  #     end
+  #   elsif !(@user.visible) || !(@user.shipworthy?)
+  #     @msg = "This user is not currently active and/or that book is currently in a trade..."
+  #     flash.now[:notice] = @msg
+  #     respond_to do |f|
+  #       f.html { render :index }
+  #       f.json { render :json => { :msg => @msg }}
+  #     end
+  #   else
+  #     @trade = Trade.new
+  #     @trade.first_trader = current_user
+  #     @other_trader_rating = @user.rating
+  #     respond_to do |f|
+  #       f.html { render :show }
+  #       f.json { render :json => { :book => @book.to_json(include: :genres), :trade => @trade.to_json, :other_trader_rating => @other_trader_rating.to_json }}
+  #     end
+  #   end
+  # end
+
+  def show
+    if @user.visible
       if @user != current_user && Trade.shared_trade(@user, current_user) #in other words,\
       # if someone else initiated a trade with the current user,
       #and the current user is now looking at that person's book, considering completing the trade...
