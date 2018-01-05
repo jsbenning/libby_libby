@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  
+
   // My Books
   $(document.body).on('click', '#my-books-btn', function(e) {
     $("#my-books-btn").attr('disabled', 'disabled');
@@ -77,9 +77,10 @@ $(document).ready(function() {
           var book = JSON.parse(data.book);
           var trade = JSON.parse(data.trade);
           var other_trader_rating = JSON.parse(data.other_trader_rating)
-          extend(book);
-          book.authorFullName = book.authorFullName();
-          var showBookHtml = HandlebarsTemplates['showBookTemplate']({ 
+          console.log(book)
+          //extend(book);
+          book.authorFullName = "Bob"//book.authorFullName();
+          var showBookHtml = HandlebarsTemplates['showBookTemplate']({
             book: book,
             trade: trade,
             other_trader_rating: other_trader_rating
@@ -203,7 +204,7 @@ $(document).ready(function() {
     return false;
   });
 
-  // Render New Book Form 
+  // Render New Book Form
   $(document.body).on('click', '#new-book-btn', function(e) {
     $("#new-book-btn").attr('disabled', 'disabled');
     var userId = $(this).data('user');
@@ -304,7 +305,7 @@ $(document).ready(function() {
     return false;
   });
 
-  
+
   // Load More Books
   $(document.body).on('click', '.load-more-books-btn', function(e) {
     $(".load-more-books-btn").hide();
@@ -321,7 +322,7 @@ $(document).ready(function() {
           books: data.books
         });
         $('#display-area').append(allBooksHtml);
-        }   
+        }
       },
       error: function() {
         console.log("Sumpin broke");
